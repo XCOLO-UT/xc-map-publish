@@ -12,6 +12,6 @@ export interface IWfsApis<TData> {
     setVectorStyle: (vector: IVector<TData>) => void;
 }
 declare const _default: <TData>(props: IWfsProps & {
-    ref: Ref<IWfsApis<TData>>;
+    ref?: Ref<IWfsApis<TData>>;
 }) => JSX.Element;
 export default _default;

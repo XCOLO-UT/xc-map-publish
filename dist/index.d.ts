@@ -191,7 +191,7 @@ interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
 }
 
 interface IMarkerProps<TData> extends IXcMapCommon, ILayerCommon {
-    markers: IMarker<TData>[];
+    markers?: IMarker<TData>[];
     getMarkerLabel?: (data: TData) => string;
 }
 interface IMarkerApis<TData> {
@@ -216,11 +216,11 @@ declare const layer: {
     Tile: ({ mapId, layerName, layerTag, minimap, source, minZoom, maxZoom, ...rest }: ITileProps) => null;
     Vector: ({ mapId, layerName, layerTag, source, pkField, featureName, minZoom, maxZoom, ...rest }: IVectorProps) => null;
     Marker: <TData>(props: IMarkerProps<TData> & {
-        ref: Ref<IMarkerApis<TData>>;
+        ref?: Ref<IMarkerApis<TData>>;
     }) => JSX.Element;
     PlaceMarker: ({ mapId, featureName, status, coordinate, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
     Wfs: <TData>(props: IWfsProps & {
-        ref: Ref<IWfsApis<TData>>;
+        ref?: Ref<IWfsApis<TData>>;
     }) => JSX.Element;
     Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams }: IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: IXyzProps) => JSX.Element;
