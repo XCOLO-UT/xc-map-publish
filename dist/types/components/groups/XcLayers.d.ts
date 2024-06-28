@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-interface IXcLayersProps {
+export interface IXcLayersProps {
     children?: ReactNode;
 }
 declare const XcLayers: ({ children }: IXcLayersProps) => JSX.Element;
