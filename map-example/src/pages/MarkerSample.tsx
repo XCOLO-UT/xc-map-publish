@@ -3,6 +3,7 @@ import {IMarkerApis} from "xc-map/dist/types/components/layer/Marker";
 import {IMarker, XcInteractions, layer, interaction, XcLayers, XcMap} from "xc-map";
 import RandUtil from "../utils/rand-util.ts";
 import useXcMapOption from "../hooks/useXcMapOption.ts";
+import {IXcMapApis} from "xc-map/dist/types/components/XcMap";
 import useVworldUrl from "xc-map/dist/types/components/hooks/useVworldUrl";
 
 interface ISigData {
@@ -69,12 +70,17 @@ interface IProbeData {
 
 const MarkerSample = () => {
     const id = useRef<string>(RandUtil.randomId())// 고유명칭 추가
+    const mapRef = useRef<IXcMapApis>(null)
     const sigMarkerRef = useRef<IMarkerApis<ISigData>>(null)
     const cctvMarkerRef = useRef<IMarkerApis<ICctvData>>(null)
     const probeMarkerRef = useRef<IMarkerApis<IProbeData>>(null)
 
+    const [cctvSelectDisabled, setCctvSelectDisabled] = useState(false)
     const [sigMarkerVisible, setSigMarkerVisible] = useState(true)
     const [cctvMarkerVisible, setCctvMarkerVisible] = useState(true)
+    const [cctvMarkers, setCctvMarkers] = useState<IMarker<ICctvData>[]>([])
+    const [sigMarkers, setSigMarkers] = useState<IMarker<ISigData>[]>([])
+    const [probeMarkers, setProbeMarkers] = useState<IMarker<IProbeData>[]>([])
     const [value, setValue] = useState<IMarker<ICctvData>>({
         "id": "CCTV0002",
         "status": "default",
@@ -114,7 +120,11 @@ const MarkerSample = () => {
     )
 
     useEffect(() => {
-    }, [value])
+        console.log("DK_Trace -- app.useEffect")
+        getCctvDummyMarkers()
+        getSigDummyMarkers()
+        getProbeDummyData()
+    }, [])
     const changeSigMarkerLayerVisibleTest = () => {
         setSigMarkerVisible(prevState => !prevState)
     }
@@ -170,6 +180,7 @@ const MarkerSample = () => {
         sigMarkerRef?.current?.setMarkerStyle(
             {
                 id: 'SIGLD00100',
+                featureName: 'sig',
                 status: "spatN",
                 heading: 30.4,
             } as IMarker<ISigData>
@@ -179,14 +190,15 @@ const MarkerSample = () => {
         sigMarkerRef?.current?.setMarkerStyle(
             {
                 id: '213',
+                featureName: 'sig',
                 status: "spatY",
                 heading: 0.0,
             } as IMarker<ISigData>
         )
     }
 
-    const getSigDummyMarkers = (): IMarker<ISigData>[] => {
-        return sigDummyData.map((data) => (
+    const getSigDummyMarkers = () => {
+        setSigMarkers(sigDummyData.map((data) => (
             {
                 id: data.sigId,
                 featureName: 'sig',
@@ -200,10 +212,10 @@ const MarkerSample = () => {
                 },
                 heading: data.heading ?? undefined,
             }
-        ))
+        )))
     }
-    const getCctvDummyMarkers = (): IMarker<ICctvData>[] => {
-        return cctvDummyData.map((data) => (
+    const getCctvDummyMarkers = () => {
+        setCctvMarkers(cctvDummyData.map((data) => (
             {
                 id: data.cctvId,
                 featureName: 'cctv',
@@ -215,10 +227,10 @@ const MarkerSample = () => {
                     latitude: data.latitude,
                 },
             }
-        ))
+        )))
     }
-    const getProbeDummyData = (): IMarker<IProbeData>[] => {
-        return probeDummyData.map((data) => (
+    const getProbeDummyData = () => {
+        setProbeMarkers(probeDummyData.map((data) => (
             {
                 id: data.probeId,
                 featureName: 'probe',
@@ -231,12 +243,29 @@ const MarkerSample = () => {
                 },
                 heading: data.heading ?? undefined,
             }
-        ))
+        )))
+    }
+
+    const setVworldTypeTest = () => {
+        setTileType('Base')
+    }
+    const setZoomLevelTest = () => {
+        mapRef.current && mapRef.current.setZoomLevel('plus')
+    }
+    const animateMoveTest = () => {
+        mapRef.current && mapRef.current.animateMove({
+            latitude: 37.363206,
+            longitude: 126.73103
+        })
+    }
+    const setDisabledTest = () => {
+        setCctvSelectDisabled(prevState => !prevState)
     }
 
     return (
         <div style={{height: '500px', width: '100%'}}>
             <XcMap
+                ref={mapRef}
                 mapId={id.current}
                 xcMapOption={xcMapOption}
                 events={[
@@ -267,14 +296,14 @@ const MarkerSample = () => {
                     <layer.Marker<ISigData>
                         ref={sigMarkerRef}
                         mapId={id.current}
-                        markers={getSigDummyMarkers()}
+                        markers={sigMarkers}
                         visible={sigMarkerVisible}
                         layerName={'sigMarker'}
                     />
                     <layer.Marker<ICctvData>
                         ref={cctvMarkerRef}
                         mapId={id.current}
-                        markers={getCctvDummyMarkers()}
+                        markers={cctvMarkers}
                         visible={cctvMarkerVisible}
                         layerName={'cctvMarker'}
                         layerTag={'marker'}
@@ -282,7 +311,7 @@ const MarkerSample = () => {
                     <layer.Marker<IProbeData>
                         ref={probeMarkerRef}
                         mapId={id.current}
-                        markers={getProbeDummyData()}
+                        markers={probeMarkers}
                         visible={true}
                         layerName={'probeMarker'}
                         layerTag={'marker'}
@@ -295,8 +324,7 @@ const MarkerSample = () => {
                     <interaction.MarkerSelect<ICctvData>
                         mapId={id.current}
                         layerName={'cctvMarker'}
-                        layerTag={'marker'}
-                        disabled={false}
+                        disabled={cctvSelectDisabled}
                         isMoveCenterOnClick={false}
                         useSelectStyle={true}
                         isDeselectClosePopup={true}
@@ -374,7 +402,10 @@ const MarkerSample = () => {
                 <button onClick={setMarkerStyleTest1}>Set Marker Style Test</button>
                 <button onClick={setMarkerStyleTest2}>Set Marker Style Test</button>
                 <button onClick={setDefaultValueTest}>Set DefaultValue Test</button>
-
+                <button onClick={setVworldTypeTest}>Set VworldType Test</button>
+                <button onClick={setZoomLevelTest}>setZoomLevelTest Test</button>
+                <button onClick={setDisabledTest}>setDisabledTest Test</button>
+                <button onClick={animateMoveTest}>animateMoveTest Test</button>
             </XcMap>
         </div>
     )
