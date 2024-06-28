@@ -1,19 +1,19 @@
-import { ReactNode } from 'react';
-import { Color } from 'ol/color';
-import { ColorLike } from 'ol/colorlike';
-import { ViewOptions } from 'ol/View';
-import * as ol from 'ol';
-import { MapBrowserEvent, Feature } from 'ol';
-import { Style } from 'ol/style';
 import { Options } from 'ol/source/TileWMS';
 import { Options as Options$1 } from 'ol/source/Vector';
+import * as ol from 'ol';
+import { MapBrowserEvent, Feature } from 'ol';
 import * as ol_geom from 'ol/geom';
 import * as ol_source from 'ol/source';
 import { Options as Options$2 } from 'ol/source/XYZ';
 import { Options as Options$3 } from 'ol/control/OverviewMap';
 import BaseLayer from 'ol/layer/Base';
+import { Color } from 'ol/color';
+import { ColorLike } from 'ol/colorlike';
+import { ViewOptions } from 'ol/View';
+import { Style } from 'ol/style';
 import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
+import { ReactNode } from 'react';
 
 interface IXcMapCommon {
     mapId: string;
@@ -110,8 +110,8 @@ interface ITrafficInfo {
     getTrafficStatus: () => string;
 }
 interface IFeatureSelect<TData> extends IXcMapCommon {
-    disabled: boolean;
-    isMoveCenterOnClick: boolean;
+    disabled?: boolean;
+    isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
     isDeselectClosePopup?: boolean;
     getPopup?: (datas: TData[]) => string;
@@ -124,13 +124,7 @@ interface IAnyObject {
     [key: string]: any;
 }
 
-interface IXcMapProps {
-    mapId: string;
-    children: ReactNode;
-    xcMapOption: IXcMapOption;
-    events?: IMapEvent[];
-}
-declare const XcMap: ({ mapId, children, xcMapOption, events, }: IXcMapProps) => JSX.Element;
+declare const XcMap: any;
 
 interface ITileWmsProps extends Options {
 }

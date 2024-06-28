@@ -98,8 +98,8 @@ export interface ITrafficInfo {
     getTrafficStatus: () => string;
 }
 export interface IFeatureSelect<TData> extends IXcMapCommon {
-    disabled: boolean;
-    isMoveCenterOnClick: boolean;
+    disabled?: boolean;
+    isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
     isDeselectClosePopup?: boolean;
     getPopup?: (datas: TData[]) => string;

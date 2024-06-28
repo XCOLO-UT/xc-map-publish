@@ -11,7 +11,13 @@ dist/types/components - 지도 compoenent
 * 지도 요소들은 하위 children 으로 포함시킨다.
 * xcMapOption: xcMap에서 사용될 항목들에 대해서 정의 필 
 * events: 지도 자체에 이벤트를 적용하고 싶을경우 사용
-
+* apis
+  * setZoomLevel : (type: ZoomLevelType) => void
+    * ZoomLevelType = "plus"|"minus"|"reset"
+    * zoom level 조정 api
+  * animateMove : (coordinate: ICoordinate, duration?: number) => void
+    * coordinate : 좌표
+    * duration: 움직이는 속도, default: 200
 ## layer
 * Layer 요소들의 집합
 ### Common.tsx
