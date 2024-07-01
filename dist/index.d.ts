@@ -15,6 +15,12 @@ import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
 import { ReactNode } from 'react';
 
+declare const useVworldUrl: (apiKey: string, defaultTileType: string, minimapTileType: string) => {
+    minimapVworldUrl: string;
+    vworldUrl: any;
+    setTileType: (tileType: string) => void;
+};
+
 interface IXcMapCommon {
     mapId: string;
     layerName: string;
@@ -252,4 +258,4 @@ interface IXcInteractionsProps {
 }
 declare const XcInteractions: ({ children }: IXcInteractionsProps) => JSX.Element;
 
-export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelect, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommon, type IMapEvent, type IMarker, type IStatusStyle, type IStyle, type IStyleOption, type ITrafficInfo, type IVector, type IWmsParam, type IXcMapCommon, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, interaction, layer, source };
+export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelect, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommon, type IMapEvent, type IMarker, type IStatusStyle, type IStyle, type IStyleOption, type ITrafficInfo, type IVector, type IWmsParam, type IXcMapCommon, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, interaction, layer, source, useVworldUrl };
