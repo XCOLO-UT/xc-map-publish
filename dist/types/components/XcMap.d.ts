@@ -10,7 +10,8 @@ export interface IXcMapProps {
     events?: IMapEvent[];
 }
 export interface IXcMapApis {
-    setZoomLevel: (type: ZoomLevelType) => void;
+    setZoomLevel: (level: number) => void;
+    setZoomLevelType: (type: ZoomLevelType) => void;
     animateMove: (coordinate: ICoordinate, duration?: number) => void;
 }
 declare const XcMap: any;
