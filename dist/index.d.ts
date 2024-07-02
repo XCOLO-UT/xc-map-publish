@@ -183,6 +183,7 @@ interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
     featureName: string;
     status?: string;
     coordinate?: ICoordinate;
+    isMoveCenter?: boolean;
     heading?: number;
     minZoom?: number | undefined;
     maxZoom?: number | undefined;
@@ -218,7 +219,7 @@ declare const layer: {
     Marker: <TData>(props: IMarkerProps<TData> & {
         ref?: Ref<IMarkerApis<TData>>;
     }) => JSX.Element;
-    PlaceMarker: ({ mapId, featureName, status, coordinate, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
+    PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
     Wfs: <TData>(props: IWfsProps & {
         ref?: Ref<IWfsApis<TData>>;
     }) => JSX.Element;

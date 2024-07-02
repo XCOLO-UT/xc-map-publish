@@ -5,7 +5,7 @@ export declare const layer: {
     Marker: <TData>(props: import("./Marker").IMarkerProps<TData> & {
         ref?: Ref<import("./Marker").IMarkerApis<TData>>;
     }) => JSX.Element;
-    PlaceMarker: ({ mapId, featureName, status, coordinate, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: import("./PlaceMarker").IPlaceMarkerProps) => JSX.Element;
+    PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: import("./PlaceMarker").IPlaceMarkerProps) => JSX.Element;
     Wfs: <TData>(props: import("./Wfs").IWfsProps & {
         ref?: Ref<import("./Wfs").IWfsApis<TData>>;
     }) => JSX.Element;
