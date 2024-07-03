@@ -12,7 +12,8 @@ dist/types/components - 지도 compoenent
 * xcMapOption: xcMap에서 사용될 항목들에 대해서 정의 필 
 * events: 지도 자체에 이벤트를 적용하고 싶을경우 사용
 * apis
-  * setZoomLevel : (type: ZoomLevelType) => void
+  * setZoomLevel : (level : number) => void 
+  * setZoomLevelType : (type: ZoomLevelType) => void
     * ZoomLevelType = "plus"|"minus"|"reset"
     * zoom level 조정 api
   * animateMove : (coordinate: ICoordinate, duration?: number) => void

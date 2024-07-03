@@ -11,6 +11,7 @@ import { Color } from 'ol/color';
 import { ColorLike } from 'ol/colorlike';
 import { ViewOptions } from 'ol/View';
 import { Style } from 'ol/style';
+import { FeatureUrlFunction } from 'ol/featureloader';
 import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
 import { ReactNode } from 'react';
@@ -147,7 +148,7 @@ interface IXyzProps$1 extends Options$2 {
 declare const source: {
     XYZ: ({ url }: IXyzProps$1) => ol_source.XYZ;
     VectorFeature: ({ features }: IVectorFeature) => ol_source.Vector<ol.Feature<ol_geom.Geometry>>;
-    VectorWfs: ({ url }: IVectorWfs) => "" | ol_source.Vector<ol.Feature<ol_geom.Geometry>> | undefined;
+    VectorWfs: ({ url, ...rest }: IVectorWfs) => "" | ol_source.Vector<ol.Feature<ol_geom.Geometry>> | undefined;
     TileWms: ({ url, params, serverType, projection, transition }: ITileWmsProps) => ol_source.TileWMS;
 };
 
@@ -170,13 +171,10 @@ interface IWmsProps extends IXcMapCommon, ILayerCommon {
 interface IWfsProps extends IXcMapCommon, ILayerCommon {
     featureName?: string;
     pkField: string;
-    url: string;
-    zoomUrls: IZoomUrls[];
+    url: string | FeatureUrlFunction;
+    zoomUrls?: IZoomUrls[];
     getVectorLabel?: (data: IAnyObject) => string;
     getTrafficInfo?: (id: string) => ITrafficInfo | undefined;
-}
-interface IWfsApis<TData> {
-    setVectorStyle: (vector: IVector<TData>) => void;
 }
 
 interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
@@ -220,9 +218,7 @@ declare const layer: {
         ref?: Ref<IMarkerApis<TData>>;
     }) => JSX.Element;
     PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
-    Wfs: <TData>(props: IWfsProps & {
-        ref?: Ref<IWfsApis<TData>>;
-    }) => JSX.Element;
+    Wfs: <TData>(props: IWfsProps) => JSX.Element;
     Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams }: IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: IMinimap) => null;
