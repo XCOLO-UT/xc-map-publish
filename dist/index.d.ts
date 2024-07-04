@@ -11,7 +11,6 @@ import { Color } from 'ol/color';
 import { ColorLike } from 'ol/colorlike';
 import { ViewOptions } from 'ol/View';
 import { Style } from 'ol/style';
-import { FeatureUrlFunction } from 'ol/featureloader';
 import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
 import { ReactNode } from 'react';
@@ -123,6 +122,7 @@ interface IFeatureSelect<TData> extends IXcMapCommon {
     isDeselectClosePopup?: boolean;
     getPopup?: (datas: TData[]) => string;
     getListPopup?: (datas: TData[]) => string[];
+    getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (layerName: string, data: TData) => void;
     onSelectionChange?: (layerName: string, datas: TData[]) => void;
     onDoubleClick?: (layerName: string, data: TData) => void;
@@ -168,15 +168,6 @@ interface IWmsProps extends IXcMapCommon, ILayerCommon {
     zoomParams: IWmsParam[];
 }
 
-interface IWfsProps extends IXcMapCommon, ILayerCommon {
-    featureName?: string;
-    pkField: string;
-    url: string | FeatureUrlFunction;
-    zoomUrls?: IZoomUrls[];
-    getVectorLabel?: (data: IAnyObject) => string;
-    getTrafficInfo?: (id: string) => ITrafficInfo | undefined;
-}
-
 interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
     featureName: string;
     status?: string;
@@ -218,7 +209,7 @@ declare const layer: {
         ref?: Ref<IMarkerApis<TData>>;
     }) => JSX.Element;
     PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
-    Wfs: <TData>(props: IWfsProps) => JSX.Element;
+    Wfs: any;
     Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams }: IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: IMinimap) => null;

@@ -1,7 +1,7 @@
 import { Color } from "ol/color";
 import { ColorLike } from "ol/colorlike";
 import { ViewOptions } from "ol/View";
-import { MapBrowserEvent } from "ol";
+import { Feature, MapBrowserEvent } from "ol";
 import { Style } from "ol/style";
 export interface IXcMapCommon {
     mapId: string;
@@ -104,6 +104,7 @@ export interface IFeatureSelect<TData> extends IXcMapCommon {
     isDeselectClosePopup?: boolean;
     getPopup?: (datas: TData[]) => string;
     getListPopup?: (datas: TData[]) => string[];
+    getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (layerName: string, data: TData) => void;
     onSelectionChange?: (layerName: string, datas: TData[]) => void;
     onDoubleClick?: (layerName: string, data: TData) => void;

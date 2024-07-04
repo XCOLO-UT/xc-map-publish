@@ -1,5 +1,5 @@
-import { JSX } from "react";
-import { IAnyObject, ILayerCommon, ITrafficInfo, IXcMapCommon, IZoomUrls } from "../types/xc-map";
+import { Feature } from "ol";
+import { IAnyObject, IFeatureTypeStyle, ILayerCommon, ITrafficInfo, IXcMapCommon, IZoomUrls } from "../types/xc-map";
 import { FeatureUrlFunction } from "ol/featureloader";
 export interface IWfsProps extends IXcMapCommon, ILayerCommon {
     featureName?: string;
@@ -8,6 +8,12 @@ export interface IWfsProps extends IXcMapCommon, ILayerCommon {
     zoomUrls?: IZoomUrls[];
     getVectorLabel?: (data: IAnyObject) => string;
     getTrafficInfo?: (id: string) => ITrafficInfo | undefined;
+    getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
+    filter?: (feature: Feature) => boolean;
 }
-declare const _default: <TData>(props: IWfsProps) => JSX.Element;
-export default _default;
+export interface IWfsApis {
+    getWfsFeatures: () => Feature[];
+    setVisible: (id: string, visible: boolean) => void;
+}
+declare const Wfs: any;
+export default Wfs;
