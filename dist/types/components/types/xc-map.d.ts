@@ -113,7 +113,7 @@ export interface IAnyObject {
     [key: string]: any;
 }
 export interface IOverlayContent<TData> {
-    datas: TData[];
-    hidePopup: () => void;
+    datas?: TData[];
+    hidePopup?: () => void;
 }
 export {};

@@ -133,8 +133,8 @@ interface IAnyObject {
     [key: string]: any;
 }
 interface IOverlayContent<TData> {
-    datas: TData[];
-    hidePopup: () => void;
+    datas?: TData[];
+    hidePopup?: () => void;
 }
 
 declare const XcMap: any;
