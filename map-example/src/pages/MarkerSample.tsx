@@ -1,10 +1,25 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {IMarkerApis} from "xc-map/dist/types/components/layer/Marker";
-import {IMarker, XcInteractions, layer, interaction, XcLayers, XcMap} from "xc-map";
+import {
+    IMarker,
+    XcInteractions,
+    layer,
+    interaction,
+    XcLayers,
+    XcMap,
+    useVworldUrl,
+    ICoordinate,
+    source,
+    XcOverlays,
+    overlay
+} from "xc-map";
 import RandUtil from "../utils/rand-util.ts";
 import useXcMapOption from "../hooks/useXcMapOption.ts";
 import {IXcMapApis} from "xc-map/dist/types/components/XcMap";
-import useVworldUrl from "xc-map/dist/types/components/hooks/useVworldUrl";
+import TileLayer from "ol/layer/Tile";
+import {IOverlayComponentApis} from "xc-map/dist/types/components/overlays/OverlayComponent";
+import {IMarkerSelectApis} from "xc-map/dist/types/components/interaction/MarkerSelect";
+import PopupContent, {IPopupContent} from "../popups/PopupContent.tsx";
 
 interface ISigData {
     sigId: string
@@ -69,22 +84,30 @@ interface IProbeData {
 }
 
 const MarkerSample = () => {
-    const id = useRef<string>(RandUtil.randomId())// 고유명칭 추가
+    const id = useRef<string>('MarkerSample' + RandUtil.randomId())
+    const id2 = useRef<string>('DragAndDropSample' + RandUtil.randomId())
     const mapRef = useRef<IXcMapApis>(null)
     const sigMarkerRef = useRef<IMarkerApis<ISigData>>(null)
     const cctvMarkerRef = useRef<IMarkerApis<ICctvData>>(null)
     const probeMarkerRef = useRef<IMarkerApis<IProbeData>>(null)
+    const cctvOverlayRef = useRef<IOverlayComponentApis>(null)
+    const cctvMarkerSelectRef = useRef<IMarkerSelectApis>(null)
+
+    const [test, setTest] = useState(false)
+    const [coordinate, setCoordinate] = useState<ICoordinate>()
+    const [heading, setHeading] = useState<number>(90)
+    const [status, setStatus] = useState<string>()
 
     const [cctvSelectDisabled, setCctvSelectDisabled] = useState(false)
     const [sigMarkerVisible, setSigMarkerVisible] = useState(true)
     const [cctvMarkerVisible, setCctvMarkerVisible] = useState(true)
-    const [cctvMarkers, setCctvMarkers] = useState<IMarker<ICctvData>[]>([])
-    const [sigMarkers, setSigMarkers] = useState<IMarker<ISigData>[]>([])
-    const [probeMarkers, setProbeMarkers] = useState<IMarker<IProbeData>[]>([])
+    const [cctvMarkers, setCctvMarkers] = useState<IMarker<ICctvData>[]>(null)
+    const [sigMarkers, setSigMarkers] = useState<IMarker<ISigData>[]>(null)
+    const [probeMarkers, setProbeMarkers] = useState<IMarker<IProbeData>[]>(null)
     const [value, setValue] = useState<IMarker<ICctvData>>({
         "id": "CCTV0002",
         "status": "default",
-        "featureName":"cctv",
+        "featureName": "cctv",
         "value": {
             "cctvId": "1234abcd",
             "maker": "",
@@ -116,7 +139,7 @@ const MarkerSample = () => {
     const {vworldUrl, setTileType, minimapVworldUrl} = useVworldUrl(
         '4C9A5402-9EFD-3CE7-BC6B-CA4A97C4F341',
         'midnight',
-        'Base'
+        'Satellite'
     )
 
     useEffect(() => {
@@ -124,7 +147,11 @@ const MarkerSample = () => {
         getCctvDummyMarkers()
         getSigDummyMarkers()
         getProbeDummyData()
+
     }, [])
+
+    useEffect(() => {
+    }, [status, heading, coordinate])
     const changeSigMarkerLayerVisibleTest = () => {
         setSigMarkerVisible(prevState => !prevState)
     }
@@ -135,7 +162,7 @@ const MarkerSample = () => {
         setValue({
             "id": "CCTV0005",
             "status": "default",
-            "featureName":"cctv",
+            "featureName": "cctv",
             "value": {
                 "cctvId": "CCTV0005",
                 "maker": "HanWha",
@@ -158,8 +185,8 @@ const MarkerSample = () => {
                 "areaNm": "테스트베드"
             },
             "coordinate": {
-                "longitude": 126.721037,
-                "latitude": 37.367949
+                "longitude": 126.719921,
+                "latitude": 37.372986,
             }
         })
     }
@@ -247,10 +274,13 @@ const MarkerSample = () => {
     }
 
     const setVworldTypeTest = () => {
-        setTileType('Base')
+        setTileType('Satellite')
     }
     const setZoomLevelTest = () => {
-        mapRef.current && mapRef.current.setZoomLevel('plus')
+        mapRef.current && mapRef.current.setZoomLevel(17)
+    }
+    const setZoomLevelTypeTest = () => {
+        mapRef.current && mapRef.current.setZoomLevelType('plus')
     }
     const animateMoveTest = () => {
         mapRef.current && mapRef.current.animateMove({
@@ -261,9 +291,25 @@ const MarkerSample = () => {
     const setDisabledTest = () => {
         setCctvSelectDisabled(prevState => !prevState)
     }
+    const setTestTest = () => {
+        setTest(prevState => !prevState)
+    }
+    const setHeadingTest = () => {
+        setHeading(prevState => {
+            if(prevState) {
+                prevState += 90
+                return prevState
+            } else {
+                return 0 as number
+            }
+        })
+    }
+    const setCoordinateTest = () => {
+        setCoordinate({longitude: 126.72228788918001, latitude: 37.366205099680755})
+    }
 
     return (
-        <div style={{height: '500px', width: '100%'}}>
+        <div style={{height: '500px', width: '1000px'}}>
             <XcMap
                 ref={mapRef}
                 mapId={id.current}
@@ -279,7 +325,7 @@ const MarkerSample = () => {
                     {
                         name: "contextmenu",
                         callback: (event) => {
-                            // console.log('Trace.DK_LOG - event.contextmenu : ', event)
+                            console.log('Trace.DK_LOG - event.contextmenu : ', event)
                             // console.log('Trace.DK_LOG - event.contextmenu : ', event.coordinate)
                             // console.log('Trace.DK_LOG - event.contextmenu : '
                             //     , transformFrom3857To4326ByCoordinates(event.coordinate))
@@ -293,13 +339,24 @@ const MarkerSample = () => {
                         mapId={id.current}
                         layerName={'vworldLayer'}
                     />
-                    <layer.Marker<ISigData>
-                        ref={sigMarkerRef}
-                        mapId={id.current}
-                        markers={sigMarkers}
-                        visible={sigMarkerVisible}
-                        layerName={'sigMarker'}
-                    />
+                    {/*<layer.Minimap*/}
+                    {/*    mapId={id.current}*/}
+                    {/*    position={'left-bottom'}*/}
+                    {/*    getLayers={() => {*/}
+                    {/*        return [*/}
+                    {/*            new TileLayer({*/}
+                    {/*                source: source.XYZ({url: minimapVworldUrl}),*/}
+                    {/*            }),*/}
+                    {/*        ]*/}
+                    {/*    }}*/}
+                    {/*/>*/}
+                    {/*<layer.Marker<ISigData>*/}
+                    {/*    ref={sigMarkerRef}*/}
+                    {/*    mapId={id.current}*/}
+                    {/*    markers={sigMarkers}*/}
+                    {/*    visible={sigMarkerVisible}*/}
+                    {/*    layerName={'sigMarker'}*/}
+                    {/*/>*/}
                     <layer.Marker<ICctvData>
                         ref={cctvMarkerRef}
                         mapId={id.current}
@@ -308,20 +365,36 @@ const MarkerSample = () => {
                         layerName={'cctvMarker'}
                         layerTag={'marker'}
                     />
-                    <layer.Marker<IProbeData>
-                        ref={probeMarkerRef}
+                    {/*<layer.Marker<IProbeData>*/}
+                    {/*    ref={probeMarkerRef}*/}
+                    {/*    mapId={id.current}*/}
+                    {/*    markers={probeMarkers}*/}
+                    {/*    visible={true}*/}
+                    {/*    layerName={'probeMarker'}*/}
+                    {/*    layerTag={'marker'}*/}
+                    {/*    getMarkerLabel={(data) => {*/}
+                    {/*        return data.probeId*/}
+                    {/*    }}*/}
+                    {/*/>*/}
+
+                    <layer.PlaceMarker
                         mapId={id.current}
-                        markers={probeMarkers}
-                        visible={true}
-                        layerName={'probeMarker'}
-                        layerTag={'marker'}
-                        getMarkerLabel={(data) => {
-                            return data.probeId
+                        featureName={'sig'}
+                        status={status}
+                        coordinate={coordinate}
+                        isMoveCenter={true}
+                        heading={heading}
+                        onMoveMarker={(coordinate: ICoordinate) => {
+                            console.log("DK_Trace -- PlaceMarker.onMoveMarker: ", coordinate)
+                        }}
+                        onPlaceMarker={(coordinate: ICoordinate) => {
+                            console.log("DK_Trace -- PlaceMarker.onMarkerPlace: ", coordinate)
                         }}
                     />
                 </XcLayers>
                 <XcInteractions>
                     <interaction.MarkerSelect<ICctvData>
+                        ref={cctvMarkerSelectRef}
                         mapId={id.current}
                         layerName={'cctvMarker'}
                         disabled={cctvSelectDisabled}
@@ -329,40 +402,44 @@ const MarkerSample = () => {
                         useSelectStyle={true}
                         isDeselectClosePopup={true}
                         defaultValue={value}
-                        onClick={(layerName, data) => {
+                        onClick={(layerName, datas, coordinate) => {
                             console.log('DK_Trace -- onClick.layerName : ', layerName)
-                            console.log('DK_Trace -- onClick.data :', data)
+                            console.log('DK_Trace -- onClick.datas :', datas)
+                            if (cctvOverlayRef.current) {
+                                cctvOverlayRef.current.showPopup(coordinate, datas)
+                            }
+
                         }}
                         onSelectionChange={(layerName, datas) => {
                             console.log('DK_Trace -- onSelectionChange.layerName :', layerName)
                             console.log('DK_Trace -- onSelectionChange.datas :', datas)
                         }}
-                        getPopup={(datas: ICctvData[]) => {
-                            console.log('DK_Trace -- getPopup.datas :', datas)
-                            let html = ``;
-                            if(datas.length > 0) {
-                                html += `<div>`
-                                datas.forEach(data => {
-                                    html += `<span class="id">${data.cctvId}</span>`
-                                })
-                                html += `</div>`
-                            }
-                            return html
-                        }}
-                        getListPopup={(datas: ICctvData[]) => {
-                            console.log('DK_Trace -- getListPopup.datas :', datas)
-                            const itemsHtml: string[] = [];
-                            if(datas.length > 0) {
-                                datas.forEach(data => {
-                                    let html = ''
-                                    html += `<div>`
-                                    html += `<span class="id">${data.cctvId}</span>`
-                                    html += `</div>`
-                                    itemsHtml.push(html)
-                                })
-                            }
-                            return itemsHtml
-                        }}
+                        // getPopup={(datas: ICctvData[]) => {
+                        //     console.log('DK_Trace -- getPopup.datas :', datas)
+                        //     let html = ``;
+                        //     if(datas.length > 0) {
+                        //         html += `<div>`
+                        //         datas.forEach(data => {
+                        //             html += `<span class="id" style="color:#000">${data.cctvId}</span>`
+                        //         })
+                        //         html += `</div>`
+                        //     }
+                        //     return html
+                        // }}
+                        // getListPopup={(datas: ICctvData[]) => {
+                        //     console.log('DK_Trace -- getListPopup.datas :', datas)
+                        //     const itemsHtml: string[] = [];
+                        //     if(datas.length > 0) {
+                        //         datas.forEach(data => {
+                        //             let html = ''
+                        //             html += `<div>`
+                        //             html += `<span class="id" style="color:#000">${data.cctvId}</span>`
+                        //             html += `</div>`
+                        //             itemsHtml.push(html)
+                        //         })
+                        //     }
+                        //     return itemsHtml
+                        // }}
                     />
                     <interaction.MarkerSelect<IProbeData>
                         mapId={id.current}
@@ -395,6 +472,24 @@ const MarkerSample = () => {
                         }}
                     />
                 </XcInteractions>
+                <XcOverlays>
+                    <overlay.OverlayComponent<ICctvData>
+                        ref={cctvOverlayRef}
+                        mapId={id.current}
+                        layerName={'cctvMarker'}
+                        PopupContent={PopupContent}
+                        additionalProps={
+                            {
+                                callback: () => {
+                                    console.log('additionalProps')
+                                }
+                            } as IPopupContent<ICctvData>
+                        }
+                        onHideCallback={() => {
+                            cctvMarkerSelectRef.current && cctvMarkerSelectRef.current.deSelect()
+                        }}
+                    />
+                </XcOverlays>
 
                 <button onClick={changeSigMarkerLayerVisibleTest}>신호제어기 visible 테스트</button>
                 <button onClick={changeCctvMarkerLayerVisibleTest}>CCTV visible 테스트</button>
@@ -404,12 +499,59 @@ const MarkerSample = () => {
                 <button onClick={setDefaultValueTest}>Set DefaultValue Test</button>
                 <button onClick={setVworldTypeTest}>Set VworldType Test</button>
                 <button onClick={setZoomLevelTest}>setZoomLevelTest Test</button>
+                <button onClick={setZoomLevelTypeTest}>setZoomLevelTypeTest Test</button>
                 <button onClick={setDisabledTest}>setDisabledTest Test</button>
                 <button onClick={animateMoveTest}>animateMoveTest Test</button>
+                <button onClick={setTestTest}>setTestTest</button>
+                <button onClick={setHeadingTest}>Set Heading Test</button>
+                <button onClick={setCoordinateTest}>Set Coordinate Test</button>
             </XcMap>
+            {test && (
+                <div style={{height: '500px', width: '1000px'}}>
+                    <XcMap
+                        mapId={id2.current}
+                        xcMapOption={xcMapOption}
+                        events={[]}
+                    >
+                        <XcLayers>
+                            <layer.Xyz
+                                url={vworldUrl}
+                                mapId={id2.current}
+                                layerName={'vworldLayer'}
+                            />
+
+                            <layer.Minimap
+                                mapId={id2.current}
+                                position={'left-bottom'}
+                                getLayers={() => {
+                                    return [
+                                        new TileLayer({
+                                            source: source.XYZ({url: minimapVworldUrl}),
+                                        }),
+                                    ]
+                                }}
+                            />
+                            <layer.PlaceMarker
+                                mapId={id2.current}
+                                featureName={'sig'}
+                                status={status}
+                                onMoveMarker={(coordinate: ICoordinate) => {
+                                    console.log("DK_Trace -- PlaceMarker.onMoveMarker: ", coordinate)
+                                }}
+                                onPlaceMarker={(coordinate: ICoordinate) => {
+                                    console.log("DK_Trace -- PlaceMarker.onMarkerPlace: ", coordinate)
+                                }}
+                            />
+                        </XcLayers>
+                        <button onClick={setVworldTypeTest}>Set VworldType Test</button>
+                    </XcMap>
+                </div>
+            )}
         </div>
     )
+
 }
+
 
 export default MarkerSample;
 

@@ -8,7 +8,11 @@ import {
     XcMap,
     ITrafficInfo,
     ICoordinate,
-    source
+    source,
+    useVworldUrl,
+    XcOverlays,
+    IAnyObject,
+    overlay
 } from "xc-map";
 import {IWfsApis} from "xc-map/dist/types/components/layer/Wfs";
 import {IVectorSelectApis} from "xc-map/dist/types/components/interaction/VectorSelect";
@@ -16,7 +20,8 @@ import {IMeasurementApis, MeasureType} from "xc-map/dist/types/components/intera
 import TileLayer from "ol/layer/Tile";
 import RandUtil from "../utils/rand-util.ts";
 import useXcMapOption from "../hooks/useXcMapOption.ts";
-import useVworldUrl from "xc-map/dist/types/components/hooks/useVworldUrl";
+import {IOverlayComponentApis} from "xc-map/dist/types/components/overlays/OverlayComponent";
+import PopupContent, {IPopupContent} from "../popups/PopupContent.tsx";
 
 interface ITraffic15Data extends ITrafficInfo {
     linkId: string
@@ -39,11 +44,13 @@ const LinkSample = () => {
     const vectorSelectRef = useRef<IVectorSelectApis>(null)
     const measurementRef = useRef<IMeasurementApis>(null)
     const measureTypeRef = useRef<MeasureType>('')
+    const linkVectorSelectRef = useRef<IVectorSelectApis>(null)
+    const linkOverlayRef = useRef<IOverlayComponentApis>(null)
 
     const [coordinate, setCoordinate] = useState<ICoordinate>()
+    const [heading, setHeading] = useState<number>(90)
     const [status, setStatus] = useState<string>()
     const [measureType, setMeasureType] = useState<MeasureType>('')
-    const [heading, setHeading] = useState<number>(90)
 
     const {xcMapOption} = useXcMapOption()
 
@@ -284,25 +291,28 @@ const LinkSample = () => {
                         //         LINK_ID:'2240782100'
                         //     },
                         // ]}
-                        onClick={(layerName, data) => {
+                        onClick={(layerName: string, datas: IAnyObject[], coordinate:ICoordinate) => {
                             console.log("DK_Trace -- VectorSelect.onClick.layerName: ", layerName)
-                            console.log("DK_Trace -- VectorSelect.onClick.data: ", data)
+                            console.log("DK_Trace -- VectorSelect.onClick.data: ", datas)
+                            if (linkOverlayRef.current) {
+                                linkOverlayRef.current.showPopup(coordinate, datas)
+                            }
                         }}
-                        onSelectionChange={(layerName, datas) => {
+                        onSelectionChange={(layerName: string, datas: IAnyObject[]) => {
                             console.log('DK_Trace -- VectorSelect.onSelectionChange.layerName :', layerName)
                             console.log('DK_Trace -- VectorSelect.onSelectionChange.datas :', datas)
                         }}
-                        getPopup={(datas) => {
-                            let html = ``;
-                            if(datas.length > 0) {
-                                html += `<div>`
-                                datas.forEach(data => {
-                                    html += `<span class="id">${data.LINK_ID}</span>`
-                                })
-                                html += `</div>`
-                            }
-                            return html
-                        }}
+                        // getPopup={(datas) => {
+                        //     let html = ``;
+                        //     if(datas.length > 0) {
+                        //         html += `<div>`
+                        //         datas.forEach(data => {
+                        //             html += `<span class="id">${data.LINK_ID}</span>`
+                        //         })
+                        //         html += `</div>`
+                        //     }
+                        //     return html
+                        // }}
                     />
                     {/*<interaction.VectorSelect*/}
                     {/*    mapId={id.current}*/}
@@ -352,6 +362,25 @@ const LinkSample = () => {
                 {/*<button onClick={setStatusTest}>Set Status Test</button>*/}
                 {/*<button onClick={setHeadingTest}>Set Heading Test</button>*/}
                 {/*<button onClick={setCoordinateTest}>Set Coordinate Test</button>*/}
+
+                <XcOverlays>
+                    <overlay.OverlayComponent<IAnyObject>
+                        ref={linkOverlayRef}
+                        mapId={id.current}
+                        layerName={'linkLayer'}
+                        PopupContent={PopupContent}
+                        additionalProps={
+                            {
+                                callback: () => {
+                                    console.log('additionalProps')
+                                }
+                            } as IPopupContent<IAnyObject>
+                        }
+                        onHideCallback={() => {
+                            vectorSelectRef.current && vectorSelectRef.current.deSelect()
+                        }}
+                    />
+                </XcOverlays>
                 <button onClick={setVworldTypeTest}>Set VworldType Test</button>
                 <button onClick={selectTest}>selectTest Test</button>
                 <button onClick={selectTest2}>selectTest2 Test</button>

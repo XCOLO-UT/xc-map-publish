@@ -1,9 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import RandUtil from "../utils/rand-util.ts";
 import useXcMapOption from "../hooks/useXcMapOption.ts";
-import {source, layer, XcMap, XcLayers, ICoordinate} from "xc-map";
+import {source, layer, XcMap, XcLayers, ICoordinate, useVworldUrl} from "xc-map";
 import TileLayer from "ol/layer/Tile";
-import useVworldUrl from "xc-map/dist/types/components/hooks/useVworldUrl";
 
 const DragAndDropSample = () => {
     const id = useRef<string>('DragAndDropSample' + RandUtil.randomId())

@@ -1,11 +1,10 @@
 import {useRef} from "react";
-import {source, layer, XcMap, interaction, XcLayers, XcInteractions} from "xc-map";
+import {source, layer, XcMap, interaction, XcLayers, XcInteractions, useVworldUrl} from "xc-map";
 import TileLayer from "ol/layer/Tile";
 import {IMeasurementApis, MeasureType} from "xc-map/dist/types/components/interaction/Measurement";
 import BaseLayer from "ol/layer/Base";
 import RandUtil from "../utils/rand-util.ts";
 import useXcMapOption from "../hooks/useXcMapOption.ts";
-import useVworldUrl from "xc-map/dist/types/components/hooks/useVworldUrl";
 
 const MeasurementSample = () => {
     const id = useRef<string>('MeasurementSample' + RandUtil.randomId())
