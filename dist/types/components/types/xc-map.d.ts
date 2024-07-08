@@ -105,11 +105,15 @@ export interface IFeatureSelect<TData> extends IXcMapCommon {
     getPopup?: (datas: TData[]) => string;
     getListPopup?: (datas: TData[]) => string[];
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
-    onClick?: (layerName: string, data: TData) => void;
+    onClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
     onSelectionChange?: (layerName: string, datas: TData[]) => void;
-    onDoubleClick?: (layerName: string, data: TData) => void;
+    onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
 export interface IAnyObject {
     [key: string]: any;
+}
+export interface IOverlayContent<TData> {
+    datas: TData[];
+    hidePopup: () => void;
 }
 export {};

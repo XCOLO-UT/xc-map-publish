@@ -1,6 +1,14 @@
+import { Ref } from "react";
+import { FeatureLike } from "ol/Feature";
 import { IFeatureSelect, IMarker } from "../types/xc-map";
 export interface IMarkerSelectProps<TData> extends IFeatureSelect<TData> {
     defaultValue?: IMarker<TData>;
 }
-declare const _default: <TData>(props: IMarkerSelectProps<TData>) => null;
+export interface IMarkerSelectApis {
+    select: (features: FeatureLike[]) => void;
+    deSelect: () => void;
+}
+declare const _default: <TData>(props: IMarkerSelectProps<TData> & {
+    ref?: Ref<IMarkerSelectApis>;
+}) => null;
 export default _default;

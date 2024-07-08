@@ -7,5 +7,6 @@ declare const useXcMapPopup: (xcMap: Map | undefined) => {
     findOverlay: (overlayId: string) => Overlay | undefined;
     removeOverlay: (overlayId?: string, callback?: () => void) => void;
     createOverlay: (overlayId: string, createElement?: () => HTMLElement, options?: Options) => Overlay | undefined;
+    hideOverlay: (layerName: string, callback?: () => void) => void;
 };
 export default useXcMapPopup;

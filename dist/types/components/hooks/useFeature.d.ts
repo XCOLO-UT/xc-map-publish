@@ -6,5 +6,6 @@ declare const useFeature: <TData>(xcMap: Map | undefined) => {
     getFeaturesInLayer: (layerName: string, layerTag?: string) => Feature[];
     resetMarkerFeaturesStyle: (features: Feature[], getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined) => void;
     resetVectorFeaturesStyle: (features: Feature[], getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined) => void;
+    getFeatureCenter: (feature: Feature) => import("ol/coordinate").Coordinate;
 };
 export default useFeature;

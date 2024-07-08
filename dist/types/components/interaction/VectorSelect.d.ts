@@ -5,6 +5,7 @@ export interface IVectorSelectProps extends IFeatureSelect<IAnyObject> {
 }
 export interface IVectorSelectApis {
     select: (data: IAnyObject) => void;
+    deSelect: () => void;
 }
 declare const VectorSelect: any;
 export default VectorSelect;

@@ -13,7 +13,9 @@ import { ViewOptions } from 'ol/View';
 import { Style } from 'ol/style';
 import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
-import { ReactNode } from 'react';
+import { FeatureLike } from 'ol/Feature';
+import React$1, { ReactNode } from 'react';
+import { Options as Options$6 } from 'ol/Overlay';
 
 declare const useVworldUrl: (apiKey: string, defaultTileType: string, minimapTileType: string) => {
     minimapVworldUrl: string;
@@ -123,12 +125,16 @@ interface IFeatureSelect<TData> extends IXcMapCommon {
     getPopup?: (datas: TData[]) => string;
     getListPopup?: (datas: TData[]) => string[];
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
-    onClick?: (layerName: string, data: TData) => void;
+    onClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
     onSelectionChange?: (layerName: string, datas: TData[]) => void;
-    onDoubleClick?: (layerName: string, data: TData) => void;
+    onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
 interface IAnyObject {
     [key: string]: any;
+}
+interface IOverlayContent<TData> {
+    datas: TData[];
+    hidePopup: () => void;
 }
 
 declare const XcMap: any;
@@ -223,6 +229,10 @@ interface IMarkerDragAndDropProps extends IXcMapCommon {
 interface IMarkerSelectProps<TData> extends IFeatureSelect<TData> {
     defaultValue?: IMarker<TData>;
 }
+interface IMarkerSelectApis {
+    select: (features: FeatureLike[]) => void;
+    deSelect: () => void;
+}
 
 interface IFeatureTooltip<TData> extends IXcMapCommon {
     getTooltip: (values: TData[]) => string;
@@ -230,10 +240,28 @@ interface IFeatureTooltip<TData> extends IXcMapCommon {
 
 declare const interaction: {
     FeatureTooltip: <TData>(props: IFeatureTooltip<TData>) => null;
-    MarkerSelect: <TData>(props: IMarkerSelectProps<TData>) => null;
+    MarkerSelect: <TData>(props: IMarkerSelectProps<TData> & {
+        ref?: Ref<IMarkerSelectApis>;
+    }) => null;
     MarkerDragAndDrop: ({ mapId, layerName, onMove, onDrop, }: IMarkerDragAndDropProps) => null;
     VectorSelect: any;
     Measurement: any;
+};
+
+interface IOverlayComponentProps<TData> extends IXcMapCommon, Options$6 {
+    PopupContent: React$1.ComponentType<IOverlayContent<TData>>;
+    additionalProps?: Partial<IOverlayContent<TData>>;
+    onHideCallback?: () => void;
+}
+interface IOverlayComponentApis {
+    showPopup: (coordinate: ICoordinate) => void;
+    hidePopup: () => void;
+}
+
+declare const overlay: {
+    OverlayComponent: <TData>(props: IOverlayComponentProps<TData> & {
+        ref?: Ref<IOverlayComponentApis>;
+    }) => React.JSX;
 };
 
 interface IXcLayersProps {
@@ -246,4 +274,9 @@ interface IXcInteractionsProps {
 }
 declare const XcInteractions: ({ children }: IXcInteractionsProps) => JSX.Element;
 
-export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelect, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommon, type IMapEvent, type IMarker, type IStatusStyle, type IStyle, type IStyleOption, type ITrafficInfo, type IVector, type IWmsParam, type IXcMapCommon, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, interaction, layer, source, useVworldUrl };
+interface IXcOverlaysProps {
+    children?: ReactNode;
+}
+declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
+
+export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelect, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommon, type IMapEvent, type IMarker, type IOverlayContent, type IStatusStyle, type IStyle, type IStyleOption, type ITrafficInfo, type IVector, type IWmsParam, type IXcMapCommon, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };

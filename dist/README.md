@@ -116,6 +116,15 @@ dist/types/components - 지도 compoenent
 - onClick : vector click 이벤트 정의
 - onDoubleClick : vector double click 이벤트 정의
 
+## Overlay
+### OverlayComponent
+- mapId: 지도 ID
+- layerName: overlay가 표현되어야 하는 layer의 layerName
+- PopupContent: Overlay 내부에 표현할 내용 React Component
+- additionalProps: 팝업에 정의되어 있는 추가 props
+- onHideCallback: 팝업이 닫힐때 발생시킬 callback
+- ...rest : overlay Option 추가 내용 적용
+
 
 ```
 xcMap이하 모든 component는 xcMap에서 사용된 id를 props로 갖는다.
