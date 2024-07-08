@@ -8,6 +8,7 @@ export interface IXcMapProps {
     children: ReactNode;
     xcMapOption: IXcMapOption;
     events?: IMapEvent[];
+    getZoomLevel?: (level: number | undefined) => void;
 }
 export interface IXcMapApis {
     setZoomLevel: (level: number) => void;

@@ -212,6 +212,57 @@ const LinkSample = () => {
                                     `outputFormat=application/json&exceptions=application/json&srsName=EPSG:4326`
                             },
                         ]}
+                        getCustomStyle={(feature) => {
+                            if (feature.getProperties()['LINK_ID'] == '2240358400') {
+                                return {
+                                    type: 'vector',
+                                    event : [
+                                        {
+                                            status : 'default',
+                                            style : {
+                                                fill: {
+                                                    color: '#ff0000',
+                                                },
+                                                stroke: {
+                                                    color: '#000',
+                                                    width: 1,
+                                                },
+                                            }
+                                        },
+                                        {
+                                            status : 'selected',
+                                            style : {
+                                                fill: {
+                                                    color: '#EEE',
+                                                },
+                                                stroke: {
+                                                    color: '#f5c772',
+                                                    width: 2,
+                                                },
+                                            }
+                                        },
+                                        {
+                                            status : 'highlight',
+                                            style : {
+                                                fill: {
+                                                    color: '#f5c772',
+                                                },
+                                                stroke: {
+                                                    color: '#f5c772',
+                                                    width: 2,
+                                                },
+                                            }
+                                        },
+                                    ],
+                                    label : {
+                                        fill: {
+                                            color: '#f5c772'
+                                        },
+                                    }
+                                }
+                            }
+                            return undefined
+                        }}
                         // getTrafficInfo={(id) => {
                         //     return trafficInfos.find((info) => info.getId() === id)
                         // }}

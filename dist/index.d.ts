@@ -80,15 +80,15 @@ type FeatureType = "marker" | "link" | "vector";
 interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];
+    label?: Partial<IStyle>;
 }
 interface IFeatureStyle {
     [key: string]: IFeatureTypeStyle;
 }
-type LabelType = Pick<IStyle, "fill" | "stroke" | "backgroundFill" | "offsetX" | "offsetY" | "scale">;
 interface IInfoStyle {
     label?: {
-        marker?: LabelType;
-        vector?: LabelType;
+        marker?: Partial<IStyle>;
+        vector?: Partial<IStyle>;
     };
 }
 interface IAnimationProperty {
