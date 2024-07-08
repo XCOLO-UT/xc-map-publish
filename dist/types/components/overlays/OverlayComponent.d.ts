@@ -6,11 +6,11 @@ export interface IOverlayComponentProps<TData> extends IXcMapCommon, Options {
     additionalProps?: Partial<IOverlayContent<TData>>;
     onHideCallback?: () => void;
 }
-export interface IOverlayComponentApis {
-    showPopup: (coordinate: ICoordinate) => void;
+export interface IOverlayComponentApis<TData> {
+    showPopup: (coordinate: ICoordinate, datas: TData[]) => void;
     hidePopup: () => void;
 }
 declare const _default: <TData>(props: IOverlayComponentProps<TData> & {
-    ref?: Ref<IOverlayComponentApis>;
+    ref?: Ref<IOverlayComponentApis<TData>>;
 }) => React.JSX;
 export default _default;
