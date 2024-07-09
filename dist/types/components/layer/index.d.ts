@@ -10,4 +10,5 @@ export declare const layer: {
     Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams }: import("./Wms").IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: import("./Xyz").IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: import("./Minimap").IMinimap) => null;
+    PlaceLineString: any;
 };

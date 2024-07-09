@@ -219,6 +219,7 @@ declare const layer: {
     Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams }: IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: IMinimap) => null;
+    PlaceLineString: any;
 };
 
 interface IMarkerDragAndDropProps extends IXcMapCommonProps {
