@@ -1,9 +1,8 @@
 import React, { Ref } from 'react';
-import { ICoordinate, IOverlayContent, IXcMapCommon } from "../types/xc-map.ts";
+import { ICoordinate, IOverlayChildrenProps, IXcMapCommonProps } from "../types/xc-map.ts";
 import { Options } from "ol/Overlay";
-export interface IOverlayComponentProps<TData> extends IXcMapCommon, Options {
-    PopupContent: React.ComponentType<IOverlayContent<TData>>;
-    additionalProps?: Partial<IOverlayContent<TData>>;
+export interface IOverlayComponentProps<TData> extends IXcMapCommonProps, Options {
+    children?: (props: IOverlayChildrenProps<TData>) => React.ReactNode;
     onHideCallback?: () => void;
 }
 export interface IOverlayComponentApis<TData> {

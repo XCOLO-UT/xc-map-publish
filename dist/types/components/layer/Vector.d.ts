@@ -1,6 +1,6 @@
 import { Options } from "ol/layer/BaseVector";
-import { IXcMapCommon } from "../types/xc-map";
-export interface IVectorProps extends Options<any>, IXcMapCommon {
+import { IXcMapCommonProps } from "../types/xc-map";
+export interface IVectorProps extends Options<any>, IXcMapCommonProps {
     featureName?: string;
     pkField?: string;
 }

@@ -23,12 +23,12 @@ declare const useVworldUrl: (apiKey: string, defaultTileType: string, minimapTil
     setTileType: (tileType: string) => void;
 };
 
-interface IXcMapCommon {
+interface IXcMapCommonProps {
     mapId: string;
     layerName: string;
     layerTag?: string;
 }
-interface ILayerCommon {
+interface ILayerCommonProps {
     visible?: boolean;
     minZoom?: number | undefined;
     maxZoom?: number | undefined;
@@ -117,7 +117,7 @@ interface ITrafficInfo {
     getId: () => string;
     getTrafficStatus: () => string;
 }
-interface IFeatureSelect<TData> extends IXcMapCommon {
+interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     disabled?: boolean;
     isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
@@ -132,7 +132,7 @@ interface IFeatureSelect<TData> extends IXcMapCommon {
 interface IAnyObject {
     [key: string]: any;
 }
-interface IOverlayContent<TData> {
+interface IOverlayChildrenProps<TData> {
     datas?: TData[];
     hidePopup?: () => void;
 }
@@ -159,22 +159,22 @@ declare const source: {
 };
 
 type MinimapPositionType = 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom' | 'gone';
-interface IMinimap extends Options$3, Pick<IXcMapCommon, 'mapId'> {
+interface IMinimap extends Options$3, Pick<IXcMapCommonProps, 'mapId'> {
     position: MinimapPositionType;
     getLayers: () => BaseLayer[];
 }
 
-interface IXyzProps extends IXcMapCommon, ILayerCommon {
+interface IXyzProps extends IXcMapCommonProps, ILayerCommonProps {
     url: string;
 }
 
-interface IWmsProps extends IXcMapCommon, ILayerCommon {
+interface IWmsProps extends IXcMapCommonProps, ILayerCommonProps {
     url: string;
     params: IWmsParam;
     zoomParams: IWmsParam[];
 }
 
-interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
+interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
     featureName: string;
     status?: string;
     coordinate?: ICoordinate;
@@ -186,7 +186,7 @@ interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
     onPlaceMarker?: (coordinate: ICoordinate) => void;
 }
 
-interface IMarkerProps<TData> extends IXcMapCommon, ILayerCommon {
+interface IMarkerProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     markers?: IMarker<TData>[];
     getMarkerLabel?: (data: TData) => string;
 }
@@ -195,16 +195,16 @@ interface IMarkerApis<TData> {
     setMarkerStyle: (marker: IMarker<TData>) => void;
 }
 
-interface IVectorProps extends Options$4<any>, IXcMapCommon {
+interface IVectorProps extends Options$4<any>, IXcMapCommonProps {
     featureName?: string;
     pkField?: string;
 }
 
-interface ITileProps extends Options$5<any>, IXcMapCommon {
+interface ITileProps extends Options$5<any>, IXcMapCommonProps {
     minimap?: string;
 }
 
-interface ICommonProps extends IXcMapCommon, ILayerCommon {
+interface ICommonProps extends IXcMapCommonProps, ILayerCommonProps {
 }
 
 declare const layer: {
@@ -221,12 +221,12 @@ declare const layer: {
     Minimap: ({ mapId, position, getLayers, ...rest }: IMinimap) => null;
 };
 
-interface IMarkerDragAndDropProps extends IXcMapCommon {
+interface IMarkerDragAndDropProps extends IXcMapCommonProps {
     onMove: (coordinates: ICoordinate) => void;
     onDrop: (coordinates: ICoordinate) => void;
 }
 
-interface IMarkerSelectProps<TData> extends IFeatureSelect<TData> {
+interface IMarkerSelectProps<TData> extends IFeatureSelectProps<TData> {
     defaultValue?: IMarker<TData>;
 }
 interface IMarkerSelectApis {
@@ -234,7 +234,7 @@ interface IMarkerSelectApis {
     deSelect: () => void;
 }
 
-interface IFeatureTooltip<TData> extends IXcMapCommon {
+interface IFeatureTooltip<TData> extends IXcMapCommonProps {
     getTooltip: (values: TData[]) => string;
 }
 
@@ -248,9 +248,8 @@ declare const interaction: {
     Measurement: any;
 };
 
-interface IOverlayComponentProps<TData> extends IXcMapCommon, Options$6 {
-    PopupContent: React$1.ComponentType<IOverlayContent<TData>>;
-    additionalProps?: Partial<IOverlayContent<TData>>;
+interface IOverlayComponentProps<TData> extends IXcMapCommonProps, Options$6 {
+    children?: (props: IOverlayChildrenProps<TData>) => React$1.ReactNode;
     onHideCallback?: () => void;
 }
 interface IOverlayComponentApis<TData> {
@@ -279,4 +278,4 @@ interface IXcOverlaysProps {
 }
 declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
 
-export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelect, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommon, type IMapEvent, type IMarker, type IOverlayContent, type IStatusStyle, type IStyle, type IStyleOption, type ITrafficInfo, type IVector, type IWmsParam, type IXcMapCommon, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };
+export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusStyle, type IStyle, type IStyleOption, type ITrafficInfo, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };

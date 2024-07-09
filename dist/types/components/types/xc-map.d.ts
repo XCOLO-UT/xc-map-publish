@@ -3,12 +3,12 @@ import { ColorLike } from "ol/colorlike";
 import { ViewOptions } from "ol/View";
 import { Feature, MapBrowserEvent } from "ol";
 import { Style } from "ol/style";
-export interface IXcMapCommon {
+export interface IXcMapCommonProps {
     mapId: string;
     layerName: string;
     layerTag?: string;
 }
-export interface ILayerCommon {
+export interface ILayerCommonProps {
     visible?: boolean;
     minZoom?: number | undefined;
     maxZoom?: number | undefined;
@@ -97,7 +97,7 @@ export interface ITrafficInfo {
     getId: () => string;
     getTrafficStatus: () => string;
 }
-export interface IFeatureSelect<TData> extends IXcMapCommon {
+export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     disabled?: boolean;
     isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
@@ -112,7 +112,7 @@ export interface IFeatureSelect<TData> extends IXcMapCommon {
 export interface IAnyObject {
     [key: string]: any;
 }
-export interface IOverlayContent<TData> {
+export interface IOverlayChildrenProps<TData> {
     datas?: TData[];
     hidePopup?: () => void;
 }

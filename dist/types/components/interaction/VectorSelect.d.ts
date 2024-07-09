@@ -1,5 +1,5 @@
-import { IAnyObject, IFeatureSelect } from "../types/xc-map";
-export interface IVectorSelectProps extends IFeatureSelect<IAnyObject> {
+import { IAnyObject, IFeatureSelectProps } from "../types/xc-map";
+export interface IVectorSelectProps extends IFeatureSelectProps<IAnyObject> {
     defaultValues?: IAnyObject[];
     multiple: boolean;
 }

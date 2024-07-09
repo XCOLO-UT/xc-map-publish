@@ -54,6 +54,10 @@
     height: 150px;
     background: none !important;
 }
+
+.xc-overviewmap > button {
+    display: none;
+}
 .xc-overviewmap:not(.ol-collapsed) {
     border: 1px solid black;
 }
@@ -66,37 +70,17 @@
     left: 0;
     top: 0;
 }
-.xc-overviewmap.left-top > button {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 .xc-overviewmap.left-bottom {
     left: 0;
     bottom: 0;
-}
-.xc-overviewmap.left-bottom > button {
-    position: absolute;
-    bottom: 0;
-    left: 0;
 }
 .xc-overviewmap.right-top {
     right: 0;
     top: 0;
 }
-.xc-overviewmap.right-top > button {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
 .xc-overviewmap.right-bottom {
     right: 0;
     bottom: 0;
-}
-.xc-overviewmap.right-bottom > button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
 }
 /*미니맵*/
 

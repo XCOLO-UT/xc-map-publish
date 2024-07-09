@@ -1,5 +1,5 @@
-import { ICoordinate, IXcMapCommon } from "../types/xc-map";
-export interface IPlaceMarkerProps extends Pick<IXcMapCommon, 'mapId'> {
+import { ICoordinate, IXcMapCommonProps } from "../types/xc-map";
+export interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
     featureName: string;
     status?: string;
     coordinate?: ICoordinate;

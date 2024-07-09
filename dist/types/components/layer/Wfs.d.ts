@@ -1,7 +1,7 @@
 import { Feature } from "ol";
-import { IAnyObject, IFeatureTypeStyle, ILayerCommon, ITrafficInfo, IXcMapCommon, IZoomUrls } from "../types/xc-map";
+import { IAnyObject, IFeatureTypeStyle, ILayerCommonProps, ITrafficInfo, IXcMapCommonProps, IZoomUrls } from "../types/xc-map";
 import { FeatureUrlFunction } from "ol/featureloader";
-export interface IWfsProps extends IXcMapCommon, ILayerCommon {
+export interface IWfsProps extends IXcMapCommonProps, ILayerCommonProps {
     featureName?: string;
     pkField: string;
     url: string | FeatureUrlFunction;

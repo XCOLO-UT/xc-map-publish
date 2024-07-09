@@ -1,6 +1,6 @@
-import { IXcMapCommon } from "../types/xc-map";
+import { IXcMapCommonProps } from "../types/xc-map";
 export type MeasureType = 'LineString' | 'Polygon' | '';
-export interface IMeasurementProps extends IXcMapCommon {
+export interface IMeasurementProps extends IXcMapCommonProps {
     onDrawEnd: () => void;
 }
 export interface IMeasurementApis {

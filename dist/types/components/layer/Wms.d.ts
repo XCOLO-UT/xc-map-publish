@@ -1,5 +1,5 @@
-import { ILayerCommon, IWmsParam, IXcMapCommon } from "../types/xc-map";
-export interface IWmsProps extends IXcMapCommon, ILayerCommon {
+import { ILayerCommonProps, IWmsParam, IXcMapCommonProps } from "../types/xc-map";
+export interface IWmsProps extends IXcMapCommonProps, ILayerCommonProps {
     url: string;
     params: IWmsParam;
     zoomParams: IWmsParam[];

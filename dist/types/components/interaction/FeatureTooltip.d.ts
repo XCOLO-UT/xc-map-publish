@@ -1,5 +1,5 @@
-import { IXcMapCommon } from "../types/xc-map";
-export interface IFeatureTooltip<TData> extends IXcMapCommon {
+import { IXcMapCommonProps } from "../types/xc-map";
+export interface IFeatureTooltip<TData> extends IXcMapCommonProps {
     getTooltip: (values: TData[]) => string;
 }
 declare const _default: <TData>(props: IFeatureTooltip<TData>) => null;

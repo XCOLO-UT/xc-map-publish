@@ -1,5 +1,5 @@
-import { ILayerCommon, IXcMapCommon } from "../types/xc-map";
-export interface IXyzProps extends IXcMapCommon, ILayerCommon {
+import { ILayerCommonProps, IXcMapCommonProps } from "../types/xc-map";
+export interface IXyzProps extends IXcMapCommonProps, ILayerCommonProps {
     url: string;
 }
 declare const Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: IXyzProps) => JSX.Element;

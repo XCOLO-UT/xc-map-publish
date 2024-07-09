@@ -1,5 +1,5 @@
-import { ICoordinate, IXcMapCommon } from "../types/xc-map";
-export interface IMarkerDragAndDropProps extends IXcMapCommon {
+import { ICoordinate, IXcMapCommonProps } from "../types/xc-map";
+export interface IMarkerDragAndDropProps extends IXcMapCommonProps {
     onMove: (coordinates: ICoordinate) => void;
     onDrop: (coordinates: ICoordinate) => void;
 }
