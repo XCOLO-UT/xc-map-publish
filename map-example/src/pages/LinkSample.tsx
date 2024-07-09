@@ -45,7 +45,8 @@ const LinkSample = () => {
     const measurementRef = useRef<IMeasurementApis>(null)
     const measureTypeRef = useRef<MeasureType>('')
     const linkVectorSelectRef = useRef<IVectorSelectApis>(null)
-    const linkOverlayRef = useRef<IOverlayComponentApis>(null)
+    const linkOverlayRef = useRef<IOverlayComponentApis<IAnyObject>>(null)
+    const listOverlayRef = useRef<IOverlayComponentApis<IAnyObject>>(null)
 
     const [coordinate, setCoordinate] = useState<ICoordinate>()
     const [heading, setHeading] = useState<number>(90)
@@ -133,7 +134,7 @@ const LinkSample = () => {
                     />
                     <layer.Minimap
                         mapId={id.current}
-                        position={'left-bottom'}
+                        position={'right-bottom'}
                         getLayers={() => {
                             return [
                                 new TileLayer({
@@ -415,22 +416,33 @@ const LinkSample = () => {
                 {/*<button onClick={setCoordinateTest}>Set Coordinate Test</button>*/}
 
                 <XcOverlays>
-                    <overlay.OverlayComponent<IAnyObject>
-                        ref={linkOverlayRef}
-                        mapId={id.current}
-                        layerName={'linkLayer'}
-                        PopupContent={PopupContent}
-                        additionalProps={
-                            {
-                                callback: () => {
-                                    console.log('additionalProps')
-                                }
-                            } as IPopupContent<IAnyObject>
-                        }
-                        onHideCallback={() => {
-                            vectorSelectRef.current && vectorSelectRef.current.deSelect()
-                        }}
-                    />
+                     <overlay.OverlayComponent<IAnyObject>
+                         ref={linkOverlayRef}
+                         mapId={id.current}
+                         layerName={'linkLayer'}
+                         onHideCallback={() => {
+                             vectorSelectRef.current && vectorSelectRef.current.deSelect()
+                         }}
+                     >
+                         {(popupContentProps) => (
+                             <PopupContent
+                                 {...popupContentProps}
+                                 testTitle={'testTitle1'}
+                             />
+                         )}
+                     </overlay.OverlayComponent>
+                     <overlay.OverlayComponent<IAnyObject>
+                         ref={listOverlayRef}
+                         mapId={id.current}
+                         layerName={'linkLayer2'}
+                     >
+                         {(popupContentProps) => (
+                             <PopupContent
+                                 {...popupContentProps}
+                                 testTitle={'testTitle2'}
+                             />
+                         )}
+                     </overlay.OverlayComponent>
                 </XcOverlays>
                 <button onClick={setVworldTypeTest}>Set VworldType Test</button>
                 <button onClick={selectTest}>selectTest Test</button>

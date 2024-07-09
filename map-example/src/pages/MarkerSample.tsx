@@ -11,7 +11,7 @@ import {
     ICoordinate,
     source,
     XcOverlays,
-    overlay
+    overlay, IAnyObject
 } from "xc-map";
 import RandUtil from "../utils/rand-util.ts";
 import useXcMapOption from "../hooks/useXcMapOption.ts";
@@ -90,7 +90,8 @@ const MarkerSample = () => {
     const sigMarkerRef = useRef<IMarkerApis<ISigData>>(null)
     const cctvMarkerRef = useRef<IMarkerApis<ICctvData>>(null)
     const probeMarkerRef = useRef<IMarkerApis<IProbeData>>(null)
-    const cctvOverlayRef = useRef<IOverlayComponentApis>(null)
+    const cctvOverlayRef = useRef<IOverlayComponentApis<ICctvData>>(null)
+    const listOverlayRef = useRef<IOverlayComponentApis<IAnyObject>>(null)
     const cctvMarkerSelectRef = useRef<IMarkerSelectApis>(null)
 
     const [test, setTest] = useState(false)
@@ -405,8 +406,10 @@ const MarkerSample = () => {
                         onClick={(layerName, datas, coordinate) => {
                             console.log('DK_Trace -- onClick.layerName : ', layerName)
                             console.log('DK_Trace -- onClick.datas :', datas)
-                            if (cctvOverlayRef.current) {
-                                cctvOverlayRef.current.showPopup(coordinate, datas)
+                            if (datas.length > 1) {
+                                listOverlayRef.current && listOverlayRef.current.showPopup(coordinate, datas)
+                            } else {
+                                cctvOverlayRef.current && cctvOverlayRef.current.showPopup(coordinate, datas)
                             }
 
                         }}
@@ -476,19 +479,30 @@ const MarkerSample = () => {
                     <overlay.OverlayComponent<ICctvData>
                         ref={cctvOverlayRef}
                         mapId={id.current}
-                        layerName={'cctvMarker'}
-                        PopupContent={PopupContent}
-                        additionalProps={
-                            {
-                                callback: () => {
-                                    console.log('additionalProps')
-                                }
-                            } as IPopupContent<ICctvData>
-                        }
+                        layerName={'markerTag'}
                         onHideCallback={() => {
                             cctvMarkerSelectRef.current && cctvMarkerSelectRef.current.deSelect()
                         }}
-                    />
+                    >
+                        {(popupContentProps) => (
+                            <PopupContent
+                                {...popupContentProps}
+                                testTitle={'testTitle1'}
+                            />
+                        )}
+                    </overlay.OverlayComponent>
+                    <overlay.OverlayComponent<IAnyObject>
+                        ref={listOverlayRef}
+                        mapId={id.current}
+                        layerName={'markerTag'}
+                    >
+                        {(popupContentProps) => (
+                            <PopupContent
+                                {...popupContentProps}
+                                testTitle={'testTitle2'}
+                            />
+                        )}
+                    </overlay.OverlayComponent>
                 </XcOverlays>
 
                 <button onClick={changeSigMarkerLayerVisibleTest}>신호제어기 visible 테스트</button>

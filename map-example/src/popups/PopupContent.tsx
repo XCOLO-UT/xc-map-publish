@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
-import {IOverlayContent} from "xc-map";
+import {IOverlayChildrenProps} from "xc-map";
 
-export interface IPopupContent<TData> extends IOverlayContent<TData> {
-    callback: () => void
+export interface IPopupContent<TData> extends IOverlayChildrenProps<TData> {
+    testTitle: string
 }
 const PopupContent = <TData,>(
     {
         datas,
         hidePopup,
-        callback
+        testTitle
     }: IPopupContent<TData>) => {
 
     useEffect(() => {
@@ -16,18 +16,17 @@ const PopupContent = <TData,>(
     }, [datas])
 
     return (
-        <div>
-            <h2 style={{color:'#000'}}>Popup</h2>
-            {datas?.length > 0 && datas.map((data) => (
+        <div className={'xc-popup'}>
+            <h2 style={{color:'#000'}}>Popup + {testTitle}</h2>
+            {datas && datas?.length > 0 && datas.map((data) => (
                 <h3 style={{color:'#000'}}>{data.id}</h3>
             ))}
             <button onClick={()=> {
                 console.log('close');
                 hidePopup && hidePopup()
-                callback && callback()
             }}>Close</button>
         </div>
     );
 };
 
-export default PopupContent
+export default PopupContent as <TData, >(props:IPopupContent<TData>) => JSX.Element
