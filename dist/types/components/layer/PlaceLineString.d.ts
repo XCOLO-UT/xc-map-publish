@@ -4,6 +4,7 @@ export interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'mapId'> 
     onDrawEnd?: (coordinates: ICoordinate[]) => void;
     onDrawing?: (coordinates: ICoordinate[]) => void;
     onCheckPoint?: (coordinates: ICoordinate[]) => void;
+    defaultValues?: ICoordinate[] | undefined;
 }
 export interface IPlaceLineStringApis {
     clear: () => void;

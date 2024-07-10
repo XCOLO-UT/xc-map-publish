@@ -64,7 +64,13 @@ dist/types/components - 지도 compoenent
 - zoomParams : zoomLevel 별로 다르게 표현되어야 할경우 정의 필요
 ### Xyz.tsx
 - 배경지도 Tile을 표현하기 위한 component
-
+### PlaceLineString.tsx
+- LineString을 그려서 등록하는 layer component
+- active: 그리기 가능 여부
+- onDrawEnd: 그리기 완료시 콜백
+- onDrawing: 그리는 중에 콜백
+- onCheckPoint: 점을 찍을때마다 콜백
+- defaultValues : ICoordinate[] 형태의 defaultValues
 ## source
 * Source 요소들의 집합
 ### TileWms.ts
