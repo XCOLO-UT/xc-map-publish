@@ -13,7 +13,6 @@ import { ViewOptions } from 'ol/View';
 import { Style } from 'ol/style';
 import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
-import { FeatureLike } from 'ol/Feature';
 import React$1, { ReactNode } from 'react';
 import { Options as Options$6 } from 'ol/Overlay';
 
@@ -231,7 +230,7 @@ interface IMarkerSelectProps<TData> extends IFeatureSelectProps<TData> {
     defaultValue?: IMarker<TData>;
 }
 interface IMarkerSelectApis {
-    select: (features: FeatureLike[]) => void;
+    select: (id: string) => void;
     deSelect: () => void;
 }
 

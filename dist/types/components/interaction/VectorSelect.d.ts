@@ -5,7 +5,7 @@ export interface IVectorSelectProps extends IFeatureSelectProps<IAnyObject> {
     isLastSelectHighlight?: boolean;
 }
 export interface IVectorSelectApis {
-    select: (data: IAnyObject) => void;
+    select: (id: string) => void;
     deSelect: () => void;
 }
 declare const VectorSelect: any;
