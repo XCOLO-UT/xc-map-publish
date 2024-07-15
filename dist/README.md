@@ -114,6 +114,7 @@ dist/types/components - 지도 compoenent
 - isMoveCenterOnClick : vector를 선택했을때 지도를 중앙으로 이동시킬건지에 대한 여부
 - useSelectStyle: vector가 선택됐을때, 선택된 style을 표현할건지에 대한 여부
 - isDeselectClosePopup : 팝업을 닫았을때 마커 선택을 취소하게 할건지에 대한 여부
+- isLastSelectHighlight : 마지막 선택 항목에 대해서 highlight 효과를 줄것인지 여부
 - multiple: multi 선택 필요 여부
 - getPopup : 클릭했을때 popup을 사용하고 싶다면 html을 return 해줄 props 정의 필요
 - getListPopup: 여러개가 중첩되어있는 vector를 선택했을때, 선택할 수 있는 목록을 제공하려면 해당 props를 정의
