@@ -43,8 +43,8 @@ interface ICoordinate {
 interface IFeature<TData> {
     id: string;
     description?: string;
-    featureName: string;
-    status: string;
+    featureName?: string;
+    status?: string;
     label?: string;
     value?: TData;
 }
