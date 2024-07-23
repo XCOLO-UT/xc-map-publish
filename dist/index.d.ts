@@ -70,6 +70,7 @@ interface IStyle {
     offsetX: number;
     offsetY: number;
     scale: number;
+    zIndex: number;
 }
 interface IStatusStyle {
     status: string;

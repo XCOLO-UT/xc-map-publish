@@ -51,6 +51,7 @@ export interface IStyle {
     offsetX: number;
     offsetY: number;
     scale: number;
+    zIndex: number;
 }
 export interface IStatusStyle {
     status: string;
