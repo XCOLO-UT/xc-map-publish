@@ -56,12 +56,12 @@ export interface IStyle {
 export interface IStatusStyle {
     status: string;
     style: Partial<IStyle>;
+    label?: Partial<IStyle>;
 }
 type FeatureType = "marker" | "link" | "vector";
 export interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];
-    label?: Partial<IStyle>;
 }
 export interface IFeatureStyle {
     [key: string]: IFeatureTypeStyle;

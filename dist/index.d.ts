@@ -75,12 +75,12 @@ interface IStyle {
 interface IStatusStyle {
     status: string;
     style: Partial<IStyle>;
+    label?: Partial<IStyle>;
 }
 type FeatureType = "marker" | "link" | "vector";
 interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];
-    label?: Partial<IStyle>;
 }
 interface IFeatureStyle {
     [key: string]: IFeatureTypeStyle;
