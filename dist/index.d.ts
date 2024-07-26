@@ -122,11 +122,10 @@ interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     disabled?: boolean;
     isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
-    isDeselectClosePopup?: boolean;
-    getPopup?: (datas: TData[]) => string;
-    getListPopup?: (datas: TData[]) => string[];
+    isDeselectOnClickAway?: boolean;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
-    onClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
+    onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
+    onClickAway?: () => void;
     onSelectionChange?: (layerName: string, datas: TData[]) => void;
     onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
@@ -134,8 +133,9 @@ interface IAnyObject {
     [key: string]: any;
 }
 interface IOverlayChildrenProps<TData> {
+    featureName?: string;
     datas?: TData[];
-    hidePopup?: () => void;
+    hidePopup: () => void;
 }
 
 declare const XcMap: any;
@@ -250,7 +250,8 @@ declare const interaction: {
     Measurement: any;
 };
 
-interface IOverlayComponentProps<TData> extends IXcMapCommonProps, Options$6 {
+interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'mapId'>, Options$6 {
+    overlayId: string;
     children?: (props: IOverlayChildrenProps<TData>) => React$1.ReactNode;
     onHideCallback?: () => void;
 }

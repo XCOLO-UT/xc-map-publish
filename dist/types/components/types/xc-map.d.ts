@@ -103,11 +103,10 @@ export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     disabled?: boolean;
     isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
-    isDeselectClosePopup?: boolean;
-    getPopup?: (datas: TData[]) => string;
-    getListPopup?: (datas: TData[]) => string[];
+    isDeselectOnClickAway?: boolean;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
-    onClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
+    onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
+    onClickAway?: () => void;
     onSelectionChange?: (layerName: string, datas: TData[]) => void;
     onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
@@ -115,7 +114,8 @@ export interface IAnyObject {
     [key: string]: any;
 }
 export interface IOverlayChildrenProps<TData> {
+    featureName?: string;
     datas?: TData[];
-    hidePopup?: () => void;
+    hidePopup: () => void;
 }
 export {};
