@@ -67,6 +67,7 @@ interface IStyle {
     fill: Pick<IStyleOption, "color">;
     stroke: Pick<IStyleOption, "color" | "width">;
     backgroundFill: Pick<IStyleOption, "color">;
+    radius: number;
     offsetX: number;
     offsetY: number;
     scale: number;
@@ -77,7 +78,7 @@ interface IStatusStyle {
     style: Partial<IStyle>;
     label?: Partial<IStyle>;
 }
-type FeatureType = "marker" | "link" | "vector";
+type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline";
 interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];
