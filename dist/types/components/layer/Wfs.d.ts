@@ -10,6 +10,7 @@ export interface IWfsProps extends IXcMapCommonProps, ILayerCommonProps {
     getTrafficInfo?: (id: string) => ITrafficInfo | undefined;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     filter?: (feature: Feature) => boolean;
+    useBbox?: boolean;
 }
 export interface IWfsApis {
     getWfsFeatures: () => Feature[];
