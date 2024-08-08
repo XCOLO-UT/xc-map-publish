@@ -50,6 +50,7 @@ dist/types/components - 지도 compoenent
 - zoomUrls: zoomLevel 별로 다르게 표현되어야 할경우 정의 필요
 - getCustomStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의
 - filter : 사용여부에 따라 feature 표시를 해주지 않을 경우 사용
+- useBbox : bbox 값 사용 여부
 
 - apis
   - feature 별로 visible 시켜야 할경우 사용

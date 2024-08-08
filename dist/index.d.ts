@@ -256,7 +256,7 @@ interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'mapId'>
     onHideCallback?: () => void;
 }
 interface IOverlayComponentApis<TData> {
-    showPopup: (coordinate: ICoordinate, datas: TData[]) => void;
+    showPopup: (coordinate: ICoordinate, datas: TData[], featureName: string) => void;
     hidePopup: () => void;
 }
 
