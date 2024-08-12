@@ -23,6 +23,7 @@ export interface ICoordinate {
 }
 export interface IFeature<TData> {
     id: string;
+    type: string;
     description?: string;
     featureName?: string;
     status?: string;
@@ -95,19 +96,24 @@ export interface IZoomUrls {
     zoomLevel: number;
     url: string;
 }
-export interface ITrafficInfo {
+export interface IStatusInfo {
     getId: () => string;
-    getTrafficStatus: () => string;
+    getStatusInfo: () => string;
 }
 export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     disabled?: boolean;
     isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
     isDeselectOnClickAway?: boolean;
+    defaultValue?: TData[];
+    markerDefaultValue?: any;
+    vectorDefaultValues?: any[];
+    multiple?: boolean;
+    isLastSelectHighlight?: boolean;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
     onClickAway?: () => void;
-    onSelectionChange?: (layerName: string, datas: TData[]) => void;
+    onSelectionChange?: (layerName: string, datas: TData[], featureName?: string) => void;
     onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
 export interface IAnyObject {

@@ -45,7 +45,8 @@ dist/types/components - 지도 compoenent
 ### Wfs.tsx
 - WFS 데이터를 표현하기 위한 component
 - 사용자 편의를 위해 만들어둔 component
-- getTrafficInfo : 링크의 상태값을 리턴하여 소통정보 표현
+- getStatusInfo : 링크의 상태값을 리턴하여 소통정보 또는 통합지표 표현
+- getVectorValue : api에서 조회한 데이터를 value안에 넣어야 할 경우에 사용
 - getVectorLabel: vector에 label 표현이 필요한경우 사용
 - zoomUrls: zoomLevel 별로 다르게 표현되어야 할경우 정의 필요
 - getCustomStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의

@@ -1,13 +1,15 @@
+import React, { Ref } from "react";
 import { Feature } from "ol";
-import { IAnyObject, IFeatureTypeStyle, ILayerCommonProps, ITrafficInfo, IXcMapCommonProps, IZoomUrls } from "../types/xc-map";
+import { IAnyObject, IFeatureTypeStyle, ILayerCommonProps, IStatusInfo, IXcMapCommonProps, IZoomUrls } from "../types/xc-map";
 import { FeatureUrlFunction } from "ol/featureloader";
-export interface IWfsProps extends IXcMapCommonProps, ILayerCommonProps {
+export interface IWfsProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     featureName?: string;
     pkField: string;
     url: string | FeatureUrlFunction;
     zoomUrls?: IZoomUrls[];
     getVectorLabel?: (data: IAnyObject) => string;
-    getTrafficInfo?: (id: string) => ITrafficInfo | undefined;
+    getStatusInfo?: (id: string) => IStatusInfo | undefined;
+    getVectorValue?: (id: string) => TData | undefined;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     filter?: (feature: Feature) => boolean;
     useBbox?: boolean;
@@ -16,5 +18,7 @@ export interface IWfsApis {
     getWfsFeatures: () => Feature[];
     setVisible: (id: string, visible: boolean) => void;
 }
-declare const Wfs: any;
-export default Wfs;
+declare const _default: <TData>(props: IWfsProps<TData> & {
+    ref?: Ref<IWfsApis>;
+}) => React.JSX;
+export default _default;

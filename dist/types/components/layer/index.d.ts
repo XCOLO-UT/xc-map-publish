@@ -6,7 +6,9 @@ export declare const layer: {
         ref?: Ref<import("./Marker").IMarkerApis<TData>>;
     }) => JSX.Element;
     PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: import("./PlaceMarker").IPlaceMarkerProps) => JSX.Element;
-    Wfs: any;
+    Wfs: <TData>(props: import("./Wfs").IWfsProps<TData> & {
+        ref?: Ref<import("./Wfs").IWfsApis>;
+    }) => React.JSX;
     Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams }: import("./Wms").IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, }: import("./Xyz").IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: import("./Minimap").IMinimap) => null;
