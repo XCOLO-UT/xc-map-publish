@@ -1,6 +1,13 @@
 /*Map에서 사용되는 css*/
 
 /*Overlay*/
+.ol-overlaycontainer {
+    z-index: auto !important;
+}
+
+.ol-overlaycontainer-stopevent {
+    z-index: auto !important;
+}
 .xc-popup {
     background-color: white;
     box-shadow: 0 1px 4px rgba(0,0,0,0.2);
