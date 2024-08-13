@@ -60,6 +60,7 @@ dist/types/components - 지도 compoenent
   - 조건은 직접 확인하고 해당 feature의 id와 visible만 넘겨주면됨
     - getWfsFeatures: () => Feature[]
     - setVisible: (id: string, visible: boolean) => void
+    - refresh : () => void
 ### Wms.tsx
 - WMS 데이터를 표현하기 위한 component
 - 사용자 편의를 위해 만들어둔 component

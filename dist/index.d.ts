@@ -17,10 +17,11 @@ import { Options as Options$5 } from 'ol/layer/BaseTile';
 import React$1, { ReactNode } from 'react';
 import { Options as Options$6 } from 'ol/Overlay';
 
+type TileType = "Base" | "white" | "midnight" | "Hybrid" | "Satellite";
 declare const useVworldUrl: (apiKey: string, defaultTileType: string, minimapTileType: string) => {
     minimapVworldUrl: string;
     vworldUrl: any;
-    setTileType: (tileType: "Satellite" | "Base" | "white" | "midnight" | "Hybrid") => void;
+    setTileType: (tileType: TileType) => void;
 };
 
 interface IXcMapCommonProps {
@@ -126,10 +127,8 @@ interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     useSelectStyle?: boolean;
     isDeselectOnClickAway?: boolean;
     defaultValue?: TData[];
-    markerDefaultValue?: any;
-    vectorDefaultValues?: any[];
     multiple?: boolean;
-    isLastSelectHighlight?: boolean;
+    isLastSelectVectorHighlight?: boolean;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
     onClickAway?: () => void;
@@ -197,6 +196,7 @@ interface IWfsProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
 interface IWfsApis {
     getWfsFeatures: () => Feature[];
     setVisible: (id: string, visible: boolean) => void;
+    refresh: () => void;
 }
 
 interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
@@ -255,7 +255,6 @@ interface IMarkerDragAndDropProps extends IXcMapCommonProps {
 }
 
 interface IMarkerSelectProps<TData> extends IFeatureSelectProps<TData> {
-    defaultValue?: IMarker<TData>;
 }
 interface IMarkerSelectApis {
     select: (id: string) => void;
@@ -315,4 +314,4 @@ interface IXcOverlaysProps {
 }
 declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
 
-export { type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };
+export { type FeatureType, type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };

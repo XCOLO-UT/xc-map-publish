@@ -17,6 +17,7 @@ export interface IWfsProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
 export interface IWfsApis {
     getWfsFeatures: () => Feature[];
     setVisible: (id: string, visible: boolean) => void;
+    refresh: () => void;
 }
 declare const _default: <TData>(props: IWfsProps<TData> & {
     ref?: Ref<IWfsApis>;

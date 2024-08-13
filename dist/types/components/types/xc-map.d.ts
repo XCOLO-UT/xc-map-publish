@@ -60,7 +60,7 @@ export interface IStatusStyle {
     style: Partial<IStyle>;
     label?: Partial<IStyle>;
 }
-type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline";
+export type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline";
 export interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];
@@ -106,10 +106,8 @@ export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     useSelectStyle?: boolean;
     isDeselectOnClickAway?: boolean;
     defaultValue?: TData[];
-    markerDefaultValue?: any;
-    vectorDefaultValues?: any[];
     multiple?: boolean;
-    isLastSelectHighlight?: boolean;
+    isLastSelectVectorHighlight?: boolean;
     getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
     onClickAway?: () => void;
@@ -124,4 +122,3 @@ export interface IOverlayChildrenProps<TData> {
     datas?: TData[];
     hidePopup: () => void;
 }
-export {};
