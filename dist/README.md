@@ -49,7 +49,7 @@ dist/types/components - 지도 compoenent
 - getVectorValue : api에서 조회한 데이터를 value안에 넣어야 할 경우에 사용
 - getVectorLabel: vector에 label 표현이 필요한경우 사용
 - zoomUrls: zoomLevel 별로 다르게 표현되어야 할경우 정의 필요
-- getCustomStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의
+- getFeatureTypeStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의
 - filter : 사용여부에 따라 feature 표시를 해주지 않을 경우 사용
 - useBbox : bbox 값 사용 여부
 
@@ -98,33 +98,6 @@ dist/types/components - 지도 compoenent
 - setMeasurtType: measureType에 대해서 세팅하는 api제공
 - MeasureType = 'LineString' | 'Polygon' | ''
 - '' 일때는 측정 종료
-### MarkerSelect.tsx
-- Marker의 클릭 및 선택 이벤트
-- TData 정의 필요
-- TData의 값은 marker feature의 property안에 value에 들어갈 예정
-- isMoveCenterOnClick : marker를 선택했을때 지도를 중앙으로 이동시킬건지에 대한 여부
-- useSelectStyle: marker가 선택됐을때, 선택된 style을 표현할건지에 대한 여부
-- isDeselectClosePopup : 팝업을 닫았을때 마커 선택을 취소하게 할건지에 대한 여부
-- getPopup : 클릭했을때 popup을 사용하고 싶다면 html을 return 해줄 props 정의 필요
-- getListPopup: 여러개가 중첩되어있는 marker를 선택했을때, 선택할 수 있는 목록을 제공하려면 해당 props를 정의
-- getCustomStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의
-- onSelectionChange: 현재 선택된 마커에 대한 정보 return
-- onClick : marker click 이벤트 정의
-- onDoubleClick : marker double click 이벤트 정의
-### VectorSelect.tsx
-- Vector의 클릭 및 선택 이벤트
--
-- isMoveCenterOnClick : vector를 선택했을때 지도를 중앙으로 이동시킬건지에 대한 여부
-- useSelectStyle: vector가 선택됐을때, 선택된 style을 표현할건지에 대한 여부
-- isDeselectClosePopup : 팝업을 닫았을때 마커 선택을 취소하게 할건지에 대한 여부
-- isLastSelectHighlight : 마지막 선택 항목에 대해서 highlight 효과를 줄것인지 여부
-- multiple: multi 선택 필요 여부
-- getPopup : 클릭했을때 popup을 사용하고 싶다면 html을 return 해줄 props 정의 필요
-- getListPopup: 여러개가 중첩되어있는 vector를 선택했을때, 선택할 수 있는 목록을 제공하려면 해당 props를 정의
-- getCustomStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의
-- onSelectionChange: 현재 선택된 vector에 대한 정보 return
-- onClick : vector click 이벤트 정의
-- onDoubleClick : vector double click 이벤트 정의
 
 ## Overlay
 ### OverlayComponent
@@ -134,6 +107,13 @@ dist/types/components - 지도 compoenent
 - additionalProps: 팝업에 정의되어 있는 추가 props
 - onHideCallback: 팝업이 닫힐때 발생시킬 callback
 - ...rest : overlay Option 추가 내용 적용
+- api
+  - 팝업 오픈 
+  - showPopup : (coordinate:ICoordinate, datas: TData[], featureName: string) => void
+  - 팝업 닫기
+  - hidePopup : () => void
+  - 팝업 위치 변경
+  - setOverlayPosition : (coordinate:ICoordinate) => void
 
 
 ```

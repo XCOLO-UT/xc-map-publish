@@ -10,7 +10,7 @@ export interface IWfsProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     getVectorLabel?: (data: IAnyObject) => string;
     getStatusInfo?: (id: string) => IStatusInfo | undefined;
     getVectorValue?: (id: string) => TData | undefined;
-    getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
+    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     filter?: (feature: Feature) => boolean;
     useBbox?: boolean;
 }

@@ -9,6 +9,7 @@ export interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, '
 export interface IOverlayComponentApis<TData> {
     showPopup: (coordinate: ICoordinate, datas: TData[], featureName: string) => void;
     hidePopup: () => void;
+    setOverlayPosition: (coordinate: ICoordinate) => void;
 }
 declare const _default: <TData>(props: IOverlayComponentProps<TData> & {
     ref?: Ref<IOverlayComponentApis<TData>>;

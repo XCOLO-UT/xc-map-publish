@@ -129,7 +129,7 @@ interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     defaultValue?: TData[];
     multiple?: boolean;
     isLastSelectVectorHighlight?: boolean;
-    getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
+    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
     onClickAway?: () => void;
     onSelectionChange?: (layerName: string, datas: TData[], featureName?: string) => void;
@@ -189,7 +189,7 @@ interface IWfsProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     getVectorLabel?: (data: IAnyObject) => string;
     getStatusInfo?: (id: string) => IStatusInfo | undefined;
     getVectorValue?: (id: string) => TData | undefined;
-    getCustomStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
+    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     filter?: (feature: Feature) => boolean;
     useBbox?: boolean;
 }
@@ -254,13 +254,6 @@ interface IMarkerDragAndDropProps extends IXcMapCommonProps {
     onDrop: (coordinates: ICoordinate) => void;
 }
 
-interface IMarkerSelectProps<TData> extends IFeatureSelectProps<TData> {
-}
-interface IMarkerSelectApis {
-    select: (id: string) => void;
-    deSelect: () => void;
-}
-
 interface IFeatureSelectApis {
     select: (id: string) => void;
     deSelect: () => void;
@@ -275,11 +268,7 @@ declare const interaction: {
     FeatureSelect: <TData>(props: IFeatureSelectProps<TData> & {
         ref?: Ref<IFeatureSelectApis>;
     }) => null;
-    MarkerSelect: <TData>(props: IMarkerSelectProps<TData> & {
-        ref?: Ref<IMarkerSelectApis>;
-    }) => null;
     MarkerDragAndDrop: ({ mapId, layerName, onMove, onDrop, }: IMarkerDragAndDropProps) => null;
-    VectorSelect: any;
     Measurement: any;
 };
 
@@ -291,6 +280,7 @@ interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'mapId'>
 interface IOverlayComponentApis<TData> {
     showPopup: (coordinate: ICoordinate, datas: TData[], featureName: string) => void;
     hidePopup: () => void;
+    setOverlayPosition: (coordinate: ICoordinate) => void;
 }
 
 declare const overlay: {
