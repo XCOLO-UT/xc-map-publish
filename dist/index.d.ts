@@ -255,7 +255,7 @@ interface IMarkerDragAndDropProps extends IXcMapCommonProps {
 }
 
 interface IFeatureSelectApis {
-    select: (id: string) => void;
+    select: (id: string, featureName?: string) => void;
     deSelect: () => void;
 }
 
