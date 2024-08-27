@@ -129,6 +129,7 @@ interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     defaultValue?: TData[];
     multiple?: boolean;
     isLastSelectVectorHighlight?: boolean;
+    getCustomVectorStyle?: (feature: Feature) => Style | Style[] | undefined;
     getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
     onClickAway?: () => void;
@@ -182,13 +183,14 @@ interface IWmsProps extends IXcMapCommonProps, ILayerCommonProps {
 }
 
 interface IWfsProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
-    featureName?: string;
+    featureName: string;
     pkField: string;
     url: string | FeatureUrlFunction;
     zoomUrls?: IZoomUrls[];
     getVectorLabel?: (data: IAnyObject) => string;
     getStatusInfo?: (id: string) => IStatusInfo | undefined;
     getVectorValue?: (id: string) => TData | undefined;
+    getCustomVectorStyle?: (feature: Feature) => Style | Style[] | undefined;
     getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     filter?: (feature: Feature) => boolean;
     useBbox?: boolean;
