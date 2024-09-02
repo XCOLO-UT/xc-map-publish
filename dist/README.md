@@ -61,6 +61,7 @@ dist/types/components - 지도 compoenent
     - getWfsFeatures: () => Feature[]
     - setVisible: (id: string, visible: boolean) => void
     - refresh : () => void
+    - setWfsStyle: (id: string, featureName: string, status: string) => void
 ### Wms.tsx
 - WMS 데이터를 표현하기 위한 component
 - 사용자 편의를 위해 만들어둔 component

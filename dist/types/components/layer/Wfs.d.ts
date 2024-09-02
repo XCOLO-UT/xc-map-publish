@@ -20,6 +20,7 @@ export interface IWfsApis {
     getWfsFeatures: () => Feature[];
     setVisible: (id: string, visible: boolean) => void;
     refresh: () => void;
+    setWfsStyle: (id: string, featureName: string, status: string) => void;
 }
 declare const _default: <TData>(props: IWfsProps<TData> & {
     ref?: Ref<IWfsApis>;
