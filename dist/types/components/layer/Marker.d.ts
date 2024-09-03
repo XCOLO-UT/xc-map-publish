@@ -1,8 +1,9 @@
 import { JSX, Ref } from "react";
-import { ILayerCommonProps, IMarker, IXcMapCommonProps } from "../types/xc-map";
+import { ILayerCommonProps, IMarker, IStatusInfo, IXcMapCommonProps } from "../types/xc-map";
 export interface IMarkerProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     markers?: IMarker<TData>[];
     getMarkerLabel?: (data: TData) => string;
+    getStatusInfo?: (id: string) => IStatusInfo | undefined;
 }
 export interface IMarkerApis<TData> {
     setMarkerPosition: (marker: IMarker<TData>) => void;

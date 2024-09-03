@@ -219,6 +219,7 @@ interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
 interface IMarkerProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     markers?: IMarker<TData>[];
     getMarkerLabel?: (data: TData) => string;
+    getStatusInfo?: (id: string) => IStatusInfo | undefined;
 }
 interface IMarkerApis<TData> {
     setMarkerPosition: (marker: IMarker<TData>) => void;
