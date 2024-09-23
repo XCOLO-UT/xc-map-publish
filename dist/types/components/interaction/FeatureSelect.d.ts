@@ -1,7 +1,7 @@
 import { Ref } from "react";
 import { IFeatureSelectProps } from "../types/xc-map";
 export interface IFeatureSelectApis {
-    select: (id: string, featureName?: string) => void;
+    select: (id: string, featureName?: string, isMoveCenter?: boolean) => void;
     deSelect: () => void;
 }
 declare const _default: <TData>(props: IFeatureSelectProps<TData> & {
