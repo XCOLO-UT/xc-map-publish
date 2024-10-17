@@ -103,6 +103,7 @@ export interface IStatusInfo {
 }
 export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     disabled?: boolean;
+    isMobile?: boolean;
     isMoveCenterOnClick?: boolean;
     useSelectStyle?: boolean;
     isDeselectOnClickAway?: boolean;
