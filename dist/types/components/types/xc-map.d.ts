@@ -13,6 +13,7 @@ export interface ILayerCommonProps {
     minZoom?: number | undefined;
     maxZoom?: number | undefined;
     zIndex?: number | undefined;
+    onLoadEnd?: () => void;
 }
 export interface IMapEvent {
     name: string;

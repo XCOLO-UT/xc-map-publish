@@ -9,8 +9,8 @@ export declare const layer: {
     Wfs: <TData>(props: import("./Wfs").IWfsProps<TData> & {
         ref?: Ref<import("./Wfs").IWfsApis>;
     }) => React.JSX;
-    Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams, zIndex, }: import("./Wms").IWmsProps) => JSX.Element;
-    Xyz: ({ mapId, url, layerName, minZoom, maxZoom, zIndex, }: import("./Xyz").IXyzProps) => JSX.Element;
+    Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams, zIndex, onLoadEnd, }: import("./Wms").IWmsProps) => JSX.Element;
+    Xyz: ({ mapId, url, layerName, minZoom, maxZoom, zIndex, onLoadEnd, }: import("./Xyz").IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: import("./Minimap").IMinimap) => null;
     PlaceLineString: any;
 };
