@@ -116,7 +116,7 @@ export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
     getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
     onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
     onClickAway?: () => void;
-    onDeSelect?: () => void;
+    onDeSelect?: (id?: string) => void;
     onSelectionChange?: (layerName: string, datas: TData[], featureName?: string) => void;
     onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
