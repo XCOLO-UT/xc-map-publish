@@ -34,6 +34,7 @@ interface ILayerCommonProps {
     minZoom?: number | undefined;
     maxZoom?: number | undefined;
     zIndex?: number | undefined;
+    onLoadStart?: () => void;
     onLoadEnd?: () => void;
 }
 interface IMapEvent {
@@ -252,8 +253,8 @@ declare const layer: {
     Wfs: <TData>(props: IWfsProps<TData> & {
         ref?: Ref<IWfsApis>;
     }) => React.JSX;
-    Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams, zIndex, onLoadEnd, }: IWmsProps) => JSX.Element;
-    Xyz: ({ mapId, url, layerName, minZoom, maxZoom, zIndex, onLoadEnd, }: IXyzProps) => JSX.Element;
+    Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
+    Xyz: ({ mapId, url, layerName, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IXyzProps) => JSX.Element;
     Minimap: ({ mapId, position, getLayers, ...rest }: IMinimap) => null;
     PlaceLineString: any;
 };
