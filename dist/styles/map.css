@@ -101,3 +101,6 @@
     font-weight: bold;
 }
 /*거리,면적재기*/
+body {
+    touch-action: manipulation; /* 터치 동작 최적화 */
+}
