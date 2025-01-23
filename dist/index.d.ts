@@ -324,4 +324,12 @@ interface IXcOverlaysProps {
 }
 declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
 
-export { type FeatureType, type IAnimationParams, type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };
+/**
+ * HEX 또는 RGB 색상을 받아 opacity를 적용한 RGBA 문자열로 변환합니다.
+ * @param color - HEX (#RRGGBB 또는 #RGB) 또는 RGB 문자열 (e.g., 'rgb(67,135,255)')
+ * @param opacity - 0부터 1 사이의 투명도 값
+ * @returns RGBA 문자열
+ */
+declare const applyOpacityToColor: (color: string, opacity: number) => string;
+
+export { type FeatureType, type IAnimationParams, type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, useVworldUrl };

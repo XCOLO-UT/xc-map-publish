@@ -7,3 +7,5 @@ export * from './interaction';
 export * from './overlays';
 export * from './types/xc-map';
 export { XcLayers, XcInteractions, XcOverlays } from './groups';
+import { applyOpacityToColor } from "./utils/color-util.ts";
+export { applyOpacityToColor };
