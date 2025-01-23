@@ -38,6 +38,7 @@ export interface IMarker<TData> extends IFeature<TData> {
     heading?: number;
     isScaleUp?: boolean;
     animationName?: string;
+    animationData?: Partial<IAnimationParams>;
 }
 export interface IVector<TData> extends IFeature<TData> {
 }
@@ -81,8 +82,17 @@ export interface IAnimationProperty {
     style: Style;
     param: IAnyObject;
 }
+export interface IAnimationParams {
+    radius: number;
+    opacity: number;
+    speed: number;
+    scale: number;
+    color: string;
+    strokeWidth: number;
+    [key: string]: any;
+}
 export interface IAnimationStyle {
-    [key: string]: (data?: IAnyObject) => IAnimationProperty;
+    [key: string]: (data?: Partial<IAnimationParams>) => IAnimationProperty;
 }
 export interface IXcMapOption {
     featureStyle: IFeatureStyle;

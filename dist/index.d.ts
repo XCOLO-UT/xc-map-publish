@@ -59,6 +59,7 @@ interface IMarker<TData> extends IFeature<TData> {
     heading?: number;
     isScaleUp?: boolean;
     animationName?: string;
+    animationData?: Partial<IAnimationParams>;
 }
 interface IVector<TData> extends IFeature<TData> {
 }
@@ -102,8 +103,17 @@ interface IAnimationProperty {
     style: Style;
     param: IAnyObject;
 }
+interface IAnimationParams {
+    radius: number;
+    opacity: number;
+    speed: number;
+    scale: number;
+    color: string;
+    strokeWidth: number;
+    [key: string]: any;
+}
 interface IAnimationStyle {
-    [key: string]: (data?: IAnyObject) => IAnimationProperty;
+    [key: string]: (data?: Partial<IAnimationParams>) => IAnimationProperty;
 }
 interface IXcMapOption {
     featureStyle: IFeatureStyle;
@@ -314,4 +324,4 @@ interface IXcOverlaysProps {
 }
 declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
 
-export { type FeatureType, type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };
+export { type FeatureType, type IAnimationParams, type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, interaction, layer, overlay, source, useVworldUrl };

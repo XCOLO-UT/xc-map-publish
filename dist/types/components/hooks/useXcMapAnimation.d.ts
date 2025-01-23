@@ -1,5 +1,6 @@
-import { IAnimationProperty, IAnyObject } from "../types/xc-map";
+import { IAnimationParams, IAnimationProperty } from "../types/xc-map";
 declare const useXcMapAnimation: () => {
-    getCircleAnimationProperty: (data?: IAnyObject) => IAnimationProperty;
+    getRepeatCircleAnimationProperty: (data?: Partial<IAnimationParams>) => IAnimationProperty;
+    getCircleAnimationProperty: (data?: Partial<IAnimationParams>) => IAnimationProperty;
 };
 export default useXcMapAnimation;
