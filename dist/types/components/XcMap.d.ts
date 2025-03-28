@@ -10,6 +10,8 @@ export interface IXcMapProps {
     xcMapOption: IXcMapOption;
     events?: IMapEvent[];
     getZoomLevel?: (level: number | undefined) => void;
+    disablePan?: boolean;
+    disableZoom?: boolean;
 }
 export interface IXcMapApis {
     setZoomLevel: (level: number) => void;
