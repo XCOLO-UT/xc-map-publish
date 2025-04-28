@@ -134,24 +134,6 @@ interface IStatusInfo {
     getId: () => string;
     getStatusInfo: () => string;
 }
-interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
-    disabled?: boolean;
-    isMobile?: boolean;
-    isMoveCenterOnClick?: boolean;
-    useSelectStyle?: boolean;
-    isDeselectOnClickAway?: boolean;
-    defaultValue?: TData[];
-    multiple?: boolean;
-    isLastSelectVectorHighlight?: boolean;
-    getStatusInfo?: (id: string, featureName: string) => IStatusInfo | undefined;
-    getCustomVectorStyle?: (feature: Feature) => Style | Style[] | undefined;
-    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
-    onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
-    onClickAway?: () => void;
-    onDeSelect?: (id?: string) => void;
-    onSelectionChange?: (layerName: string, datas: TData[], featureName?: string) => void;
-    onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
-}
 interface IAnyObject {
     [key: string]: any;
 }
@@ -183,7 +165,7 @@ declare const source: {
 };
 
 type MinimapPositionType = 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom' | 'gone';
-interface IMinimap extends Options$3, Pick<IXcMapCommonProps, 'mapId'> {
+interface IMinimapProps extends Options$3, Pick<IXcMapCommonProps, 'mapId'> {
     position: MinimapPositionType;
     getLayers: () => BaseLayer[];
 }
@@ -246,7 +228,6 @@ interface IVectorProps extends Options$4<any>, IXcMapCommonProps {
 }
 
 interface ITileProps extends Options$5<any>, IXcMapCommonProps {
-    minimap?: string;
 }
 
 interface ICommonProps extends IXcMapCommonProps, ILayerCommonProps {
@@ -254,7 +235,7 @@ interface ICommonProps extends IXcMapCommonProps, ILayerCommonProps {
 
 declare const layer: {
     Common: ({ mapId, layerName, visible }: ICommonProps) => null;
-    Tile: ({ mapId, layerName, layerTag, minimap, source, minZoom, maxZoom, ...rest }: ITileProps) => null;
+    Tile: ({ mapId, layerName, layerTag, source, minZoom, maxZoom, ...rest }: ITileProps) => null;
     Vector: ({ mapId, layerName, layerTag, source, pkField, featureName, minZoom, maxZoom, ...rest }: IVectorProps) => null;
     Marker: <TData>(props: IMarkerProps<TData> & {
         ref?: Ref<IMarkerApis<TData>>;
@@ -263,9 +244,9 @@ declare const layer: {
     Wfs: <TData>(props: IWfsProps<TData> & {
         ref?: Ref<IWfsApis>;
     }) => React.JSX;
-    Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
+    Wms: ({ mapId, layerName, layerTag, visible, url, params, zoomParams, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
     Xyz: ({ mapId, url, layerName, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IXyzProps) => JSX.Element;
-    Minimap: ({ mapId, position, getLayers, ...rest }: IMinimap) => null;
+    Minimap: ({ mapId, position, getLayers, ...rest }: IMinimapProps) => null;
     PlaceLineString: any;
 };
 
@@ -274,17 +255,35 @@ interface IMarkerDragAndDropProps extends IXcMapCommonProps {
     onDrop: (coordinates: ICoordinate) => void;
 }
 
+interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
+    disabled?: boolean;
+    isMobile?: boolean;
+    isMoveCenterOnClick?: boolean;
+    useSelectStyle?: boolean;
+    isDeselectOnClickAway?: boolean;
+    defaultValue?: TData[];
+    multiple?: boolean;
+    isLastSelectVectorHighlight?: boolean;
+    getStatusInfo?: (id: string, featureName: string) => IStatusInfo | undefined;
+    getCustomVectorStyle?: (feature: Feature) => Style | Style[] | undefined;
+    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
+    onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
+    onClickAway?: () => void;
+    onDeSelect?: (id?: string) => void;
+    onSelectionChange?: (layerName: string, datas: TData[], featureName?: string) => void;
+    onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
+}
 interface IFeatureSelectApis {
     select: (id: string, featureName?: string, isMoveCenter?: boolean) => void;
     deSelect: (id?: string) => void;
 }
 
-interface IFeatureTooltip<TData> extends IXcMapCommonProps {
+interface IFeatureTooltipProps<TData> extends IXcMapCommonProps {
     getTooltip: (values: TData[]) => string;
 }
 
 declare const interaction: {
-    FeatureTooltip: <TData>(props: IFeatureTooltip<TData>) => null;
+    FeatureTooltip: <TData>(props: IFeatureTooltipProps<TData>) => null;
     FeatureSelect: <TData>(props: IFeatureSelectProps<TData> & {
         ref?: Ref<IFeatureSelectApis>;
     }) => null;
@@ -332,4 +331,5 @@ declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
  */
 declare const applyOpacityToColor: (color: string, opacity: number) => string;
 
-export { type FeatureType, type IAnimationParams, type IAnimationProperty, type IAnimationStyle, type IAnyObject, type ICoordinate, type IFeature, type IFeatureSelectProps, type IFeatureStyle, type IFeatureTypeStyle, type IInfoStyle, type ILayerCommonProps, type IMapEvent, type IMarker, type IOverlayChildrenProps, type IStatusInfo, type IStatusStyle, type IStyle, type IStyleOption, type IVector, type IWmsParam, type IXcMapCommonProps, type IXcMapOption, type IZoomUrls, XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, useVworldUrl };
+export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, useVworldUrl };
+export type { FeatureType, IAnimationParams, IAnimationProperty, IAnimationStyle, IAnyObject, ICoordinate, IFeature, IFeatureStyle, IFeatureTypeStyle, IInfoStyle, ILayerCommonProps, IMapEvent, IMarker, IOverlayChildrenProps, IStatusInfo, IStatusStyle, IStyle, IStyleOption, IVector, IWmsParam, IXcMapCommonProps, IXcMapOption, IZoomUrls };

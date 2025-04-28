@@ -1,7 +1,7 @@
 import { Color } from "ol/color";
 import { ColorLike } from "ol/colorlike";
 import { ViewOptions } from "ol/View";
-import { Feature, MapBrowserEvent } from "ol";
+import { MapBrowserEvent } from "ol";
 import { Style } from "ol/style";
 export interface IXcMapCommonProps {
     mapId: string;
@@ -112,24 +112,6 @@ export interface IZoomUrls {
 export interface IStatusInfo {
     getId: () => string;
     getStatusInfo: () => string;
-}
-export interface IFeatureSelectProps<TData> extends IXcMapCommonProps {
-    disabled?: boolean;
-    isMobile?: boolean;
-    isMoveCenterOnClick?: boolean;
-    useSelectStyle?: boolean;
-    isDeselectOnClickAway?: boolean;
-    defaultValue?: TData[];
-    multiple?: boolean;
-    isLastSelectVectorHighlight?: boolean;
-    getStatusInfo?: (id: string, featureName: string) => IStatusInfo | undefined;
-    getCustomVectorStyle?: (feature: Feature) => Style | Style[] | undefined;
-    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
-    onClick?: (featureName: string, datas: TData[], coordinate: ICoordinate) => void;
-    onClickAway?: () => void;
-    onDeSelect?: (id?: string) => void;
-    onSelectionChange?: (layerName: string, datas: TData[], featureName?: string) => void;
-    onDoubleClick?: (layerName: string, datas: TData[], coordinate?: ICoordinate) => void;
 }
 export interface IAnyObject {
     [key: string]: any;

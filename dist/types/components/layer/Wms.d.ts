@@ -4,5 +4,5 @@ export interface IWmsProps extends IXcMapCommonProps, ILayerCommonProps {
     params: IWmsParam;
     zoomParams: IWmsParam[];
 }
-declare const Wms: ({ mapId, layerName, layerTag, visible, url, params, minZoom, maxZoom, zoomParams, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
+declare const Wms: ({ mapId, layerName, layerTag, visible, url, params, zoomParams, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
 export default Wms;
