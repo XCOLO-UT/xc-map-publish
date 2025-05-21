@@ -1,7 +1,7 @@
 import React, { Ref } from 'react';
 import { ICoordinate, IOverlayChildrenProps, IXcMapCommonProps } from "../types/xc-map.ts";
 import { Options } from "ol/Overlay";
-export interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'mapId'>, Options {
+export interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'xcMap'>, Options {
     overlayId: string;
     children?: (props: IOverlayChildrenProps<TData>) => React.ReactNode;
     onHideCallback?: () => void;
@@ -13,5 +13,5 @@ export interface IOverlayComponentApis<TData> {
 }
 declare const _default: <TData>(props: IOverlayComponentProps<TData> & {
     ref?: Ref<IOverlayComponentApis<TData>>;
-}) => React.JSX;
+}) => React.ReactNode;
 export default _default;

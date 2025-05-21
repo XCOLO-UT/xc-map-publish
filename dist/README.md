@@ -6,43 +6,39 @@ dist/styles - 지도에서 사용되는 map.css 정의, 필요시 같은 class �
 dist/types/components - 지도 compoenent
 ```
 
-## XcMap.tsx
-* Map 객체를 소유하고 있는 component
-* 지도 요소들은 하위 children 으로 포함시킨다.
-* xcMapOption: xcMap에서 사용될 항목들에 대해서 정의 필 
+## `XcMap.tsx`
+* 지도의 루트 컴포넌트로, OpenLayers Map 객체를 관리합니다. 모든 지도 요소들은 이 컴포넌트의 하위 children으로 포함된다.
+* xcMapOption: 지도 설정 옵션
 * events: 지도 자체에 이벤트를 적용하고 싶을경우 사용
 * apis
-  * setZoomLevel : (level : number) => void 
-  * setZoomLevelType : (type: ZoomLevelType) => void
-    * ZoomLevelType = "plus"|"minus"|"reset"
-    * zoom level 조정 api
-  * animateMove : (coordinate: ICoordinate, duration?: number) => void
-    * coordinate : 좌표
-    * duration: 움직이는 속도, default: 200
+  * getZoomLevel : (level: number | undefined) => void
+* disablePan: 패닝 제어 비활성화 여부
+* disableZoom: 줌 제어 비활성화 여부
+
 ## layer
 * Layer 요소들의 집합
-### Common.tsx
+### `Common.tsx`
 - layer의 공통적으로 적용되어야 하는 항목들에 대해서 일괄 제어를 위한 component
-### Marker.tsx
+### `Marker.tsx`
 - Marker 표현을 위한 component
 - 사용자 편의를 위해 만들어둔 component
 - 특정 marker의 위치를 변경 시키거나 style 변경시키기 위한 api 제공
-### Minimap.tsx
+### `Minimap.tsx`
 - 미니맵(overviewmap) 표현을 위한 component
 - position : 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom' | 'gone'
 - gone 일경우 미니맵은 표현되지 않는다.
 - getLayers : 미니맵 내부에 표현하고 싶은 layer들을 전부 넣어주면 됨
-### PlaceMarker.tsx
+### `PlaceMarker.tsx`
 - Marker를 디폴트로 지도 중앙에 위치시킨뒤, 드래그앤드랍으로 이동시키는 component
 - 사용자 편의를 위해 만들어둔 component
 - 다른 component들과 달리 vectorLayer와 MarkerDragAndDrop interacion이 component 내부에 위치
 - onMoveMarker : 마커가 움직일때 event 발생
 - onPlaceMarker : 마커를 위치 시켰을 때 event 발생
-### Tile.tsx
+### `Tile.tsx`
 - openLayers의 TileLayer를 xcMap 객체에 addLayer 시키는 component
-### Vector.tsx
+### `Vector.tsx`
 - openLayers의 VectorLayer를 xcMap 객체에 addLayer 시키는 component
-### Wfs.tsx
+### `Wfs.tsx`
 - WFS 데이터를 표현하기 위한 component
 - 사용자 편의를 위해 만들어둔 component
 - getStatusInfo : 링크의 상태값을 리턴하여 소통정보 또는 통합지표 표현
@@ -62,13 +58,13 @@ dist/types/components - 지도 compoenent
     - setVisible: (id: string, visible: boolean) => void
     - refresh : () => void
     - setWfsStyle: (id: string, featureName: string, status: string) => void
-### Wms.tsx
+### `Wms.tsx`
 - WMS 데이터를 표현하기 위한 component
 - 사용자 편의를 위해 만들어둔 component
 - zoomParams : zoomLevel 별로 다르게 표현되어야 할경우 정의 필요
-### Xyz.tsx
+### `Xyz.tsx`
 - 배경지도 Tile을 표현하기 위한 component
-### PlaceLineString.tsx
+### `PlaceLineString.tsx`
 - LineString을 그려서 등록하는 layer component
 - active: 그리기 가능 여부
 - onDrawEnd: 그리기 완료시 콜백
@@ -77,23 +73,23 @@ dist/types/components - 지도 compoenent
 - defaultValues : ICoordinate[] 형태의 defaultValues
 ## source
 * Source 요소들의 집합
-### TileWms.ts
+### `TileWms.ts`
 - TileWms Source return
-### VectorFeature.ts
+### `VectorFeature.ts`
 - Feature[]로 구성된 VectorSource를 return
-### VectorWfs.ts
+### `VectorWfs.ts`
 - url로 구성된 VectorSource를 return
-### Xyz.ts
+### `Xyz.ts`
 - XYZ Source return
 ## interaction
 * 지도 이벤트 요소들의 집합
-### FeatureTooltip.tsx
+### `FeatureTooltip.tsx`
 - Feature에 tooltip을 표현하고 싶을때 사용
 - getTooltip: 툴팁 내부에 표현할 정보를 html 형태로 return 시킬 props 정의 필요 
-### MarkerDragAndDrop.tsx
+### `MarkerDragAndDrop.tsx`
 - layerName에 들어있는 marker의 drag and drop 이벤트 적용
 - PlaceMarker 용으로 만들어졌기 때문에, 가장 첫번째 마커뿐이 움직이지 않음
-### Measurement.tsx
+### `Measurement.tsx`
 - 거리, 면적 재기 기능 제공
 - onDrawEnd: 파라미터에 대한 정의는 되어있지 않으나 측정 완료시 callback은 호출됨
 - setMeasurtType: measureType에 대해서 세팅하는 api제공
@@ -101,7 +97,7 @@ dist/types/components - 지도 compoenent
 - '' 일때는 측정 종료
 
 ## Overlay
-### OverlayComponent
+### `OverlayComponent`
 - mapId: 지도 ID
 - layerName: overlay가 표현되어야 하는 layer의 layerName
 - PopupContent: Overlay 내부에 표현할 내용 React Component
@@ -116,8 +112,72 @@ dist/types/components - 지도 compoenent
   - 팝업 위치 변경
   - setOverlayPosition : (coordinate:ICoordinate) => void
 
+## 유틸리티 훅
+
+### useXcMapOption.ts
+지도 옵션을 관리하는 훅입니다.
+
+### useXcMapFunctions.ts
+지도 기능(줌, 이동 등)을 제공하는 훅입니다.
+
+### useFeature.ts
+지도 피처 관련 기능을 제공하는 훅입니다.
+
+### useXcMapPopup.ts
+팝업 기능을 제공하는 훅입니다.
+
+### useXcMapStyle.ts
+스타일 관련 기능을 제공하는 훅입니다.
+
+### useXcMapAnimation.ts
+애니메이션 관련 기능을 제공하는 훅입니다.
+
 
 ```
-xcMap이하 모든 component는 xcMap에서 사용된 id를 props로 갖는다.
+xcMap이하 모든 component는 useXcMap에서 생성된 Map객체인 xcMap props로 갖는다.
 layer와 interaction의 상호작용은 layrName 또는 layrTag로 연동된다.
 ```
+
+
+## 사용 예시
+
+```jsx
+import { useXcMap, useVworldUrl, XcMap, Xyz} from 'xc-map';
+
+function App() {
+  const {xcMapOption} = useXcMapOption()
+  
+  // 지도 객체 생성
+  const xcMap = useXcMap(xcMapOption);
+
+    const {vworldUrl, setTileType, minimapVworldUrl} = useVworldUrl(
+        'Api_Key',
+        'midnight',
+        'Satellite'
+    )
+
+  return (
+    <XcMap 
+      xcMap={xcMap}
+      xcMapOption={xcMapOption}
+      getZoomLevel={level => console.log('Current zoom level:', level)}
+    >
+      <XcLayers>
+        <layer.Xyz
+            url={vworldUrl}
+            xcMap={xcMap} // 각 컴포넌트에도 xcMap 전달
+            layerName={'vworldLayer'}
+            onLoadStart={() => {
+                console.log("Xyz load start")
+            }}
+            onLoadEnd={() => {
+                console.log("Xyz load end")
+            }}
+        >
+        </layer.Xyz>
+      </XcLayers>
+      ...
+    </XcMap>
+  );
+}
+``` 

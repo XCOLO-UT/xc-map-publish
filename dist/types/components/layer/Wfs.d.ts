@@ -24,5 +24,5 @@ export interface IWfsApis {
 }
 declare const _default: <TData>(props: IWfsProps<TData> & {
     ref?: Ref<IWfsApis>;
-}) => React.JSX;
+}) => React.ReactNode;
 export default _default;

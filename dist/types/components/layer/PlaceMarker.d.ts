@@ -1,5 +1,5 @@
 import { ICoordinate, IXcMapCommonProps } from "../types/xc-map";
-export interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
+export interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'xcMap'> {
     featureName: string;
     status?: string;
     coordinate?: ICoordinate;
@@ -10,5 +10,5 @@ export interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
     onMoveMarker?: (coordinate: ICoordinate) => void;
     onPlaceMarker?: (coordinate: ICoordinate) => void;
 }
-declare const PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
+declare const PlaceMarker: ({ xcMap, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
 export default PlaceMarker;

@@ -1,5 +1,6 @@
+import React from "react";
 import { ICoordinate, IXcMapCommonProps } from "../types/xc-map.ts";
-export interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'mapId'> {
+export interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'xcMap'> {
     active: boolean;
     onDrawEnd?: (coordinates: ICoordinate[]) => void;
     onDrawing?: (coordinates: ICoordinate[]) => void;
@@ -9,5 +10,7 @@ export interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'mapId'> 
 export interface IPlaceLineStringApis {
     clear: () => void;
 }
-declare const PlaceLineString: any;
+declare const PlaceLineString: (props: IPlaceLineStringProps & {
+    ref?: React.Ref<IPlaceLineStringApis> | undefined;
+}) => React.ReactNode;
 export default PlaceLineString;

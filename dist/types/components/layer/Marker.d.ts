@@ -1,4 +1,4 @@
-import { JSX, Ref } from "react";
+import { Ref } from "react";
 import { ILayerCommonProps, IMarker, IStatusInfo, IXcMapCommonProps } from "../types/xc-map";
 export interface IMarkerProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
     markers?: IMarker<TData>[];

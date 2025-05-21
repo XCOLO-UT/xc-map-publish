@@ -1,8 +1,10 @@
 export declare const interaction: {
     FeatureTooltip: <TData>(props: import("./FeatureTooltip").IFeatureTooltipProps<TData>) => null;
     FeatureSelect: <TData>(props: import("./FeatureSelect").IFeatureSelectProps<TData> & {
-        ref?: Ref<import("./FeatureSelect").IFeatureSelectApis>;
+        ref?: import("react").Ref<import("./FeatureSelect").IFeatureSelectApis>;
     }) => null;
-    MarkerDragAndDrop: ({ mapId, layerName, onMove, onDrop, }: import("./MarkerDragAndDrop").IMarkerDragAndDropProps) => null;
-    Measurement: any;
+    MarkerDragAndDrop: ({ xcMap, layerName, onMove, onDrop, }: import("./MarkerDragAndDrop").IMarkerDragAndDropProps) => null;
+    Measurement: (props: import("./Measurement").IMeasurementProps & {
+        ref?: import("react").Ref<import("./Measurement").IMeasurementApis> | undefined;
+    }) => import("react").ReactNode;
 };

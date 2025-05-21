@@ -4,5 +4,5 @@ export interface IVectorProps extends Options<any>, IXcMapCommonProps {
     featureName?: string;
     pkField?: string;
 }
-declare const Vector: ({ mapId, layerName, layerTag, source, pkField, featureName, minZoom, maxZoom, ...rest }: IVectorProps) => null;
+declare const Vector: ({ xcMap, layerName, layerTag, source, pkField, featureName, minZoom, maxZoom, ...rest }: IVectorProps) => null;
 export default Vector;

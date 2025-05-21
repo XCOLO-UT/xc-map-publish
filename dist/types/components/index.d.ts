@@ -1,5 +1,9 @@
 import useVworldUrl from "./hooks/useVworldUrl.ts";
+import useXcMap from "./hooks/useXcMap.ts";
+import useXcMapFunctions from "./hooks/useXcMapFunctions.ts";
 export { useVworldUrl };
+export { useXcMap };
+export { useXcMapFunctions };
 export { default as XcMap } from './XcMap';
 export * from './source';
 export * from './layer';

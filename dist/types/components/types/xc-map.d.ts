@@ -3,8 +3,9 @@ import { ColorLike } from "ol/colorlike";
 import { ViewOptions } from "ol/View";
 import { MapBrowserEvent } from "ol";
 import { Style } from "ol/style";
+import useXcMap from "../hooks/useXcMap";
 export interface IXcMapCommonProps {
-    mapId: string;
+    xcMap: ReturnType<typeof useXcMap>;
     layerName: string;
     layerTag?: string;
 }

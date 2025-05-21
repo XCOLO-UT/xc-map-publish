@@ -1,31 +1,33 @@
+import * as ol from 'ol';
+import { MapBrowserEvent, Map, Feature } from 'ol';
+import { Color } from 'ol/color';
+import { ColorLike } from 'ol/colorlike';
+import { ViewOptions } from 'ol/View';
+import { Style } from 'ol/style';
+import * as react from 'react';
+import react__default, { ReactNode } from 'react';
+import { Coordinate } from 'ol/coordinate';
 import { Options } from 'ol/source/TileWMS';
 import { Options as Options$1 } from 'ol/source/Vector';
-import * as ol from 'ol';
-import { MapBrowserEvent, Feature } from 'ol';
 import * as ol_geom from 'ol/geom';
 import * as ol_source from 'ol/source';
 import { Options as Options$2 } from 'ol/source/XYZ';
 import { Options as Options$3 } from 'ol/control/OverviewMap';
 import BaseLayer from 'ol/layer/Base';
-import { Color } from 'ol/color';
-import { ColorLike } from 'ol/colorlike';
-import { ViewOptions } from 'ol/View';
-import { Style } from 'ol/style';
 import { FeatureUrlFunction } from 'ol/featureloader';
 import { Options as Options$4 } from 'ol/layer/BaseVector';
 import { Options as Options$5 } from 'ol/layer/BaseTile';
-import React$1, { ReactNode } from 'react';
 import { Options as Options$6 } from 'ol/Overlay';
 
 type TileType = "Base" | "white" | "midnight" | "Hybrid" | "Satellite";
 declare const useVworldUrl: (apiKey: string, defaultTileType: string, minimapTileType: string) => {
     minimapVworldUrl: string;
-    vworldUrl: any;
+    vworldUrl: string;
     setTileType: (tileType: TileType) => void;
 };
 
 interface IXcMapCommonProps {
-    mapId: string;
+    xcMap: ReturnType<typeof useXcMap>;
     layerName: string;
     layerTag?: string;
 }
@@ -143,7 +145,54 @@ interface IOverlayChildrenProps<TData> {
     hidePopup: () => void;
 }
 
-declare const XcMap: any;
+interface ISelectedFeatures {
+    [layerName: string]: {
+        features: Feature[];
+        lastSelected?: Feature;
+        featureIds: string[];
+    };
+}
+interface IXcMapState {
+    selectedFeatures: react.RefObject<ISelectedFeatures>;
+    [key: string]: any;
+}
+interface IXcMapMeta {
+    [key: string]: any;
+}
+declare const useXcMap: (xcMapOption?: IXcMapOption, existingMap?: Map) => {
+    olMap: Map;
+    state: IXcMapState;
+    meta: IXcMapMeta | null;
+    selectFeature: (layerName: string, layerTag: string | undefined, feature: Feature) => void;
+    deselectFeature: (layerName: string, layerTag: string | undefined, featureId?: string) => void;
+    setMetaState: (key: string, value: any) => void;
+    getMetaState: (key: string) => any;
+    getState: () => IXcMapState;
+    setMapState: (key: string, value: any) => void;
+};
+
+/**
+ * xcMap 객체에 대한 유틸리티 함수들을 제공하는 훅
+ * 기존 Map 객체가 있을 때 해당 객체의 함수들만 사용하고 싶을 경우에 사용
+ */
+type ZoomLevelType = "plus" | "minus" | "reset";
+declare const useXcMapFunctions: (xcMap: ReturnType<typeof useXcMap>) => {
+    animateMove: (coordinate: ICoordinate | Coordinate, duration?: number) => void;
+    getCenter: () => ICoordinate | undefined;
+    setZoomLevel: (level: number) => void;
+    setZoomLevelType: (type: ZoomLevelType) => void;
+};
+
+interface IXcMapProps {
+    xcMap: ReturnType<typeof useXcMap>;
+    children: ReactNode;
+    xcMapOption: IXcMapOption;
+    events?: IMapEvent[];
+    getZoomLevel?: (level: number | undefined) => void;
+    disablePan?: boolean;
+    disableZoom?: boolean;
+}
+declare const XcMap: ({ xcMap, children, xcMapOption, events, getZoomLevel, disablePan, disableZoom, }: IXcMapProps) => JSX.Element;
 
 interface ITileWmsProps extends Options {
 }
@@ -164,8 +213,19 @@ declare const source: {
     TileWms: ({ url, params, serverType, projection, transition }: ITileWmsProps) => ol_source.TileWMS;
 };
 
+interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'xcMap'> {
+    active: boolean;
+    onDrawEnd?: (coordinates: ICoordinate[]) => void;
+    onDrawing?: (coordinates: ICoordinate[]) => void;
+    onCheckPoint?: (coordinates: ICoordinate[]) => void;
+    defaultValues?: ICoordinate[] | undefined;
+}
+interface IPlaceLineStringApis {
+    clear: () => void;
+}
+
 type MinimapPositionType = 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom' | 'gone';
-interface IMinimapProps extends Options$3, Pick<IXcMapCommonProps, 'mapId'> {
+interface IMinimapProps extends Options$3, Pick<IXcMapCommonProps, 'xcMap'> {
     position: MinimapPositionType;
     getLayers: () => BaseLayer[];
 }
@@ -200,7 +260,7 @@ interface IWfsApis {
     setWfsStyle: (id: string, featureName: string, status: string) => void;
 }
 
-interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'mapId'> {
+interface IPlaceMarkerProps extends Pick<IXcMapCommonProps, 'xcMap'> {
     featureName: string;
     status?: string;
     coordinate?: ICoordinate;
@@ -234,21 +294,31 @@ interface ICommonProps extends IXcMapCommonProps, ILayerCommonProps {
 }
 
 declare const layer: {
-    Common: ({ mapId, layerName, visible }: ICommonProps) => null;
-    Tile: ({ mapId, layerName, layerTag, source, minZoom, maxZoom, ...rest }: ITileProps) => null;
-    Vector: ({ mapId, layerName, layerTag, source, pkField, featureName, minZoom, maxZoom, ...rest }: IVectorProps) => null;
+    Common: ({ xcMap, layerName, visible }: ICommonProps) => null;
+    Tile: ({ xcMap, layerName, layerTag, source, minZoom, maxZoom, ...rest }: ITileProps) => null;
+    Vector: ({ xcMap, layerName, layerTag, source, pkField, featureName, minZoom, maxZoom, ...rest }: IVectorProps) => null;
     Marker: <TData>(props: IMarkerProps<TData> & {
-        ref?: Ref<IMarkerApis<TData>>;
+        ref?: react.Ref<IMarkerApis<TData>>;
     }) => JSX.Element;
-    PlaceMarker: ({ mapId, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
+    PlaceMarker: ({ xcMap, featureName, status, coordinate, isMoveCenter, heading, minZoom, maxZoom, onMoveMarker, onPlaceMarker, }: IPlaceMarkerProps) => JSX.Element;
     Wfs: <TData>(props: IWfsProps<TData> & {
-        ref?: Ref<IWfsApis>;
-    }) => React.JSX;
-    Wms: ({ mapId, layerName, layerTag, visible, url, params, zoomParams, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
-    Xyz: ({ mapId, url, layerName, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IXyzProps) => JSX.Element;
-    Minimap: ({ mapId, position, getLayers, ...rest }: IMinimapProps) => null;
-    PlaceLineString: any;
+        ref?: react.Ref<IWfsApis>;
+    }) => react.ReactNode;
+    Wms: ({ xcMap, layerName, layerTag, visible, url, params, zoomParams, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IWmsProps) => JSX.Element;
+    Xyz: ({ xcMap, url, layerName, minZoom, maxZoom, zIndex, onLoadStart, onLoadEnd, }: IXyzProps) => JSX.Element;
+    Minimap: ({ xcMap, position, getLayers, ...rest }: IMinimapProps) => null;
+    PlaceLineString: (props: IPlaceLineStringProps & {
+        ref?: react.Ref<IPlaceLineStringApis> | undefined;
+    }) => react.ReactNode;
 };
+
+type MeasureType = 'LineString' | 'Polygon' | '';
+interface IMeasurementProps extends IXcMapCommonProps {
+    onDrawEnd: () => void;
+}
+interface IMeasurementApis {
+    setMeasureType: (measureType: MeasureType) => void;
+}
 
 interface IMarkerDragAndDropProps extends IXcMapCommonProps {
     onMove: (coordinates: ICoordinate) => void;
@@ -285,15 +355,17 @@ interface IFeatureTooltipProps<TData> extends IXcMapCommonProps {
 declare const interaction: {
     FeatureTooltip: <TData>(props: IFeatureTooltipProps<TData>) => null;
     FeatureSelect: <TData>(props: IFeatureSelectProps<TData> & {
-        ref?: Ref<IFeatureSelectApis>;
+        ref?: react.Ref<IFeatureSelectApis>;
     }) => null;
-    MarkerDragAndDrop: ({ mapId, layerName, onMove, onDrop, }: IMarkerDragAndDropProps) => null;
-    Measurement: any;
+    MarkerDragAndDrop: ({ xcMap, layerName, onMove, onDrop, }: IMarkerDragAndDropProps) => null;
+    Measurement: (props: IMeasurementProps & {
+        ref?: react.Ref<IMeasurementApis> | undefined;
+    }) => react.ReactNode;
 };
 
-interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'mapId'>, Options$6 {
+interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'xcMap'>, Options$6 {
     overlayId: string;
-    children?: (props: IOverlayChildrenProps<TData>) => React$1.ReactNode;
+    children?: (props: IOverlayChildrenProps<TData>) => react__default.ReactNode;
     onHideCallback?: () => void;
 }
 interface IOverlayComponentApis<TData> {
@@ -304,8 +376,8 @@ interface IOverlayComponentApis<TData> {
 
 declare const overlay: {
     OverlayComponent: <TData>(props: IOverlayComponentProps<TData> & {
-        ref?: Ref<IOverlayComponentApis<TData>>;
-    }) => React.JSX;
+        ref?: react.Ref<IOverlayComponentApis<TData>>;
+    }) => react.ReactNode;
 };
 
 interface IXcLayersProps {
@@ -331,5 +403,5 @@ declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
  */
 declare const applyOpacityToColor: (color: string, opacity: number) => string;
 
-export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, useVworldUrl };
+export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, useVworldUrl, useXcMap, useXcMapFunctions };
 export type { FeatureType, IAnimationParams, IAnimationProperty, IAnimationStyle, IAnyObject, ICoordinate, IFeature, IFeatureStyle, IFeatureTypeStyle, IInfoStyle, ILayerCommonProps, IMapEvent, IMarker, IOverlayChildrenProps, IStatusInfo, IStatusStyle, IStyle, IStyleOption, IVector, IWmsParam, IXcMapCommonProps, IXcMapOption, IZoomUrls };
