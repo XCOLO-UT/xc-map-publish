@@ -321,6 +321,7 @@ interface IMeasurementApis {
 }
 
 interface IMarkerDragAndDropProps extends IXcMapCommonProps {
+    feature?: Feature | null;
     onMove: (coordinates: ICoordinate) => void;
     onDrop: (coordinates: ICoordinate) => void;
 }
@@ -357,7 +358,7 @@ declare const interaction: {
     FeatureSelect: <TData>(props: IFeatureSelectProps<TData> & {
         ref?: react.Ref<IFeatureSelectApis>;
     }) => null;
-    MarkerDragAndDrop: ({ xcMap, layerName, onMove, onDrop, }: IMarkerDragAndDropProps) => null;
+    MarkerDragAndDrop: ({ xcMap, layerName, feature, onMove, onDrop, }: IMarkerDragAndDropProps) => null;
     Measurement: (props: IMeasurementProps & {
         ref?: react.Ref<IMeasurementApis> | undefined;
     }) => react.ReactNode;

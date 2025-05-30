@@ -7,3 +7,6 @@ export declare const convertCoordinate: (coordinate: ICoordinate) => Coordinate;
 export declare const convert3857CoordinateTo4326ICoordinate: (coordinates: Coordinate) => ICoordinate;
 export declare const convert4326ICoordinateTo3857Coordinate: (coordinates: ICoordinate) => Coordinate;
 export declare const multiSetTimeout: (checkData: () => boolean, callback: () => void, times: number, interval: number) => (() => void) | undefined;
+export declare const is4326: ([x, y]: Coordinate) => boolean;
+export declare const to3857: (coords: ICoordinate | Coordinate) => Coordinate;
+export declare const to4326: (coords: ICoordinate | Coordinate) => Coordinate;
