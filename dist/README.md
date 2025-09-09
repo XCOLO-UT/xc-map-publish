@@ -90,11 +90,99 @@ dist/types/components - 지도 compoenent
 - layerName에 들어있는 marker의 drag and drop 이벤트 적용
 - PlaceMarker 용으로 만들어졌기 때문에, 가장 첫번째 마커뿐이 움직이지 않음
 ### `Measurement.tsx`
-- 거리, 면적 재기 기능 제공
-- onDrawEnd: 파라미터에 대한 정의는 되어있지 않으나 측정 완료시 callback은 호출됨
-- setMeasurtType: measureType에 대해서 세팅하는 api제공
-- MeasureType = 'LineString' | 'Polygon' | ''
-- '' 일때는 측정 종료
+- 거리, 면적, 반경 측정 기능 제공
+- 측정 타입별 스타일 커스터마이징 지원
+- 선분별 길이 표시 및 측정 결과 팝업 제공
+- 자동 layerName 생성으로 다중 컴포넌트 사용 가능
+
+#### Props
+- `isClearPreviousMeasure?: boolean` - 이전 측정 결과 자동 삭제 여부 (기본값: true)
+- `isShowSegmentLength?: boolean` - 선분별 길이 표시 여부 (기본값: true)
+- `isShowPopupUI?: boolean` - 팝업 UI 사용 여부 (기본값: true)
+- `measurementStyles?: IMeasurementStyles` - 측정 스타일 커스터마이징
+- `onDrawEnd: () => void` - 측정 완료시 콜백
+
+#### APIs
+- `setMeasureType: (measureType: MeasureType) => void` - 측정 타입 설정
+- `clearAllMeasurements: () => void` - 모든 측정 결과 삭제
+
+#### MeasureType
+- `'LineString'` - 거리 측정
+- `'Polygon'` - 면적 측정  
+- `'Circle'` - 반경 측정
+- `''` - 측정 종료
+
+#### 스타일 커스터마이징
+```typescript
+const customStyles: IMeasurementStyles = {
+  LineString: {
+    stroke: { color: '#ff0000', width: 3 },
+    drawing: { stroke: { color: 'rgba(255, 0, 0, 0.7)', width: 2 } },
+    completed: { stroke: { width: 4 } }
+  },
+  Polygon: {
+    stroke: { color: '#00ff00', width: 3 },
+    fill: { color: 'rgba(0, 255, 0, 0.25)' },
+    drawing: { 
+      stroke: { color: 'rgba(0, 255, 0, 0.8)', width: 2 },
+      fill: { color: 'rgba(0, 255, 0, 0.1)' }
+    }
+  },
+  common: {
+    segmentLabel: {
+      font: '12px Arial',
+      textColor: '#ffffff',
+      backgroundColor: 'rgba(255, 100, 0, 0.9)',
+      borderRadius: 4
+    }
+  }
+};
+```
+
+#### 사용 예시
+```jsx
+import { useRef } from 'react';
+import { interaction, IMeasurementApis, IMeasurementStyles } from 'xc-map';
+
+function App() {
+  const measurementRef = useRef<IMeasurementApis>(null);
+  
+  const customStyles: IMeasurementStyles = {
+    LineString: { stroke: { color: '#ff0000', width: 3 } },
+    Polygon: { 
+      stroke: { color: '#00ff00', width: 3 },
+      fill: { color: 'rgba(0, 255, 0, 0.25)' }
+    },
+    Circle: { 
+      stroke: { color: '#0066ff', width: 3 },
+      fill: { color: 'rgba(0, 102, 255, 0.25)' }
+    }
+  };
+
+  const startLineMeasurement = () => {
+    measurementRef.current?.setMeasureType('LineString');
+  };
+
+  const clearAll = () => {
+    measurementRef.current?.clearAllMeasurements();
+  };
+
+  return (
+    <XcMap xcMap={xcMap}>
+      <XcInteractions>
+        <interaction.Measurement
+          ref={measurementRef}
+          xcMap={xcMap}
+          measurementStyles={customStyles}
+          isShowSegmentLength={true}
+          isShowPopupUI={true}
+          onDrawEnd={() => console.log('측정 완료!')}
+        />
+      </XcInteractions>
+    </XcMap>
+  );
+}
+```
 
 ## Overlay
 ### `OverlayComponent`
