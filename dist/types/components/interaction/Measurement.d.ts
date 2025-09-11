@@ -1,5 +1,6 @@
 import { Ref } from "react";
 import useXcMap from "../hooks/useXcMap";
+import { ICoordinate } from "../types/xc-map";
 /**
  * TODO: 수정 기능 관련 이슈
  * - 수정 기능이 구현되어 있지만 완전하지 않음
@@ -36,6 +37,22 @@ export interface IMeasurementSegmentLabelStyle {
     borderColor?: string;
     borderWidth?: number;
 }
+export interface IMeasurementPopupData {
+    value: string;
+    measureType: MeasureType;
+    color: string;
+    rawValue: number;
+    coordinates: ICoordinate;
+}
+export interface IMeasurementPopupChildrenProps {
+    measurementData: IMeasurementPopupData;
+    onDelete: () => void;
+}
+export interface IPopupOrderConfig {
+    type: 'newest-top' | 'oldest-top';
+    startZIndex?: number;
+    tempPopupZIndex?: number;
+}
 export interface IMeasurementStyles {
     LineString?: IMeasurementGeometryStyle;
     Polygon?: IMeasurementGeometryStyle;
@@ -51,6 +68,8 @@ export interface IMeasurementProps {
     isShowSegmentLength?: boolean;
     isShowPopupUI?: boolean;
     measurementStyles?: IMeasurementStyles;
+    renderPopup?: (props: IMeasurementPopupChildrenProps) => React.ReactNode;
+    popupOrderConfig?: IPopupOrderConfig;
     onDrawEnd: () => void;
 }
 export interface IMeasurementApis {

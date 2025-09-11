@@ -348,6 +348,22 @@ interface IMeasurementSegmentLabelStyle {
     borderColor?: string;
     borderWidth?: number;
 }
+interface IMeasurementPopupData {
+    value: string;
+    measureType: MeasureType;
+    color: string;
+    rawValue: number;
+    coordinates: ICoordinate;
+}
+interface IMeasurementPopupChildrenProps {
+    measurementData: IMeasurementPopupData;
+    onDelete: () => void;
+}
+interface IPopupOrderConfig {
+    type: 'newest-top' | 'oldest-top';
+    startZIndex?: number;
+    tempPopupZIndex?: number;
+}
 interface IMeasurementStyles {
     LineString?: IMeasurementGeometryStyle;
     Polygon?: IMeasurementGeometryStyle;
@@ -363,6 +379,8 @@ interface IMeasurementProps {
     isShowSegmentLength?: boolean;
     isShowPopupUI?: boolean;
     measurementStyles?: IMeasurementStyles;
+    renderPopup?: (props: IMeasurementPopupChildrenProps) => React.ReactNode;
+    popupOrderConfig?: IPopupOrderConfig;
     onDrawEnd: () => void;
 }
 interface IMeasurementApis {

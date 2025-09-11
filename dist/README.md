@@ -100,6 +100,8 @@ dist/types/components - 지도 compoenent
 - `isShowSegmentLength?: boolean` - 선분별 길이 표시 여부 (기본값: true)
 - `isShowPopupUI?: boolean` - 팝업 UI 사용 여부 (기본값: true)
 - `measurementStyles?: IMeasurementStyles` - 측정 스타일 커스터마이징
+- `renderPopup?: (props: IMeasurementPopupChildrenProps) => React.ReactNode` - 커스텀 팝업 렌더 함수
+- `popupOrderConfig?: IPopupOrderConfig` - 팝업 순서 및 z-index 설정
 - `onDrawEnd: () => void` - 측정 완료시 콜백
 
 #### APIs
@@ -139,10 +141,81 @@ const customStyles: IMeasurementStyles = {
 };
 ```
 
+#### 커스텀 팝업 사용법
+```typescript
+// 커스텀 팝업 데이터 인터페이스
+interface IMeasurementPopupData {
+  value: string;           // "1.2 km", "0.5 km²" - 완성된 표시값
+  measureType: MeasureType; // 'LineString' | 'Polygon' | 'Circle' | ''
+  color: string;           // 측정 타입별 색상 "#ff0000"
+  rawValue: number;        // 미터 단위 원시값 (계산 필요시)
+  coordinates: ICoordinate; // 팝업 위치 (고급 기능 필요시)
+}
+
+// 커스텀 팝업 렌더 함수
+const renderCustomPopup = ({ measurementData, onDelete }: IMeasurementPopupChildrenProps) => {
+  const { value, measureType, color, rawValue, coordinates } = measurementData;
+  
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      border: `2px solid ${color}`,
+      borderRadius: '12px',
+      padding: '16px',
+      color: 'white'
+    }}>
+      <h3 style={{ color }}>
+        {measureType === 'LineString' ? '거리 측정' : 
+         measureType === 'Polygon' ? '면적 측정' : '반지름 측정'}
+      </h3>
+      <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{value}</div>
+      <div style={{ fontSize: '12px' }}>
+        원시값: {rawValue.toFixed(1)}m<br/>
+        위치: {coordinates.longitude.toFixed(6)}, {coordinates.latitude.toFixed(6)}
+      </div>
+      <button onClick={onDelete} style={{ marginTop: '10px' }}>
+        삭제
+      </button>
+    </div>
+  );
+};
+```
+
+#### 팝업 순서 설정
+```typescript
+// 팝업 순서 설정 인터페이스
+interface IPopupOrderConfig {
+  type: 'newest-top' | 'oldest-top';  // 새로운 것이 위 / 오래된 것이 위
+  startZIndex?: number;        // 시작 z-index (기본: 500)
+  tempPopupZIndex?: number;    // 임시 팝업 z-index (기본: 9999)
+}
+
+// 기본 설정 (새로운 측정이 위로)
+const defaultOrderConfig: IPopupOrderConfig = {
+  type: 'newest-top',    // 기본값
+  startZIndex: 500,      // 기본값
+  tempPopupZIndex: 9999  // 기본값
+};
+
+// 오래된 측정이 위로 (새로운 것은 아래로)
+const oldestTopConfig: IPopupOrderConfig = {
+  type: 'oldest-top',
+  startZIndex: 1000,
+  tempPopupZIndex: 9999
+};
+
+// 높은 z-index로 시작 (다른 UI 요소와 충돌 방지)
+const highZIndexConfig: IPopupOrderConfig = {
+  type: 'newest-top',
+  startZIndex: 5000,
+  tempPopupZIndex: 9999
+};
+```
+
 #### 사용 예시
 ```jsx
 import { useRef } from 'react';
-import { interaction, IMeasurementApis, IMeasurementStyles } from 'xc-map';
+import { interaction, IMeasurementApis, IMeasurementStyles, IMeasurementPopupChildrenProps } from 'xc-map';
 
 function App() {
   const measurementRef = useRef<IMeasurementApis>(null);
@@ -159,14 +232,7 @@ function App() {
     }
   };
 
-  const startLineMeasurement = () => {
-    measurementRef.current?.setMeasureType('LineString');
-  };
-
-  const clearAll = () => {
-    measurementRef.current?.clearAllMeasurements();
-  };
-
+  // 기본 팝업 사용 (새로운 측정이 위로)
   return (
     <XcMap xcMap={xcMap}>
       <XcInteractions>
@@ -181,8 +247,126 @@ function App() {
       </XcInteractions>
     </XcMap>
   );
+
+  // 커스텀 팝업 + 팝업 순서 설정
+  return (
+    <XcMap xcMap={xcMap}>
+      <XcInteractions>
+        <interaction.Measurement
+          ref={measurementRef}
+          xcMap={xcMap}
+          measurementStyles={customStyles}
+          renderPopup={renderCustomPopup} // 커스텀 팝업 적용
+          popupOrderConfig={{           // 팝업 순서 설정
+            type: 'oldest-top',        // 오래된 것이 위로
+            startZIndex: 1000,
+            tempPopupZIndex: 9999
+          }}
+          isShowSegmentLength={true}
+          isShowPopupUI={true}
+          onDrawEnd={() => console.log('측정 완료!')}
+        />
+      </XcInteractions>
+    </XcMap>
+  );
+
+  // 높은 z-index로 설정 (다른 UI와 충돌 방지)
+  return (
+    <XcMap xcMap={xcMap}>
+      <XcInteractions>
+        <interaction.Measurement
+          ref={measurementRef}
+          xcMap={xcMap}
+          measurementStyles={customStyles}
+          popupOrderConfig={{
+            type: 'newest-top',
+            startZIndex: 5000,         // 높은 시작값
+            tempPopupZIndex: 9999
+          }}
+          onDrawEnd={() => console.log('측정 완료!')}
+        />
+      </XcInteractions>
+    </XcMap>
+  );
 }
 ```
+
+#### 다중 컴포넌트 사용
+```jsx
+// 여러 개의 Measurement 컴포넌트를 동시에 사용 가능
+// 각 컴포넌트는 자동으로 고유한 layerName을 생성하여 충돌 방지
+function MultiMeasurementApp() {
+  const measurementRef1 = useRef<IMeasurementApis>(null);
+  const measurementRef2 = useRef<IMeasurementApis>(null);
+
+  return (
+    <XcMap xcMap={xcMap}>
+      <XcInteractions>
+        {/* 첫 번째 측정 도구 */}
+        <interaction.Measurement
+          ref={measurementRef1}
+          xcMap={xcMap}
+          measurementStyles={customStyles1}
+          onDrawEnd={() => console.log('측정1 완료!')}
+        />
+        
+        {/* 두 번째 측정 도구 */}
+        <interaction.Measurement
+          ref={measurementRef2}
+          xcMap={xcMap}
+          measurementStyles={customStyles2}
+          popupOrderConfig={{ type: 'oldest-top', startZIndex: 2000 }}
+          onDrawEnd={() => console.log('측정2 완료!')}
+        />
+      </XcInteractions>
+    </XcMap>
+  );
+}
+```
+
+#### 주요 특징
+- **자동 레이어 관리**: 각 컴포넌트 인스턴스마다 고유한 layerName 자동 생성
+- **실시간 측정**: 그리기 중 실시간으로 측정값 표시
+- **커스텀 스타일**: 측정 타입별 색상, 선 두께, 투명도 등 세밀한 커스터마이징
+- **선분 길이 표시**: LineString과 Polygon의 각 선분별 길이 표시
+- **팝업 순서 제어**: 새로운/오래된 측정 결과의 z-index 순서 설정
+- **React 컴포넌트 팝업**: 완전한 커스텀 팝업 컴포넌트 지원
+- **메모리 관리**: React Root 자동 정리로 메모리 누수 방지
+
+#### 인터페이스 정의
+```typescript
+// 측정 데이터 인터페이스
+interface IMeasurementPopupData {
+  value: string;           // "1.2 km", "0.5 km²" - 완성된 표시값
+  measureType: MeasureType; // 'LineString' | 'Polygon' | 'Circle' | ''
+  color: string;           // 측정 타입별 색상 "#ff0000"
+  rawValue: number;        // 미터 단위 원시값 (계산 필요시)
+  coordinates: ICoordinate; // 팝업 위치 (고급 기능 필요시)
+}
+
+// 커스텀 팝업 Props
+interface IMeasurementPopupChildrenProps {
+  measurementData: IMeasurementPopupData;
+  onDelete: () => void;    // 필수 삭제 액션
+}
+
+// 팝업 순서 설정
+interface IPopupOrderConfig {
+  type: 'newest-top' | 'oldest-top';  // 새로운 것이 위 / 오래된 것이 위
+  startZIndex?: number;        // 시작 z-index (기본: 500)
+  tempPopupZIndex?: number;    // 임시 팝업 z-index (기본: 9999)
+}
+
+// 컴포넌트 API
+interface IMeasurementApis {
+  setMeasureType: (measureType: MeasureType) => void;
+  clearAllMeasurements: () => void;
+}
+```
+
+#### 제한사항
+- **수정 기능**: 현재 비활성화 상태 (팝업 겹침 문제로 인해 임시 비활성화)
+- **브라우저 호환성**: 최신 브라우저 권장 (React 18+ createRoot 사용)
 
 ## Overlay
 ### `OverlayComponent`
