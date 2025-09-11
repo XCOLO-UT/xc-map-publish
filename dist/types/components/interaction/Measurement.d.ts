@@ -7,8 +7,16 @@ import { ICoordinate } from "../types/xc-map";
  * - 주요 문제: "드래그하여 수정" 팝업과 "측정을 시작하려면 클릭하세요" 팝업 겹침
  * - 현재 상태: 수정 기능 비활성화 (line 840: if (false))
  * - 향후 개선 필요: 팝업 겹침 문제 해결 후 수정 기능 재활성화
+ *
+ * TODO: 다크/라이트 모드 지원
+ * - 현재 측정 팝업은 라이트 모드 디자인만 지원 (generatePopupHTML, showBasicMeasurement)
+ * - 시스템 다크모드 감지 및 테마별 스타일 적용 필요
+ * - 제안 구현 방식: theme prop 추가 ('light' | 'dark' | 'auto'), CSS 변수 활용
+ * - 적용 대상: 기본 팝업 HTML, 기본 측정 라벨, 커스텀 팝업에 테마 정보 제공
+ * - 고려사항: 기존 사용자 호환성 유지, 성능 최적화, 접근성 대비율 보장
  */
 export type MeasureType = 'LineString' | 'Polygon' | 'Circle' | '';
+export type OrderType = 'newest-top' | 'oldest-top';
 export interface IMeasurementGeometryStyle {
     stroke?: {
         color?: string;
@@ -49,7 +57,7 @@ export interface IMeasurementPopupChildrenProps {
     onDelete: () => void;
 }
 export interface IPopupOrderConfig {
-    type: 'newest-top' | 'oldest-top';
+    type: OrderType;
     startZIndex?: number;
     tempPopupZIndex?: number;
 }
