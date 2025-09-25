@@ -11,5 +11,14 @@ declare const useXcMapFunctions: (xcMap: ReturnType<typeof useXcMap>) => {
     getCenter: () => ICoordinate | undefined;
     setZoomLevel: (level: number) => void;
     setZoomLevelType: (type: ZoomLevelType) => void;
+    onMove: (callbacks?: {
+        onMoveStart?: () => void;
+        onMoveEnd?: () => void;
+    }) => (() => void) | undefined;
+    onDrag: (callbacks?: {
+        onDragStart?: () => void;
+        onDragging?: () => void;
+        onDragEnd?: () => void;
+    }) => (() => void) | undefined;
 };
 export default useXcMapFunctions;

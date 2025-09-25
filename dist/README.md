@@ -404,6 +404,100 @@ interface IMeasurementApis {
 ### useXcMapAnimation.ts
 애니메이션 관련 기능을 제공하는 훅입니다.
 
+### useXcMapFunctions.ts
+지도 유틸리티 함수들을 제공하는 훅입니다.
+
+#### 기본 기능
+- `animateMove(coordinate, duration)`: 지도 중심을 애니메이션으로 이동
+- `getCenter()`: 현재 지도 중심 좌표 반환
+- `setZoomLevel(level)`: 줌 레벨 설정
+- `setZoomLevelType(type)`: 줌 타입별 설정 ('plus', 'minus', 'reset')
+
+#### 지도 이벤트 처리
+지도 이동 및 드래그 이벤트를 간편하게 처리할 수 있는 기능을 제공합니다.
+
+##### `onMove` - 지도 이동 이벤트
+모든 지도 이동(드래그, 키보드, 프로그래밍 방식)을 감지합니다.
+
+**사용법:**
+```typescript
+import useXcMapFunctions from './hooks/useXcMapFunctions';
+
+const MyComponent = () => {
+  const xcMap = useXcMap();
+  const { onMove } = useXcMapFunctions(xcMap);
+
+  useEffect(() => {
+    const cleanup = onMove({
+      onMoveStart: () => {
+        console.log('지도 이동 시작!');
+        // 사용자 로직 추가
+      },
+      onMoveEnd: () => {
+        console.log('지도 이동 종료!');
+        // 사용자 로직 추가
+      }
+    });
+
+    return cleanup; // 정리 함수 반환
+  }, [onMove]);
+
+  return <div>My Component</div>;
+};
+```
+
+##### `onDrag` - 사용자 드래그 이벤트
+사용자의 마우스/터치 드래그 액션만을 감지합니다.
+
+**사용법:**
+```typescript
+const MyComponent = () => {
+  const xcMap = useXcMap();
+  const { onDrag } = useXcMapFunctions(xcMap);
+
+  useEffect(() => {
+    const cleanup = onDrag({
+      onDragStart: () => {
+        console.log('드래그 시작!');
+        // 사용자 로직 추가
+      },
+      onDragging: () => {
+        console.log('드래그 중...');
+        // 사용자 로직 추가
+      },
+      onDragEnd: () => {
+        console.log('드래그 종료!');
+        // 사용자 로직 추가
+      }
+    });
+
+    return cleanup; // 정리 함수 반환
+  }, [onDrag]);
+
+  return <div>My Component</div>;
+};
+```
+
+**간단한 사용법 (콜백 없이):**
+```typescript
+useEffect(() => {
+  // 콘솔 로그만 출력 (콜백 없음)
+  const cleanup = onDrag();
+  return cleanup;
+}, [onDrag]);
+```
+
+**주요 특징:**
+- **`onMove`**: Map의 movestart/moveend 이벤트 사용 (모든 이동 감지)
+- **`onDrag`**: Map의 pointerdrag 이벤트 사용 (사용자 드래그만 감지)
+- 선택적 콜백 함수 지원
+- 메모리 누수 방지를 위한 자동 정리
+- 지도 기본 기능과 충돌 없음
+
+**이벤트 구분:**
+- `onMove`: 드래그, 키보드 화살표, `animateMove()` 호출 등 모든 이동
+- `onDrag`: 마우스/터치로 실제 드래그할 때만 발생
+
 
 ```
 xcMap이하 모든 component는 useXcMap에서 생성된 Map객체인 xcMap props로 갖는다.
