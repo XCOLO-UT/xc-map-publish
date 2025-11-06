@@ -399,6 +399,7 @@ interface IMeasurementProps {
     renderPopup?: (props: IMeasurementPopupChildrenProps) => React.ReactNode;
     popupOrderConfig?: IPopupOrderConfig;
     onDrawEnd: () => void;
+    onMeasurementActiveChange?: (isActive: boolean) => void;
 }
 interface IMeasurementApis {
     setMeasureType: (measureType: MeasureType) => void;

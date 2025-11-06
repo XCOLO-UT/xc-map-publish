@@ -103,6 +103,7 @@ dist/types/components - 지도 compoenent
 - `renderPopup?: (props: IMeasurementPopupChildrenProps) => React.ReactNode` - 커스텀 팝업 렌더 함수
 - `popupOrderConfig?: IPopupOrderConfig` - 팝업 순서 및 z-index 설정
 - `onDrawEnd: () => void` - 측정 완료시 콜백
+- `onMeasurementActiveChange?: (isActive: boolean) => void` - 측정 활성 상태 변경 콜백 (FeatureSelect 충돌 방지용)
 
 #### APIs
 - `setMeasureType: (measureType: MeasureType) => void` - 측정 타입 설정
@@ -210,6 +211,95 @@ const highZIndexConfig: IPopupOrderConfig = {
   startZIndex: 5000,
   tempPopupZIndex: 9999
 };
+```
+
+#### 인터랙션 충돌 방지 (FeatureSelect와의 충돌 해결)
+
+**문제 상황:**
+- Measurement와 FeatureSelect가 동시에 활성화되면 클릭 이벤트가 충돌합니다.
+- 측정 중에도 Feature 선택 이벤트가 발생하여 혼란을 야기할 수 있습니다.
+
+**해결 방법:**
+`onMeasurementActiveChange` 콜백을 사용하여 측정 모드 활성 상태를 감지하고, FeatureSelect를 동적으로 비활성화합니다.
+
+```typescript
+import { useState, useRef } from 'react';
+import { interaction, IMeasurementApis } from 'xc-map';
+
+function App() {
+  const measurementRef = useRef<IMeasurementApis>(null);
+  const [isMeasuring, setIsMeasuring] = useState(false);
+
+  return (
+    <XcMap xcMap={xcMap}>
+      <XcInteractions>
+        {/* 측정 컴포넌트 */}
+        <interaction.Measurement
+          ref={measurementRef}
+          xcMap={xcMap}
+          onDrawEnd={() => console.log('측정 완료!')}
+          onMeasurementActiveChange={(isActive) => {
+            console.log('측정 모드:', isActive ? '활성' : '비활성');
+            setIsMeasuring(isActive);
+          }}
+        />
+
+        {/* Feature 선택 컴포넌트 (측정 중 자동 비활성화) */}
+        <interaction.FeatureSelect
+          xcMap={xcMap}
+          layerName="markers"
+          disabled={isMeasuring}  // 🔑 핵심: 측정 중 비활성화
+          onClick={(featureName, data, coord) => {
+            console.log('Feature 선택:', data);
+          }}
+        />
+      </XcInteractions>
+    </XcMap>
+  );
+}
+```
+
+**동작 흐름:**
+1. 사용자가 측정 타입 선택 (LineString, Polygon, Circle)
+2. `onMeasurementActiveChange(true)` 호출 → `isMeasuring = true`
+3. FeatureSelect `disabled={true}` → 클릭 이벤트 비활성화 ✅
+4. 측정 완료 후 측정 타입 해제 (`''`)
+5. `onMeasurementActiveChange(false)` 호출 → `isMeasuring = false`
+6. FeatureSelect `disabled={false}` → 클릭 이벤트 재활성화 ✅
+
+**여러 FeatureSelect 처리:**
+```typescript
+// 여러 레이어가 있는 경우 모두 동일하게 처리
+<interaction.FeatureSelect layerName="markers" disabled={isMeasuring} />
+<interaction.FeatureSelect layerName="polygons" disabled={isMeasuring} />
+<interaction.FeatureSelect layerName="lines" disabled={isMeasuring} />
+```
+
+**다른 인터랙션과의 충돌 방지:**
+```typescript
+// MarkerDragAndDrop도 동일하게 비활성화
+<interaction.MarkerDragAndDrop
+  xcMap={xcMap}
+  layerName="draggableMarkers"
+  active={!isMeasuring}  // 측정 중 드래그 비활성화
+/>
+```
+
+**UI 피드백 추가 (권장):**
+```typescript
+// 측정 상태를 시각적으로 표시
+<div style={{
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  padding: '10px',
+  background: isMeasuring ? 'rgba(255, 0, 0, 0.9)' : 'rgba(0, 255, 0, 0.9)',
+  color: 'white',
+  borderRadius: '8px',
+  fontWeight: 'bold'
+}}>
+  {isMeasuring ? '📏 측정 모드 활성' : '🖱️ 선택 모드 활성'}
+</div>
 ```
 
 #### 사용 예시
