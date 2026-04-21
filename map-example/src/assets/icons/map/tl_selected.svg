@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="71" height="71" viewBox="0 0 71 71">
+  <g id="Group_4866" data-name="Group 4866" transform="translate(-98 -557)">
+    <g id="Ellipse_354" data-name="Ellipse 354" transform="translate(98 557)" fill="rgba(0,105,105,0.58)" stroke="#12b090" stroke-width="4">
+      <circle cx="35.5" cy="35.5" r="35.5" stroke="none"/>
+      <circle cx="35.5" cy="35.5" r="33.5" fill="none"/>
+    </g>
+    <g id="Ellipse_356" data-name="Ellipse 356" transform="translate(108 567)" fill="#fff" stroke="#1ed6b1" stroke-width="4">
+      <circle cx="25" cy="25" r="25" stroke="none"/>
+      <circle cx="25" cy="25" r="23" fill="none"/>
+    </g>
+    <g id="Group_4862" data-name="Group 4862" transform="translate(-4516.865 23862.418)">
+      <path id="Path_988" data-name="Path 988" d="M24.768,0H1.905A1.794,1.794,0,0,0,0,1.644V18.085a1.8,1.8,0,0,0,1.905,1.644H24.768a1.794,1.794,0,0,0,1.905-1.644V12.331h0V7.4h0V1.644A1.794,1.794,0,0,0,24.768,0Z" transform="translate(4640.5 -23257.172) rotate(-90)" fill="#1ed6b1"/>
+      <g id="Group_1367" data-name="Group 1367" transform="translate(4647.769 -23274.637) rotate(-90)">
+        <g id="Ellipse_31" data-name="Ellipse 31" fill="#fff" stroke="#fff" stroke-width="1">
+          <ellipse cx="2.596" cy="2.596" rx="2.596" ry="2.596" stroke="none"/>
+          <ellipse cx="2.596" cy="2.596" rx="2.096" ry="2.096" fill="none"/>
+        </g>
+      </g>
+      <g id="Group_1396" data-name="Group 1396" transform="translate(4647.769 -23267.91) rotate(-90)">
+        <g id="Ellipse_31-2" data-name="Ellipse 31" fill="#fff" stroke="#fff" stroke-width="1">
+          <ellipse cx="2.596" cy="2.596" rx="2.596" ry="2.596" stroke="none"/>
+          <ellipse cx="2.596" cy="2.596" rx="2.096" ry="2.096" fill="none"/>
+        </g>
+      </g>
+      <g id="Group_1397" data-name="Group 1397" transform="translate(4647.769 -23261.186) rotate(-90)">
+        <g id="Ellipse_31-3" data-name="Ellipse 31" fill="#fff" stroke="#fff" stroke-width="1">
+          <ellipse cx="2.596" cy="2.596" rx="2.596" ry="2.596" stroke="none"/>
+          <ellipse cx="2.596" cy="2.596" rx="2.096" ry="2.096" fill="none"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+  <g id="Group_5347" data-name="Group 5347" transform="translate(-50 -89)">
+    <g id="Group_4865" data-name="Group 4865" transform="translate(-58 -399)">
+      <g id="Ellipse_355" data-name="Ellipse 355" transform="translate(108 488)" fill="#1ed6b1" stroke="#fff" stroke-width="3">
+        <circle cx="28" cy="28" r="28" stroke="none"/>
+        <circle cx="28" cy="28" r="26.5" fill="none"/>
+      </g>
+      <g id="Group_4861" data-name="Group 4861" transform="translate(-4516.905 23783.574)">
+        <g id="Group_1367" data-name="Group 1367" transform="translate(4649.641 -23272.266) rotate(-90)">
+          <g id="Ellipse_31" data-name="Ellipse 31" fill="#fff" stroke="#fff" stroke-width="1">
+            <ellipse cx="3.265" cy="3.265" rx="3.265" ry="3.265" stroke="none"/>
+            <ellipse cx="3.265" cy="3.265" rx="2.765" ry="2.765" fill="none"/>
+          </g>
+        </g>
+        <g id="Group_1396" data-name="Group 1396" transform="translate(4649.641 -23263.807) rotate(-90)">
+          <g id="Ellipse_31-2" data-name="Ellipse 31" fill="#fff" stroke="#fff" stroke-width="1">
+            <ellipse cx="3.265" cy="3.265" rx="3.265" ry="3.265" stroke="none"/>
+            <ellipse cx="3.265" cy="3.265" rx="2.765" ry="2.765" fill="none"/>
+          </g>
+        </g>
+        <g id="Group_1397" data-name="Group 1397" transform="translate(4649.641 -23255.35) rotate(-90)">
+          <g id="Ellipse_31-3" data-name="Ellipse 31" fill="#fff" stroke="#fff" stroke-width="1">
+            <ellipse cx="3.265" cy="3.265" rx="3.265" ry="3.265" stroke="none"/>
+            <ellipse cx="3.265" cy="3.265" rx="2.765" ry="2.765" fill="none"/>
+          </g>
+        </g>
+        <path id="Path_988" data-name="Path 988" d="M30.01,4.135V21.47H3.352V3.3H30.01M31.148,0H2.4A2.257,2.257,0,0,0,0,2.068V22.743A2.257,2.257,0,0,0,2.4,24.81H31.148a2.257,2.257,0,0,0,2.4-2.068V15.507h0V9.3h0V2.068A2.257,2.257,0,0,0,31.148,0Z" transform="translate(4640.5 -23250.301) rotate(-90)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

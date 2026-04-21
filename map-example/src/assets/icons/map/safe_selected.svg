@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="71" height="71" viewBox="0 0 71 71">
+  <g id="Group_4870" data-name="Group 4870" transform="translate(-729 -315)">
+    <g id="Ellipse_361" data-name="Ellipse 361" transform="translate(729 315)" fill="rgba(0,128,255,0.38)" stroke="#0000c1" stroke-width="4">
+      <circle cx="35.5" cy="35.5" r="35.5" stroke="none"/>
+      <circle cx="35.5" cy="35.5" r="33.5" fill="none"/>
+    </g>
+    <g id="Ellipse_362" data-name="Ellipse 362" transform="translate(739 325)" fill="#fff" stroke="blue" stroke-width="4">
+      <circle cx="25" cy="25" r="25" stroke="none"/>
+      <circle cx="25" cy="25" r="23" fill="none"/>
+    </g>
+    <g id="baseline-directions-24px" transform="translate(743.67 329.597)">
+      <path id="Path_1816" data-name="Path 1816" d="M35.356,17.726,20.123,2.493a1.686,1.686,0,0,0-2.387,0L2.5,17.726a1.686,1.686,0,0,0,0,2.387L17.736,35.346a1.686,1.686,0,0,0,2.387,0L35.356,20.113a1.686,1.686,0,0,0,0-2.387ZM22.306,23.16V18.928h-6.77v5.078H12.151v-6.77a1.7,1.7,0,0,1,1.693-1.693h8.463V11.311l5.924,5.924Z" transform="translate(1.39 1.384)" fill="blue"/>
+      <path id="Path_1817" data-name="Path 1817" d="M0,0H40.623V40.623H0Z" fill="none"/>
+    </g>
+  </g>
+</svg>

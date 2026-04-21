@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="71" height="71" viewBox="0 0 71 71">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3107" data-name="Rectangle 3107" width="30.094" height="18.057" rx="5" fill="#00d238" stroke="#00d238" stroke-width="2"/>
+    </clipPath>
+  </defs>
+  <g id="Group_5363" data-name="Group 5363" transform="translate(-271 -312)">
+    <g id="Ellipse_346" data-name="Ellipse 346" transform="translate(271 312)" fill="rgba(0,141,38,0.58)" stroke="#ff0050" stroke-width="4">
+      <circle cx="35.5" cy="35.5" r="35.5" stroke="none"/>
+      <circle cx="35.5" cy="35.5" r="33.5" fill="none"/>
+    </g>
+    <g id="Ellipse_347" data-name="Ellipse 347" transform="translate(281 322)" fill="#fff" stroke="#ff0050" stroke-width="4">
+      <circle cx="25" cy="25" r="25" stroke="none"/>
+      <circle cx="25" cy="25" r="23" fill="none"/>
+    </g>
+    <g id="Group_4028" data-name="Group 4028" transform="translate(291.186 337.88)">
+      <g id="Rectangle_534" data-name="Rectangle 534" transform="translate(0 0)" fill="none" stroke="#00d238" stroke-width="2">
+        <rect width="30.094" height="18.057" rx="5" stroke="none"/>
+        <rect x="1" y="1" width="28.094" height="16.057" rx="4" fill="none"/>
+      </g>
+      <g id="Mask_Group_1867" data-name="Mask Group 1867" clip-path="url(#clip-path)">
+        <path id="Polygon_2" data-name="Polygon 2" d="M9.028,0l9.028,15.047H0Z" transform="translate(15.047 0) rotate(90)" fill="#00d238"/>
+        <path id="Polygon_3" data-name="Polygon 3" d="M9.028,0l9.028,15.047H0Z" transform="translate(15.047 18.057) rotate(-90)" fill="#00d238"/>
+      </g>
+    </g>
+  </g>
+</svg>

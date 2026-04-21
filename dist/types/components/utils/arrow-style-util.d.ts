@@ -1,10 +1,13 @@
 /**
- * 라인 Feature 위 방향 화살표 Style 유틸리티
+ * 라인/폴리곤 Feature 위 방향 화살표 Style 유틸리티
  *
  * useXcMapStyle에서 `arrow` 옵션이 설정된 경우,
  * 기본 Style에 `__arrowConfig` 메타데이터가 첨부됩니다.
- * 이 유틸리티는 해당 메타데이터를 감지하여 Feature의 LineString geometry를 따라
+ * 이 유틸리티는 해당 메타데이터를 감지하여 Feature의 geometry를 따라
  * 삼각형 화살표 Style을 동적으로 생성합니다.
+ *
+ * 지원 geometry: LineString, MultiLineString, Polygon, MultiPolygon
+ * - Polygon/MultiPolygon의 경우 exterior ring을 LineString으로 변환하여 화살표를 배치합니다.
  */
 import { Feature } from "ol";
 import { Style } from "ol/style";
@@ -20,7 +23,13 @@ export interface IArrowConfig {
  */
 export declare function resolveArrowStyles(style: Style | Style[] | undefined, feature: Feature): Style | Style[] | undefined;
 /**
- * Feature의 LineString/MultiLineString geometry를 따라 화살표 Style을 생성합니다.
+ * Feature의 geometry를 따라 화살표 Style을 생성합니다.
  * interval 간격으로 삼각형(RegularShape)을 라인 방향에 맞게 회전 배치합니다.
+ *
+ * 지원 geometry 타입:
+ * - LineString: 라인을 따라 화살표 배치
+ * - MultiLineString: 각 라인별 화살표 배치
+ * - Polygon: exterior ring을 따라 화살표 배치
+ * - MultiPolygon: 각 polygon의 exterior ring별 화살표 배치
  */
 export declare function generateArrowStylesForFeature(feature: Feature, arrowColor: string, arrowSize: number, interval: number, zIdx: number): Style[];

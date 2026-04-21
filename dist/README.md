@@ -1,9 +1,13 @@
 # XC-MAP 라이브러리
-- openLayers에 기반하여 FTMS에 자주 사용되는 지도기능을 제공하기 위한 라이브러리입니다.
+- OpenLayers 10.x 기반으로 FTMS에 자주 사용되는 지도기능을 제공하기 위한 라이브러리입니다.
+- **버전**: v0.3.1
+- **React**: 18+
+- **빌드**: Rollup
 
 ```
-dist/styles - 지도에서 사용되는 map.css 정의, 필요시 같은 class 명을 !important로 덮어서 사용
-dist/types/components - 지도 compoenent
+dist/styles   - 지도에서 사용되는 map.css 정의, 필요시 같은 class 명을 !important로 덮어서 사용
+dist/types    - TypeScript 타입 정의
+src/assets/icons/map/  - 아이콘 에셋 (SVG/PNG)
 ```
 
 ## `XcMap.tsx`
@@ -48,6 +52,17 @@ dist/types/components - 지도 compoenent
 - getFeatureTypeStyle: xcMapOption을 사용하지 않고 style 적용이 필요할 경우 정의
 - filter : 사용여부에 따라 feature 표시를 해주지 않을 경우 사용
 - useBbox : bbox 값 사용 여부
+- **arrow 지원**: `resolveArrowStyles`를 통해 Feature의 LineString/MultiLineString/Polygon/MultiPolygon geometry를 따라 방향 화살표를 동적 생성
+
+### `GeoJson.tsx` *(신규)*
+- 로컬 GeoJSON 데이터를 지도에 표시하기 위한 범용 벡터 레이어 component
+- WFS 없이 로컬/API JSON 데이터를 직접 렌더링
+- 모든 geometry 타입 지원 (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon)
+- 같은 레이어에서 서로 다른 geometry를 혼합 표시 가능
+- `getFeatureTypeStyle` 콜백으로 Feature별 동적 스타일 지정
+- `getRotation` 콜백으로 Point 아이콘 회전 지원
+- `toFeatureCollection()` 유틸리티로 커스텀 JSON → 표준 GeoJSON 변환 제공
+- **상세 가이드**: `docs/geojson_developer_guide.md` 참고
 
 - apis
   - feature 별로 visible 시켜야 할경우 사용
@@ -458,6 +473,57 @@ interface IMeasurementApis {
 - **수정 기능**: 현재 비활성화 상태 (팝업 겹침 문제로 인해 임시 비활성화)
 - **브라우저 호환성**: 최신 브라우저 권장 (React 18+ createRoot 사용)
 
+## 스타일 타입 확장
+
+### `stripe` 타입
+줄무늬 CanvasPattern을 사용하여 횡단보도 등의 노면표시를 렌더링합니다.
+
+```typescript
+featureStyle: {
+    'crosswalk': {
+        type: 'stripe',
+        event: [
+            { status: 'default', style: {
+                stripe: { color: '#FFFFFF', width: 14, gap: 12 },
+                stroke: { color: '#FFFFFF', width: 3 }
+            }},
+        ]
+    }
+}
+```
+- `stripe.color`: 줄무늬 색상
+- `stripe.width`: 줄무늬 너비 (px)
+- `stripe.gap`: 줄무늬 간격 (px)
+- 각도는 `getRotation` 콜백 또는 `angle` 파라미터로 전달 (도로 방향에 수직 자동 적용)
+
+### `arrow` 옵션
+`polyline`, `vector`, `polygon` 타입의 style에 `arrow` 속성을 추가하면 Feature geometry를 따라 방향 화살표를 배치합니다.
+
+```typescript
+featureStyle: {
+    'arrowLink': {
+        type: 'polyline',
+        event: [
+            { status: 'default', style: {
+                stroke: { color: '#2196F3', width: 6 },
+                arrow: { color: '#FFFFFF', size: 8, interval: 0.2 }
+            }},
+        ]
+    }
+}
+```
+- `arrow.color`: 화살표 색상
+- `arrow.size`: 화살표 크기 (px)
+- `arrow.interval`: 라인 길이 대비 배치 간격 (0~1, 0.2 = 5개)
+
+**지원 Geometry:**
+| Geometry | 화살표 배치 방식 |
+|----------|----------------|
+| LineString | 라인을 따라 interval 간격 배치 |
+| MultiLineString | 각 라인별 화살표 배치 |
+| Polygon | exterior ring(외곽선)을 따라 배치 |
+| MultiPolygon | 각 polygon의 exterior ring별 배치 |
+
 ## Overlay
 ### `OverlayComponent`
 - mapId: 지도 ID
@@ -473,6 +539,18 @@ interface IMeasurementApis {
   - hidePopup : () => void
   - 팝업 위치 변경
   - setOverlayPosition : (coordinate:ICoordinate) => void
+
+## 유틸리티
+
+### arrow-style-util.ts *(신규)*
+라인/폴리곤 Feature 위 방향 화살표 Style 유틸리티입니다.
+- `resolveArrowStyles()`: Style에서 `__arrowConfig` 메타데이터를 감지하여 Feature geometry를 따라 삼각형 화살표를 동적 생성
+- `generateArrowStylesForFeature()`: Feature의 geometry를 분석하여 interval 간격으로 RegularShape(삼각형) Style 배열 반환
+- LineString/MultiLineString/Polygon/MultiPolygon 지원
+
+### geojson-util.ts *(신규)*
+GeoJSON 데이터 변환 유틸리티입니다.
+- `toFeatureCollection()`: 커스텀 JSON 배열을 표준 GeoJSON FeatureCollection으로 변환
 
 ## 유틸리티 훅
 
@@ -490,6 +568,7 @@ interface IMeasurementApis {
 
 ### useXcMapStyle.ts
 스타일 관련 기능을 제공하는 훅입니다.
+- stripe 패턴, arrow 메타데이터 생성 지원
 
 ### useXcMapAnimation.ts
 애니메이션 관련 기능을 제공하는 훅입니다.
