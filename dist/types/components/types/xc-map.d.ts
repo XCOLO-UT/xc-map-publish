@@ -54,6 +54,24 @@ export interface IStyle {
     fill: Pick<IStyleOption, "color">;
     stroke: Pick<IStyleOption, "color" | "width">;
     backgroundFill: Pick<IStyleOption, "color">;
+    /** 줄무늬(stripe) 패턴 채움 설정 */
+    stripe: {
+        /** 줄무늬 색상 @default '#FFFFFF' */
+        color: string;
+        /** 줄무늬 너비(px) @default 5 */
+        width: number;
+        /** 줄무늬 간격(px) @default 5 */
+        gap: number;
+    };
+    /** 라인(polyline/vector) 위 방향 화살표 표시 설정 */
+    arrow: {
+        /** 화살표 색상 @default '#FFFFFF' */
+        color: string;
+        /** 화살표 크기(px) @default 8 */
+        size: number;
+        /** 라인 위 배치 간격 (0~1, 라인 길이 대비 비율) @default 0.2 */
+        interval: number;
+    };
     radius: number;
     offsetX: number;
     offsetY: number;
@@ -65,7 +83,7 @@ export interface IStatusStyle {
     style: Partial<IStyle>;
     label?: Partial<IStyle>;
 }
-export type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline";
+export type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline" | "stripe";
 export interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];

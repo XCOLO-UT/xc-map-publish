@@ -1,6 +1,6 @@
 import { Coordinate } from "ol/coordinate";
-import { ICoordinate } from "../types/xc-map.ts";
-import useXcMap from "./useXcMap.ts";
+import { ICoordinate } from "../types/xc-map";
+import useXcMap from "./useXcMap";
 /**
  * xcMap 객체에 대한 유틸리티 함수들을 제공하는 훅
  * 기존 Map 객체가 있을 때 해당 객체의 함수들만 사용하고 싶을 경우에 사용

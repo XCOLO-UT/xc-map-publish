@@ -1,5 +1,5 @@
 import React, { Ref } from 'react';
-import { ICoordinate, IOverlayChildrenProps, IXcMapCommonProps } from "../types/xc-map.ts";
+import { ICoordinate, IOverlayChildrenProps, IXcMapCommonProps } from "../types/xc-map";
 import { Options } from "ol/Overlay";
 export interface IOverlayComponentProps<TData> extends Pick<IXcMapCommonProps, 'xcMap'>, Options {
     overlayId: string;

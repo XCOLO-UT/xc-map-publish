@@ -15,4 +15,7 @@ export declare const layer: {
     PlaceLineString: (props: import("./PlaceLineString").IPlaceLineStringProps & {
         ref?: import("react").Ref<import("./PlaceLineString").IPlaceLineStringApis> | undefined;
     }) => import("react").ReactNode;
+    GeoJson: <TData>(props: import("./GeoJson").IGeoJsonProps<TData> & {
+        ref?: import("react").Ref<import("./GeoJson").IGeoJsonApis>;
+    }) => JSX.Element;
 };

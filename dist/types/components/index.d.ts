@@ -1,6 +1,6 @@
-import useVworldUrl from "./hooks/useVworldUrl.ts";
-import useXcMap from "./hooks/useXcMap.ts";
-import useXcMapFunctions from "./hooks/useXcMapFunctions.ts";
+import useVworldUrl from "./hooks/useVworldUrl";
+import useXcMap from "./hooks/useXcMap";
+import useXcMapFunctions from "./hooks/useXcMapFunctions";
 export { useVworldUrl };
 export { useXcMap };
 export { useXcMapFunctions };
@@ -11,5 +11,6 @@ export * from './interaction';
 export * from './overlays';
 export * from './types/xc-map';
 export { XcLayers, XcInteractions, XcOverlays } from './groups';
-import { applyOpacityToColor } from "./utils/color-util.ts";
+import { applyOpacityToColor } from "./utils/color-util";
 export { applyOpacityToColor };
+export { toFeatureCollection } from "./utils/geojson-util";

@@ -1,5 +1,5 @@
 import React from "react";
-import { ICoordinate, IXcMapCommonProps } from "../types/xc-map.ts";
+import { ICoordinate, IXcMapCommonProps } from "../types/xc-map";
 export interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'xcMap'> {
     active: boolean;
     onDrawEnd?: (coordinates: ICoordinate[]) => void;

@@ -1,5 +1,5 @@
 import { Feature, Map } from "ol";
-import { IXcMapOption } from "../types/xc-map.ts";
+import { IXcMapOption } from "../types/xc-map";
 import * as React from "react";
 export interface ISelectedFeatures {
     [layerName: string]: {

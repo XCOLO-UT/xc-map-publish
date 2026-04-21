@@ -8,7 +8,7 @@ import * as react from 'react';
 import react__default, { ReactNode } from 'react';
 import { Coordinate } from 'ol/coordinate';
 import { Options } from 'ol/source/TileWMS';
-import { Options as Options$1 } from 'ol/source/Vector';
+import VectorSource, { Options as Options$1 } from 'ol/source/Vector';
 import * as ol_geom from 'ol/geom';
 import * as ol_source from 'ol/source';
 import { Options as Options$2 } from 'ol/source/XYZ';
@@ -76,6 +76,24 @@ interface IStyle {
     fill: Pick<IStyleOption, "color">;
     stroke: Pick<IStyleOption, "color" | "width">;
     backgroundFill: Pick<IStyleOption, "color">;
+    /** 줄무늬(stripe) 패턴 채움 설정 */
+    stripe: {
+        /** 줄무늬 색상 @default '#FFFFFF' */
+        color: string;
+        /** 줄무늬 너비(px) @default 5 */
+        width: number;
+        /** 줄무늬 간격(px) @default 5 */
+        gap: number;
+    };
+    /** 라인(polyline/vector) 위 방향 화살표 표시 설정 */
+    arrow: {
+        /** 화살표 색상 @default '#FFFFFF' */
+        color: string;
+        /** 화살표 크기(px) @default 8 */
+        size: number;
+        /** 라인 위 배치 간격 (0~1, 라인 길이 대비 비율) @default 0.2 */
+        interval: number;
+    };
     radius: number;
     offsetX: number;
     offsetY: number;
@@ -87,7 +105,7 @@ interface IStatusStyle {
     style: Partial<IStyle>;
     label?: Partial<IStyle>;
 }
-type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline";
+type FeatureType = "marker" | "point" | "vector" | "polygon" | "polyline" | "stripe";
 interface IFeatureTypeStyle {
     type: FeatureType;
     event: IStatusStyle[];
@@ -217,10 +235,135 @@ interface IXyzProps$1 extends Options$2 {
 
 declare const source: {
     XYZ: ({ url }: IXyzProps$1) => ol_source.XYZ;
-    VectorFeature: ({ features }: IVectorFeature) => ol_source.Vector<ol.Feature<ol_geom.Geometry>>;
-    VectorWfs: ({ url, ...rest }: IVectorWfs) => "" | ol_source.Vector<ol.Feature<ol_geom.Geometry>> | undefined;
+    VectorFeature: ({ features }: IVectorFeature) => ol_source.Vector<ol.Feature<ol_geom.Geometry, {
+        [x: string]: any;
+    }>>;
+    VectorWfs: ({ url, ...rest }: IVectorWfs) => "" | ol_source.Vector<ol.Feature<ol_geom.Geometry, {
+        [x: string]: any;
+    }>> | undefined;
     TileWms: ({ url, params, serverType, projection, transition }: ITileWmsProps) => ol_source.TileWMS;
 };
+
+/**
+ * GeoJson 레이어 컴포넌트
+ *
+ * 표준 GeoJSON FeatureCollection 데이터를 지도에 렌더링하는 범용 레이어 컴포넌트입니다.
+ * Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon 지오메트리를 지원하며,
+ * 혼합 지오메트리(Mixed Geometry)도 한 컴포넌트 내에서 처리 가능합니다.
+ *
+ * @example
+ * <layer.GeoJson<ISurfaceMarkData>
+ *     xcMap={xcMap}
+ *     layerName="surfacemark"
+ *     data={geojsonFeatureCollection}
+ *     pkField="id"
+ *     featureName="surfacemark"
+ *     getFeatureTypeStyle={(feature) => { ... }}
+ *     getRotation={(props) => Number(props.angle) || 0}
+ *     visible={true}
+ * />
+ */
+
+interface GeoJsonFeature {
+    type: 'Feature';
+    id?: string | number;
+    geometry: GeoJsonGeometry;
+    properties?: Record<string, any>;
+}
+interface GeoJsonGeometry {
+    type: 'Point' | 'LineString' | 'Polygon' | 'MultiPoint' | 'MultiLineString' | 'MultiPolygon';
+    coordinates: any;
+}
+type GeoJsonData = {
+    type: 'FeatureCollection';
+    features: GeoJsonFeature[];
+} | GeoJsonFeature[];
+interface IGeoJsonProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
+    /**
+     * 표준 GeoJSON 데이터.
+     * FeatureCollection 객체 또는 Feature 배열을 받습니다.
+     */
+    data: GeoJsonData | null;
+    /**
+     * Feature 식별자(PK)가 들어있는 properties 필드명.
+     * Feature.id가 없을 경우 properties[pkField] 값을 Feature ID로 사용합니다.
+     * @default 'id'
+     */
+    pkField?: string;
+    /**
+     * 기본 featureName. 모든 Feature에 동일하게 적용됩니다.
+     * getFeatureName이 제공되면 해당 콜백이 우선합니다.
+     */
+    featureName?: string;
+    /**
+     * Feature의 properties를 기반으로 featureName을 동적으로 결정하는 콜백.
+     * 혼합 지오메트리 레이어에서 Feature마다 다른 스타일 키를 지정할 때 사용합니다.
+     */
+    getFeatureName?: (properties: TData) => string;
+    /**
+     * Feature의 properties를 기반으로 label 텍스트를 반환하는 콜백.
+     */
+    getLabel?: (properties: TData) => string;
+    /**
+     * Feature ID를 기반으로 상태 정보를 반환하는 콜백.
+     */
+    getStatusInfo?: (id: string) => IStatusInfo | undefined;
+    /**
+     * Feature별 커스텀 Style을 직접 반환하는 콜백.
+     * featureStyle 시스템을 우회하여 완전한 OL Style을 직접 지정할 때 사용합니다.
+     */
+    getCustomStyle?: (feature: Feature) => Style | Style[] | undefined;
+    /**
+     * Feature별 featureTypeStyle을 동적으로 반환하는 콜백.
+     * 같은 featureName 내에서 속성(signtype 등)에 따라 다른 스타일을 적용할 때 사용합니다.
+     */
+    getFeatureTypeStyle?: (feature: Feature) => IFeatureTypeStyle | undefined;
+    /**
+     * Point 타입 Feature의 회전 각도를 반환하는 콜백 (degree 단위).
+     * type: 'marker' 스타일의 아이콘 회전에 사용됩니다.
+     */
+    getRotation?: (properties: TData) => number;
+    /**
+     * Feature 필터링 콜백. false를 반환하면 해당 Feature는 숨김 처리됩니다.
+     */
+    filter?: (feature: Feature) => boolean;
+    /**
+     * Feature 위치에 커스텀 React 컴포넌트를 렌더링하는 콜백.
+     * OL Overlay를 사용하여 HTML/React 콘텐츠를 지도 위에 표시합니다.
+     * 팝업 닫기 등에 영향 받지 않는 persistent overlay로 생성됩니다.
+     *
+     * @example
+     * renderLabel={(feature) => (
+     *     <div style={{ color: 'red', fontWeight: 'bold' }}>
+     *         {feature.getProperties().value.countdown}
+     *     </div>
+     * )}
+     */
+    renderLabel?: (feature: Feature) => react__default.ReactNode;
+    /**
+     * renderLabel의 위치 오프셋 [x, y] (px 단위).
+     * Feature의 geometry center 기준으로 이동합니다.
+     * @default [0, 20]
+     */
+    labelOffset?: [number, number];
+    /**
+     * 입력 데이터의 좌표계.
+     * @default 'EPSG:4326'
+     */
+    dataProjection?: string;
+}
+interface IGeoJsonApis {
+    /** 현재 레이어의 모든 Feature를 반환합니다. */
+    getFeatures: () => Feature[];
+    /** 특정 Feature의 가시성을 제어합니다. */
+    setVisible: (id: string, visible: boolean) => void;
+    /** 특정 Feature의 스타일을 변경합니다. */
+    setFeatureStyle: (id: string, featureName: string, status: string) => void;
+    /** 현재 data를 기반으로 Feature를 재생성합니다. */
+    refresh: () => void;
+    /** renderLabel로 생성된 모든 라벨 Overlay를 제거합니다. */
+    clearLabels: () => void;
+}
 
 interface IPlaceLineStringProps extends Pick<IXcMapCommonProps, 'xcMap'> {
     active: boolean;
@@ -291,7 +434,7 @@ interface IMarkerApis<TData> {
     setMarkerStyle: (marker: IMarker<TData>) => void;
 }
 
-interface IVectorProps extends Options$4<any>, IXcMapCommonProps {
+interface IVectorProps extends Options$4<any, VectorSource>, IXcMapCommonProps {
     featureName?: string;
     pkField?: string;
 }
@@ -319,6 +462,9 @@ declare const layer: {
     PlaceLineString: (props: IPlaceLineStringProps & {
         ref?: react.Ref<IPlaceLineStringApis> | undefined;
     }) => react.ReactNode;
+    GeoJson: <TData>(props: IGeoJsonProps<TData> & {
+        ref?: react.Ref<IGeoJsonApis>;
+    }) => JSX.Element;
 };
 
 /**
@@ -490,5 +636,35 @@ declare const XcOverlays: ({ children }: IXcOverlaysProps) => JSX.Element;
  */
 declare const applyOpacityToColor: (color: string, opacity: number) => string;
 
-export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, useVworldUrl, useXcMap, useXcMapFunctions };
+/**
+ * GeoJSON 변환 유틸리티
+ *
+ * 프로젝트별 데이터 형식을 표준 GeoJSON FeatureCollection으로 변환하기 위한 유틸리티 함수입니다.
+ */
+interface IToFeatureCollectionOptions {
+    /** geometry 데이터가 들어있는 필드명 @default 'geom' */
+    geomField?: string;
+    /** PK 필드명 @default 'id' */
+    idField?: string;
+}
+/**
+ * 배열 형태의 데이터를 표준 GeoJSON FeatureCollection으로 변환합니다.
+ * geomField에 지정된 필드의 GeoJSON Geometry 문자열(또는 객체)을 파싱합니다.
+ *
+ * @param data - 변환할 데이터 배열
+ * @param options - 변환 옵션 (geomField, idField)
+ * @returns 표준 GeoJSON FeatureCollection
+ *
+ * @example
+ * const apiData = [
+ *   { id: "CW_001", geom: '{"type":"Polygon","coordinates":[...]}', signtype: "5321" },
+ *   { id: "PM_001", geom: '{"type":"Point","coordinates":[126.978,37.566]}', angle: "90" }
+ * ];
+ *
+ * const geojson = toFeatureCollection(apiData, { geomField: 'geom', idField: 'id' });
+ * // → 표준 GeoJSON FeatureCollection
+ */
+declare function toFeatureCollection<T extends Record<string, any>>(data: T[], options?: IToFeatureCollectionOptions): GeoJSON.FeatureCollection;
+
+export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, toFeatureCollection, useVworldUrl, useXcMap, useXcMapFunctions };
 export type { FeatureType, IAnimationParams, IAnimationProperty, IAnimationStyle, IAnyObject, ICoordinate, IFeature, IFeatureStyle, IFeatureTypeStyle, IInfoStyle, ILayerCommonProps, IMapEvent, IMarker, IOverlayChildrenProps, IStatusInfo, IStatusStyle, IStyle, IStyleOption, IVector, IWmsParam, IXcMapCommonProps, IXcMapOption, IZoomUrls };
