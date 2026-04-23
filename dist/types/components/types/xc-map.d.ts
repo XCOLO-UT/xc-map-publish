@@ -65,12 +65,18 @@ export interface IStyle {
     };
     /** 라인(polyline/vector) 위 방향 화살표 표시 설정 */
     arrow: {
-        /** 화살표 색상 @default '#FFFFFF' */
+        /** 화살표 색상 (RegularShape 모드에서만 사용) @default '#FFFFFF' */
         color: string;
-        /** 화살표 크기(px) @default 8 */
+        /** 화살표 크기(px, RegularShape 모드) 또는 이미지 스케일 기준 @default 8 */
         size: number;
         /** 라인 위 배치 간격 (0~1, 라인 길이 대비 비율) @default 0.2 */
         interval: number;
+        /** 화살표 이미지 경로 (설정 시 RegularShape 대신 Icon 사용) */
+        imageSrc?: string;
+        /** 화살표 이미지 너비 (px) @default 16 */
+        imageWidth?: number;
+        /** 화살표 이미지 높이 (px) @default 20 */
+        imageHeight?: number;
     };
     radius: number;
     offsetX: number;
