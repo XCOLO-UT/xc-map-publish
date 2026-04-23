@@ -101,7 +101,7 @@ const Sidebar = () => {
     <aside className="sidebar">
       <div className="sidebar-header">
         <h1>xc-map Examples</h1>
-        <div className="version">v0.3.1 · OpenLayers 10.x</div>
+        <div className="version">v0.3.3 · OpenLayers 10.x</div>
       </div>
       <nav className="sidebar-nav">
         {menuData.map(item => {
