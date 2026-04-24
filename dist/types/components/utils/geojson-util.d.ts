@@ -26,4 +26,7 @@ export interface IToFeatureCollectionOptions {
  * const geojson = toFeatureCollection(apiData, { geomField: 'geom', idField: 'id' });
  * // → 표준 GeoJSON FeatureCollection
  */
-export declare function toFeatureCollection<T extends Record<string, any>>(data: T[], options?: IToFeatureCollectionOptions): GeoJSON.FeatureCollection;
+export declare function toFeatureCollection<T extends Record<string, any>>(data: T[], options?: IToFeatureCollectionOptions): {
+    type: string;
+    features: any[];
+};

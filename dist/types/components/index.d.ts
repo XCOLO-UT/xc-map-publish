@@ -14,3 +14,4 @@ export { XcLayers, XcInteractions, XcOverlays } from './groups';
 import { applyOpacityToColor } from "./utils/color-util";
 export { applyOpacityToColor };
 export { toFeatureCollection } from "./utils/geojson-util";
+export { default as useXcMapAnimation } from './hooks/useXcMapAnimation';

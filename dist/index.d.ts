@@ -353,6 +353,17 @@ interface IGeoJsonProps<TData> extends IXcMapCommonProps, ILayerCommonProps {
      */
     labelOffset?: [number, number];
     /**
+     * Point Feature의 properties를 기반으로 animationName을 반환하는 콜백.
+     * animationName은 IXcMapOption.animationStyle에 등록된 키와 매칭됩니다.
+     * undefined 또는 '' 반환 시 해당 Feature에 애니메이션 미적용.
+     */
+    getAnimationName?: (properties: TData) => string | undefined;
+    /**
+     * Point Feature의 properties를 기반으로 animationData(파라미터 오버라이드)를 반환.
+     * 개별 Feature마다 색상, 속도, 크기 등을 다르게 설정할 수 있습니다.
+     */
+    getAnimationData?: (properties: TData) => Partial<IAnimationParams> | undefined;
+    /**
      * 입력 데이터의 좌표계.
      * @default 'EPSG:4326'
      */
@@ -670,7 +681,15 @@ interface IToFeatureCollectionOptions {
  * const geojson = toFeatureCollection(apiData, { geomField: 'geom', idField: 'id' });
  * // → 표준 GeoJSON FeatureCollection
  */
-declare function toFeatureCollection<T extends Record<string, any>>(data: T[], options?: IToFeatureCollectionOptions): GeoJSON.FeatureCollection;
+declare function toFeatureCollection<T extends Record<string, any>>(data: T[], options?: IToFeatureCollectionOptions): {
+    type: string;
+    features: any[];
+};
 
-export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, toFeatureCollection, useVworldUrl, useXcMap, useXcMapFunctions };
+declare const useXcMapAnimation: () => {
+    getRepeatCircleAnimationProperty: (data?: Partial<IAnimationParams>) => IAnimationProperty;
+    getCircleAnimationProperty: (data?: Partial<IAnimationParams>) => IAnimationProperty;
+};
+
+export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, toFeatureCollection, useVworldUrl, useXcMap, useXcMapAnimation, useXcMapFunctions };
 export type { FeatureType, IAnimationParams, IAnimationProperty, IAnimationStyle, IAnyObject, ICoordinate, IFeature, IFeatureStyle, IFeatureTypeStyle, IInfoStyle, ILayerCommonProps, IMapEvent, IMarker, IOverlayChildrenProps, IStatusInfo, IStatusStyle, IStyle, IStyleOption, IVector, IWmsParam, IXcMapCommonProps, IXcMapOption, IZoomUrls };
