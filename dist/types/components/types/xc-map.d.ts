@@ -52,7 +52,14 @@ export interface IStyleOption {
 export interface IStyle {
     image: Pick<IStyleOption, "src" | "width" | "height">;
     fill: Pick<IStyleOption, "color">;
-    stroke: Pick<IStyleOption, "color" | "width">;
+    stroke: Pick<IStyleOption, "color" | "width"> & {
+        /** 점선 패턴 (px 단위 배열). 예: [10, 5] → 10px 선, 5px 공백 반복 */
+        lineDash?: number[];
+        /** 라인 끝 모양 @default 'round' */
+        lineCap?: 'butt' | 'round' | 'square';
+        /** 라인 꺾임 모양 @default 'round' */
+        lineJoin?: 'bevel' | 'round' | 'miter';
+    };
     backgroundFill: Pick<IStyleOption, "color">;
     /** 줄무늬(stripe) 패턴 채움 설정 */
     stripe: {
@@ -65,12 +72,25 @@ export interface IStyle {
     };
     /** 라인(polyline/vector) 위 방향 화살표 표시 설정 */
     arrow: {
-        /** 화살표 색상 (RegularShape 모드에서만 사용) @default '#FFFFFF' */
-        color: string;
+        /**
+         * 화살표 색상.
+         * - RegularShape 모드: 생략 시 stroke.color를 자동 상속
+         * - Icon 모드(imageSrc 사용 시): 이미지 자체 색상 사용, 이 값은 무시됨
+         */
+        color?: string;
         /** 화살표 크기(px, RegularShape 모드) 또는 이미지 스케일 기준 @default 8 */
         size: number;
         /** 라인 위 배치 간격 (0~1, 라인 길이 대비 비율) @default 0.2 */
         interval: number;
+        /**
+         * 화살표 배치 위치
+         * - 'repeat': 라인 전체에 interval 간격으로 반복 배치 (기본값)
+         * - 'end': 라인의 끝 지점에만 1개 배치
+         * - 'start': 라인의 시작 지점에만 1개 배치
+         * - 'both': 시작과 끝 양쪽에 각 1개씩 배치
+         * @default 'repeat'
+         */
+        position?: 'repeat' | 'end' | 'start' | 'both';
         /** 화살표 이미지 경로 (설정 시 RegularShape 대신 Icon 사용) */
         imageSrc?: string;
         /** 화살표 이미지 너비 (px) @default 16 */

@@ -20,6 +20,15 @@ export interface IArrowConfig {
     size: number;
     interval: number;
     zIndex: number;
+    /**
+     * 화살표 배치 위치
+     * - 'repeat': 라인 전체에 interval 간격으로 반복 배치 (기본값)
+     * - 'end': 라인의 끝 지점에만 1개 배치
+     * - 'start': 라인의 시작 지점에만 1개 배치
+     * - 'both': 시작과 끝 양쪽에 각 1개씩 배치
+     * @default 'repeat'
+     */
+    position?: 'repeat' | 'end' | 'start' | 'both';
     /** 화살표 이미지 경로 (설정 시 Icon 모드) */
     imageSrc?: string;
     /** Icon 모드 이미지 너비 (px) @default 16 */
