@@ -80,6 +80,7 @@ const menuData: MenuItem[] = [
     children: [
       { label: '신호등 모니터링', path: '/integrated/signal' },
       { label: '교통 링크', path: '/integrated/traffic' },
+      { label: '교차로 차선', path: '/integrated/intersection', badge: 'NEW' },
     ],
   },
 ]

@@ -8,7 +8,7 @@ const categories = [
   { icon: '📐', title: '측정 도구', count: '4 예시', path: '/measurement/distance' },
   { icon: '💬', title: '오버레이', count: '2 예시', path: '/overlays/basic' },
   { icon: '🔧', title: '유틸리티', count: '3 예시', path: '/utilities/feature-collection' },
-  { icon: '🔗', title: '통합 예시', count: '2 예시', path: '/integrated/signal' },
+  { icon: '🔗', title: '통합 예시', count: '3 예시', path: '/integrated/signal' },
 ]
 
 const HomePage = () => {

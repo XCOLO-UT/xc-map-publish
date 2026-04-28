@@ -161,9 +161,10 @@ const ArrowSample = () => {
       <table className="props-table">
         <thead><tr><th>속성</th><th>Type</th><th>기본값</th><th>설명</th></tr></thead>
         <tbody>
-          <tr><td>color</td><td>string</td><td>'#FFFFFF'</td><td>화살표 색상 (RegularShape 모드)</td></tr>
+          <tr><td>color</td><td>string?</td><td>stroke.color</td><td>화살표 색상. 생략 시 stroke.color 자동 상속 (RegularShape 모드)</td></tr>
           <tr><td>size</td><td>number</td><td>8</td><td>화살표 크기 (px)</td></tr>
           <tr><td>interval</td><td>number</td><td>0.2</td><td>간격 비율 (0~1)</td></tr>
+          <tr><td>position</td><td>'repeat' | 'end' | 'start' | 'both'</td><td>'repeat'</td><td>화살표 배치 위치</td></tr>
           <tr><td>imageSrc</td><td>string</td><td>-</td><td>화살표 이미지 경로 (Icon 모드)</td></tr>
           <tr><td>imageWidth</td><td>number</td><td>16</td><td>이미지 너비 (px)</td></tr>
           <tr><td>imageHeight</td><td>number</td><td>20</td><td>이미지 높이 (px)</td></tr>

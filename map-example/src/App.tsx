@@ -32,6 +32,7 @@ import ColorUtilSample from './pages/utilities/ColorUtilSample'
 import MapFunctionsSample from './pages/utilities/MapFunctionsSample'
 import TrafficSignalSample from './pages/integrated/TrafficSignalSample'
 import TrafficLinkSample from './pages/integrated/TrafficLinkSample'
+import IntersectionLaneSample from './pages/integrated/IntersectionLaneSample'
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
         {/* 통합 */}
         <Route path="/integrated/signal" element={<TrafficSignalSample />} />
         <Route path="/integrated/traffic" element={<TrafficLinkSample />} />
+        <Route path="/integrated/intersection" element={<IntersectionLaneSample />} />
       </Route>
     </Routes>
   )

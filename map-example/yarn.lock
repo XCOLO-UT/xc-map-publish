@@ -1074,9 +1074,9 @@ web-worker@^1.5.0:
   resolved "https://registry.yarnpkg.com/web-worker/-/web-worker-1.5.0.tgz#71b2b0fbcc4293e8f0aa4f6b8a3ffebff733dcc5"
   integrity sha512-RiMReJrTAiA+mBjGONMnjVDP2u3p9R1vkcGz6gDIrOMT3oGuYwX2WRMYI9ipkphSuE5XKEhydbhNEJh4NY9mlw==
 
-"xc-map@https://github.com/XCOLO-UT/xc-map-publish.git#v0.3.4":
+"xc-map@https://github.com/XCOLO-UT/xc-map-publish.git#v0.3.5":
   version "1.0.0"
-  resolved "https://github.com/XCOLO-UT/xc-map-publish.git#d07a138ece3e6f1de5408ffabb92c4ffbceaa2d8"
+  resolved "https://github.com/XCOLO-UT/xc-map-publish.git#614b91895a6dc48d9950383e3897a100eeb179b2"
   dependencies:
     moment "^2.30.1"
     ol "^10.9.0"
