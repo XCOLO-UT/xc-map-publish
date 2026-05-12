@@ -47,6 +47,21 @@ interface ICoordinate {
     longitude: number;
     latitude: number;
 }
+/** onMapClick 콜백에 전달되는 지도 클릭 정보 */
+interface IMapClickInfo {
+    /** 클릭 지점 좌표 (EPSG:4326, WGS84) */
+    coordinate: ICoordinate;
+    /** 클릭 시점의 줌 레벨 */
+    zoom: number;
+    /** 클릭 시점의 지도 해상도 (m/px) */
+    resolution: number;
+    /** 클릭 지점의 픽셀 좌표 [x, y] */
+    pixel: [number, number];
+    /** 클릭 시점의 지도 중심 좌표 (EPSG:4326) */
+    center: ICoordinate;
+    /** 클릭 시점의 지도 표시 범위 (EPSG:4326) [minLng, minLat, maxLng, maxLat] */
+    extent: [number, number, number, number];
+}
 interface IFeature<TData> {
     id: string;
     type: string;
@@ -234,6 +249,7 @@ declare const useXcMapFunctions: (xcMap: ReturnType<typeof useXcMap>) => {
         onDragging?: () => void;
         onDragEnd?: () => void;
     }) => (() => void) | undefined;
+    onMapClick: (callback: (info: IMapClickInfo) => void) => (() => void) | undefined;
 };
 
 interface IXcMapProps {
@@ -712,4 +728,4 @@ declare const useXcMapAnimation: () => {
 };
 
 export { XcInteractions, XcLayers, XcMap, XcOverlays, applyOpacityToColor, interaction, layer, overlay, source, toFeatureCollection, useVworldUrl, useXcMap, useXcMapAnimation, useXcMapFunctions };
-export type { FeatureType, IAnimationParams, IAnimationProperty, IAnimationStyle, IAnyObject, ICoordinate, IFeature, IFeatureStyle, IFeatureTypeStyle, IInfoStyle, ILayerCommonProps, IMapEvent, IMarker, IOverlayChildrenProps, IStatusInfo, IStatusStyle, IStyle, IStyleOption, IVector, IWmsParam, IXcMapCommonProps, IXcMapOption, IZoomUrls };
+export type { FeatureType, IAnimationParams, IAnimationProperty, IAnimationStyle, IAnyObject, ICoordinate, IFeature, IFeatureStyle, IFeatureTypeStyle, IInfoStyle, ILayerCommonProps, IMapClickInfo, IMapEvent, IMarker, IOverlayChildrenProps, IStatusInfo, IStatusStyle, IStyle, IStyleOption, IVector, IWmsParam, IXcMapCommonProps, IXcMapOption, IZoomUrls };

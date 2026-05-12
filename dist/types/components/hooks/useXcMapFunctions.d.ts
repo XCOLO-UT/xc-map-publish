@@ -1,5 +1,5 @@
 import { Coordinate } from "ol/coordinate";
-import { ICoordinate } from "../types/xc-map";
+import { ICoordinate, IMapClickInfo } from "../types/xc-map";
 import useXcMap from "./useXcMap";
 /**
  * xcMap 객체에 대한 유틸리티 함수들을 제공하는 훅
@@ -20,5 +20,6 @@ declare const useXcMapFunctions: (xcMap: ReturnType<typeof useXcMap>) => {
         onDragging?: () => void;
         onDragEnd?: () => void;
     }) => (() => void) | undefined;
+    onMapClick: (callback: (info: IMapClickInfo) => void) => (() => void) | undefined;
 };
 export default useXcMapFunctions;
