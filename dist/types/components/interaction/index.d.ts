@@ -7,4 +7,7 @@ export declare const interaction: {
     Measurement: (props: import("./Measurement").IMeasurementProps & {
         ref?: import("react").Ref<import("./Measurement").IMeasurementApis> | undefined;
     }) => import("react").ReactNode;
+    AreaSelect: (props: import("./AreaSelect").IAreaSelectProps & {
+        ref?: import("react").Ref<import("./AreaSelect").IAreaSelectApis> | undefined;
+    }) => import("react").ReactNode;
 };
