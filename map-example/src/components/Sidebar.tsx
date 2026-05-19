@@ -49,6 +49,7 @@ const menuData: MenuItem[] = [
       { label: '호버 툴팁', path: '/interactions/tooltip' },
       { label: '마커 배치 (PlaceMarker)', path: '/interactions/place-marker' },
       { label: '라인 그리기', path: '/interactions/draw-line' },
+      { label: '영역 선택 (AreaSelect)', path: '/interactions/area-select', badge: 'NEW' },
     ],
   },
   {
@@ -102,7 +103,7 @@ const Sidebar = () => {
     <aside className="sidebar">
       <div className="sidebar-header">
         <h1>xc-map Examples</h1>
-        <div className="version">v0.3.3 · OpenLayers 10.x</div>
+        <div className="version">v0.3.7 · OpenLayers 10.x</div>
       </div>
       <nav className="sidebar-nav">
         {menuData.map(item => {

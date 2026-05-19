@@ -21,6 +21,7 @@ import FeatureSelectAdvSample from './pages/interactions/FeatureSelectAdvSample'
 import TooltipSample from './pages/interactions/TooltipSample'
 import PlaceMarkerSample from './pages/interactions/PlaceMarkerSample'
 import PlaceLineStringSample from './pages/interactions/PlaceLineStringSample'
+import AreaSelectSample from './pages/interactions/AreaSelectSample'
 import BasicMeasureSample from './pages/measurement/BasicMeasureSample'
 import AreaMeasureSample from './pages/measurement/AreaMeasureSample'
 import MeasureStyleSample from './pages/measurement/MeasureStyleSample'
@@ -63,6 +64,7 @@ function App() {
         <Route path="/interactions/tooltip" element={<TooltipSample />} />
         <Route path="/interactions/place-marker" element={<PlaceMarkerSample />} />
         <Route path="/interactions/draw-line" element={<PlaceLineStringSample />} />
+        <Route path="/interactions/area-select" element={<AreaSelectSample />} />
         {/* 측정 */}
         <Route path="/measurement/distance" element={<BasicMeasureSample />} />
         <Route path="/measurement/area" element={<AreaMeasureSample />} />
